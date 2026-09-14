@@ -8,6 +8,9 @@
   const menu = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
   const settingsTrigger = document.querySelector('.settings-trigger');
+  let drawerReturnFocus = settingsTrigger;
+  let paletteReturnFocus = null;
+  let paletteDebounce;
 
   const closeMobileNav = () => {
     navLinks?.classList.remove('is-open');
@@ -38,7 +41,7 @@
   };
 
   const applyPreferences = () => {
-    root.dataset.theme = preferences.theme;
+    const update = () => { root.dataset.theme = preferences.theme;
     root.dataset.accent = preferences.accent;
     root.dataset.density = preferences.density;
     root.dataset.reducedMotion = preferences.reducedMotion;
@@ -50,7 +53,10 @@
         control.classList.toggle('is-on', preferences.reducedMotion);
         control.setAttribute('aria-checked', String(preferences.reducedMotion));
       }
-    });
+      if (control.dataset.setting === 'theme') control.setAttribute('aria-expanded', String(selected));
+    }); };
+    if (document.startViewTransition && !preferences.reducedMotion) document.startViewTransition(update);
+    else update();
   };
 
   const setDrawer = (isOpen) => {
@@ -59,7 +65,8 @@
     drawer.setAttribute('aria-hidden', String(!isOpen));
     settingsTrigger?.setAttribute('aria-expanded', String(isOpen));
     document.body.classList.toggle('drawer-open', isOpen);
-    if (isOpen) drawer.querySelector('.drawer-close').focus();
+    if (isOpen) { drawerReturnFocus = document.activeElement; drawer.querySelector('.drawer-close').focus(); }
+    else drawerReturnFocus?.focus();
   };
 
   if (drawer && backdrop) {
@@ -112,7 +119,7 @@
     ['Contact', 'contact.html', 'Start a conversation'],
     ['Resume', 'Tyson-Shields-Resume.html', 'Downloadable career summary']
   ];
-  const paletteMarkup = `<div class="palette-backdrop" data-close-palette></div><dialog class="command-palette" aria-labelledby="palette-title"><div class="palette-header"><h2 id="palette-title">Navigate</h2><button class="icon-button palette-close" type="button" aria-label="Close command palette">×</button></div><label class="sr-only" for="palette-search">Search pages</label><input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off"><div class="palette-results" role="listbox"></div><p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p></dialog>`;
+  const paletteMarkup = `<div class="palette-backdrop" data-close-palette></div><dialog class="command-palette" aria-labelledby="palette-title"><div class="palette-header"><h2 id="palette-title">Navigate</h2><button class="icon-button palette-close" type="button" aria-label="Close command palette">×</button></div><label class="sr-only" for="palette-search">Search pages</label><input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off"><div class="palette-results" role="listbox" aria-live="polite" aria-atomic="true"></div><p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p></dialog>`;
   document.body.insertAdjacentHTML('beforeend', paletteMarkup);
   const palette = document.querySelector('.command-palette');
   const paletteBackdrop = document.querySelector('.palette-backdrop');
@@ -126,14 +133,14 @@
     paletteIndex = 0;
   };
   const setPalette = (isOpen) => {
-    if (isOpen) { if (drawer?.classList.contains('is-open')) setDrawer(false); if (!palette.open) palette.showModal(); paletteBackdrop.classList.add('is-visible'); paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); }
-    else { palette.close(); paletteBackdrop.classList.remove('is-visible'); }
+    if (isOpen) { if (drawer?.classList.contains('is-open')) setDrawer(false); paletteReturnFocus = document.activeElement; if (!palette.open) palette.showModal(); paletteBackdrop.classList.add('is-visible'); paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); }
+    else { palette.close(); paletteBackdrop.classList.remove('is-visible'); paletteReturnFocus?.focus(); }
   };
   const commandTrigger = document.querySelector('.command-trigger');
   commandTrigger?.addEventListener('click', () => { closeMobileNav(); setPalette(true); });
   document.querySelector('.palette-close').addEventListener('click', () => setPalette(false));
   paletteBackdrop.addEventListener('click', () => setPalette(false));
-  paletteSearch.addEventListener('input', () => renderPalette(paletteSearch.value));
+  paletteSearch.addEventListener('input', () => { clearTimeout(paletteDebounce); paletteDebounce = setTimeout(() => renderPalette(paletteSearch.value), 120); });
   paletteSearch.addEventListener('keydown', (event) => {
     const results = [...paletteResults.querySelectorAll('.palette-result')];
     if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && results.length) { event.preventDefault(); paletteIndex = (paletteIndex + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length; results.forEach((result, index) => result.classList.toggle('is-active', index === paletteIndex)); results[paletteIndex]?.scrollIntoView({ block: 'nearest' }); }
@@ -142,6 +149,15 @@
   });
   palette.addEventListener('close', () => paletteBackdrop.classList.remove('is-visible'));
   document.addEventListener('keydown', (event) => {
+    if (event.key === 'Tab' && drawer?.classList.contains('is-open')) {
+      const focusable = [...drawer.querySelectorAll('button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])')].filter((item) => !item.hasAttribute('disabled'));
+      if (focusable.length) {
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+    }
     if (event.key === 'Escape') {
       if (palette.open) { setPalette(false); return; }
       if (drawer?.classList.contains('is-open')) { setDrawer(false); return; }
