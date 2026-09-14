@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /dev/
+Disallow: /development/
+
 Sitemap: https://tysonshields.com/sitemap.xml
