@@ -8,6 +8,10 @@
   const menu = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
 
+  if (navLinks && !navLinks.querySelector('.command-trigger')) {
+    navLinks.insertAdjacentHTML('beforeend', '<button class="icon-button command-trigger" type="button" aria-label="Open command palette">⌘K</button>');
+  }
+
   const loadPreferences = () => {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey));
@@ -96,6 +100,45 @@
       });
     });
   });
+
+  const commandItems = [
+    ['Home', 'index.html', 'Main command center'],
+    ['About', 'about.html', 'Story, honors, and philosophy'],
+    ['Career', 'career.html', 'Verified professional history'],
+    ['Skills', 'skills.html', 'Technical domains and applications'],
+    ['Contact', 'contact.html', 'Start a conversation'],
+    ['Resume', 'Tyson-Shields-Resume.html', 'Downloadable career summary']
+  ];
+  const paletteMarkup = `<div class="palette-backdrop" data-close-palette></div><dialog class="command-palette" aria-labelledby="palette-title"><div class="palette-header"><h2 id="palette-title">Navigate</h2><button class="icon-button palette-close" type="button" aria-label="Close command palette">×</button></div><label class="sr-only" for="palette-search">Search pages</label><input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off"><div class="palette-results" role="listbox"></div><p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p></dialog>`;
+  document.body.insertAdjacentHTML('beforeend', paletteMarkup);
+  const palette = document.querySelector('.command-palette');
+  const paletteBackdrop = document.querySelector('.palette-backdrop');
+  const paletteSearch = document.querySelector('.palette-search');
+  const paletteResults = document.querySelector('.palette-results');
+  let paletteIndex = 0;
+
+  const renderPalette = (query = '') => {
+    const filtered = commandItems.filter(([name, path, description]) => `${name} ${path} ${description}`.toLowerCase().includes(query.toLowerCase()));
+    paletteResults.innerHTML = filtered.map(([name, path, description], index) => `<a class="palette-result${index === 0 ? ' is-active' : ''}" role="option" href="${path}" data-palette-index="${index}"><strong>${name}</strong><span>${description}</span><b>↗</b></a>`).join('') || '<p class="palette-empty">No matching pages.</p>';
+    paletteIndex = 0;
+  };
+  const setPalette = (isOpen) => {
+    if (isOpen) { if (!palette.open) palette.showModal(); paletteBackdrop.classList.add('is-visible'); paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); }
+    else { palette.close(); paletteBackdrop.classList.remove('is-visible'); }
+  };
+  const commandTrigger = document.querySelector('.command-trigger');
+  commandTrigger?.addEventListener('click', () => setPalette(true));
+  document.querySelector('.palette-close').addEventListener('click', () => setPalette(false));
+  paletteBackdrop.addEventListener('click', () => setPalette(false));
+  paletteSearch.addEventListener('input', () => renderPalette(paletteSearch.value));
+  paletteSearch.addEventListener('keydown', (event) => {
+    const results = [...paletteResults.querySelectorAll('.palette-result')];
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); paletteIndex = (paletteIndex + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length; results.forEach((result, index) => result.classList.toggle('is-active', index === paletteIndex)); results[paletteIndex]?.scrollIntoView({ block: 'nearest' }); }
+    if (event.key === 'Enter' && results[paletteIndex]) { event.preventDefault(); window.location.href = results[paletteIndex].href; }
+    if (event.key === 'Escape') setPalette(false);
+  });
+  palette.addEventListener('close', () => paletteBackdrop.classList.remove('is-visible'));
+  document.addEventListener('keydown', (event) => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); setPalette(true); } });
 
   applyPreferences();
 })();
