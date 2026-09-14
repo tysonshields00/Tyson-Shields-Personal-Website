@@ -2728,3 +2728,26 @@ html[data-reduced-motion='true'] .reveal {
   }
 
 }
+
+/* Minimal polish and safe fallbacks. */
+:root { --font-system: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; --text-base: clamp(.98rem, .9rem + .4vw, 1.12rem); }
+@media (min-width: 1441px) { :root { --text-base: clamp(1.04rem, .92rem + .45vw, 1.18rem); } }
+::selection { background: var(--accent); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.lede { line-height: 1.7; }
+.section-kicker, .project-meta, .card-tools, .setting-label { letter-spacing: .1em; }
+.status-dot { animation: tally-blink 1.8s ease-in-out infinite; pointer-events: none; }
+@keyframes tally-blink { 0%, 100% { opacity: 1; } 50% { opacity: .38; } }
+.project-card { transition: border-color .24s var(--ease-spring), transform .24s var(--ease-spring), box-shadow .24s var(--ease-decel), border-radius .24s var(--ease-spring); }
+.project-card:hover { border-radius: var(--radius-sm); }
+.button:hover { transform: translateY(-2px) scale(1.02); }
+.brand-mark { width: 34px; height: 34px; will-change: transform; transition: transform .28s var(--ease-spring), border-color .25s var(--ease-decel); }
+.brand:hover .brand-mark, .brand:focus-visible .brand-mark { transform: rotate(4deg) translateY(-2px); }
+.metric-grid { font-variant-numeric: tabular-nums; }
+hr { border: 0; border-top: 1px dotted var(--line-strong); }
+.back-to-top { position: fixed; right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 15; display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--surface-raised); color: var(--accent); cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .25s var(--ease-decel), transform .25s var(--ease-spring); }
+.back-to-top.is-visible { opacity: 1; pointer-events: auto; transform: none; }
+.noscript-notice { margin: 1rem auto; padding: .8rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); color: var(--muted); text-align: center; }
+.footer-skip { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.footer-skip:focus { position: static; width: auto; height: auto; clip: auto; }
+@media print { .site-header, .settings-drawer, .drawer-backdrop, .palette-backdrop, .command-palette, .back-to-top { display: none !important; } body { background: #fff !important; color: #111 !important; } }
