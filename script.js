@@ -126,8 +126,18 @@
     paletteIndex = 0;
   };
   const setPalette = (isOpen) => {
-    if (isOpen) { if (drawer?.classList.contains('is-open')) setDrawer(false); if (!palette.open) palette.showModal(); paletteBackdrop.classList.add('is-visible'); paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); }
-    else { palette.close(); paletteBackdrop.classList.remove('is-visible'); }
+    if (isOpen) {
+      if (drawer?.classList.contains('is-open')) setDrawer(false);
+      if (!palette.open) palette.showModal();
+      requestAnimationFrame(() => paletteBackdrop.classList.add('is-visible'));
+      paletteSearch.value = '';
+      renderPalette();
+      requestAnimationFrame(() => paletteSearch.focus({ preventScroll: true }));
+    }
+    else {
+      paletteBackdrop.classList.remove('is-visible');
+      if (palette.open) palette.close();
+    }
   };
   const commandTrigger = document.querySelector('.command-trigger');
   commandTrigger?.addEventListener('click', () => { closeMobileNav(); setPalette(true); });
