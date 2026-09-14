@@ -1,0 +1,46 @@
+<div class="drawer-backdrop" data-close-drawer></div>
+<aside class="settings-drawer" id="settings-drawer" aria-labelledby="settings-title" aria-hidden="true">
+  <div class="drawer-header">
+    <div>
+      <p class="section-kicker">Display controls</p>
+      <h2 id="settings-title">Make it yours.</h2>
+    </div>
+    <button class="icon-button drawer-close" type="button" aria-label="Close display settings">×</button>
+  </div>
+  <div class="setting-group">
+    <span class="setting-label">Theme</span>
+    <div class="choice-grid theme-grid">
+      <button type="button" data-setting="theme" data-value="navy" aria-expanded="true"><span class="theme-dot" style="background:#00f0ff;"></span><span>Dark Navy</span></button>
+      <button type="button" data-setting="theme" data-value="slate" aria-expanded="false"><span class="theme-dot" style="background:#94a3b8;"></span><span>Deep Slate</span></button>
+      <button type="button" data-setting="theme" data-value="obsidian" aria-expanded="false"><span class="theme-dot" style="background:#a855f7;"></span><span>OLED Stealth</span></button>
+      <button type="button" data-setting="theme" data-value="matrix" aria-expanded="false"><span class="theme-dot" style="background:#10b981;"></span><span>Emerald Matrix</span></button>
+      <button type="button" data-setting="theme" data-value="amber" aria-expanded="false"><span class="theme-dot" style="background:#f59e0b;"></span><span>Solar Amber</span></button>
+      <button type="button" data-setting="theme" data-value="light" aria-expanded="false"><span class="theme-dot" style="background:#0284c7;"></span><span>Clean Light</span></button>
+    </div>
+  </div>
+  <div class="setting-group">
+    <span class="setting-label">Accent</span>
+    <div class="accent-choices">
+      <button class="accent-choice accent-blue" type="button" data-setting="accent" data-value="blue" aria-label="Electric Cyan"></button>
+      <button class="accent-choice accent-teal" type="button" data-setting="accent" data-value="teal" aria-label="Neon Teal"></button>
+      <button class="accent-choice accent-emerald" type="button" data-setting="accent" data-value="emerald" aria-label="Cyber Emerald"></button>
+      <button class="accent-choice accent-amber" type="button" data-setting="accent" data-value="amber" aria-label="Solar Amber"></button>
+      <button class="accent-choice accent-purple" type="button" data-setting="accent" data-value="purple" aria-label="Electric Purple"></button>
+      <button class="accent-choice accent-white" type="button" data-setting="accent" data-value="white" aria-label="Crisp White"></button>
+    </div>
+  </div>
+  <div class="setting-group">
+    <span class="setting-label">Density</span>
+    <div class="choice-grid two-choice">
+      <button type="button" data-setting="density" data-value="spacious">Spacious</button>
+      <button type="button" data-setting="density" data-value="compact">Compact</button>
+    </div>
+  </div>
+  <div class="setting-group">
+    <span class="setting-label">Motion</span>
+    <button class="toggle" type="button" data-setting="motion" role="switch" aria-checked="false"><span>Reduced motion</span><span class="toggle-switch"><span class="toggle-handle"></span></span></button>
+  </div>
+  <div class="drawer-actions">
+    <button class="button button-quiet" type="button" data-reset>Reset to default</button>
+  </div>
+</aside>

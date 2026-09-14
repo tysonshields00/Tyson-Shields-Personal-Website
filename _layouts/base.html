@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en-US" data-theme="navy" data-accent="blue" data-density="spacious">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="{{ description }}">
+  <meta name="theme-color" content="#0a0f1d">
+  <title>{{ title }}</title>
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" href="fonts/outfit-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:image" content="https://tysonshields.com/og-image.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title }}">
+  <meta name="twitter:description" content="{{ description }}">
+  <meta name="twitter:image" content="https://tysonshields.com/og-image.png">
+  <link rel="stylesheet" href="styles.min.css">
+  <script defer src="scripts/core.js"></script>
+  {% if extra_scripts %}{{ extra_scripts }}{% endif %}
+</head>
+<body class="{{ body_class | default('inner-page') }}">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+  {% include "header.html" %}
+  <main id="main-content">
+    {{ content }}
+  </main>
+  {% include "footer.html" %}
+  {% include "settings-drawer.html" %}
+</body>
+</html>

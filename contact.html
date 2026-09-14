@@ -3,19 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Contact Tyson Shields about data automation, infrastructure, media production, or career opportunities.">
+  <meta name="description" content="Contact Tyson Shields about corporate data automation, self-hosted infrastructure, media production, or career opportunities.">
   <meta name="theme-color" content="#0a0f1d">
-  <title>Contact | Tyson Shields</title>
+  <title>Contact Tyson Shields | Lincoln, Nebraska &amp; Remote</title>
+  <link rel="canonical" href="https://tysonshields.com/contact.html">
   <link rel="icon" type="image/svg+xml" href="icon.svg">
-  <link rel="preload" href="fonts/outfit-400-latin.ttf" as="font" type="font/ttf" crossorigin>
-  <meta property="og:title" content="Contact | Tyson Shields">
-  <meta property="og:description" content="Contact Tyson Shields about data automation, infrastructure, media production, or career opportunities.">
-  <meta property="og:image" content="icon.svg">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
   <link rel="manifest" href="site.webmanifest">
-  <script defer src="script.js"></script>
+  <link rel="preload" href="fonts/outfit-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <meta property="og:title" content="Contact Tyson Shields | Lincoln, Nebraska &amp; Remote">
+  <meta property="og:description" content="Contact Tyson Shields about corporate data automation, self-hosted infrastructure, media production, or career opportunities.">
+  <meta property="og:url" content="https://tysonshields.com/contact.html">
+  <meta property="og:image" content="https://tysonshields.com/og-image.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contact Tyson Shields | Lincoln, Nebraska &amp; Remote">
+  <meta name="twitter:description" content="Contact Tyson Shields about corporate data automation, self-hosted infrastructure, media production, or career opportunities.">
+  <meta name="twitter:image" content="https://tysonshields.com/og-image.png">
+  <link rel="stylesheet" href="styles.min.css">
+  <script defer src="scripts/core.js"></script>
+  <script defer src="scripts/contact.js"></script>
 </head>
 <body class="inner-page">
   <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
@@ -40,11 +50,12 @@
         <div class="terminal-badge"><span class="live-pulse"></span>TRANSMISSION PROTOCOL: ENCRYPTED // READY</div>
         <p class="section-kicker">Start a conversation</p>
         <h2>What can I<br><em>help untangle?</em></h2>
-        <form id="contact-form" action="mailto:tysonshields00@gmail.com" method="post" enctype="text/plain">
+        <form id="contact-form" action="mailto:tysonshields00@gmail.com" method="post" enctype="text/plain" novalidate>
+          <div class="form-honeypot" aria-hidden="true"><label for="website_hp">Leave this field blank</label><input type="text" id="website_hp" name="_gotcha" tabindex="-1" autocomplete="off"></div>
           <label for="name">Full name</label>
-          <input id="name" name="name" type="text" autocomplete="name" required placeholder="e.g. Commander or Director">
+          <input id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="100" pattern="[a-zA-Z\s\.\-']{2,100}" title="Please enter a valid name (letters, spaces, periods, hyphens)" placeholder="e.g. Commander or Director">
           <label for="email">Email address</label>
-          <input id="email" name="email" type="email" autocomplete="email" required placeholder="name@domain.com">
+          <input id="email" name="email" type="email" autocomplete="email" required pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email address (e.g. name@domain.com)" placeholder="name@domain.com">
           <label for="subject">Dispatch Category</label>
           <select id="subject" name="subject" required>
             <option value="">Choose one</option>
@@ -54,7 +65,7 @@
             <option>General Question</option>
           </select>
           <label for="message">Transmission Message</label>
-          <textarea id="message" name="message" rows="6" required placeholder="Outline operational parameters, objectives, or questions..."></textarea>
+          <textarea id="message" name="message" rows="6" required minlength="10" maxlength="5000" title="Please enter at least 10 characters" placeholder="Outline operational parameters, objectives, or questions..."></textarea>
           <button class="button button-primary cyber-btn" type="submit">Transmit Dispatch <span>↗</span></button>
           <p class="form-note">Every transmission is logged and reviewed with an operational response within 24 to 48 hours.</p>
         </form>
@@ -76,7 +87,7 @@
       </div>
     </section>
   </main>
-  <footer class="site-footer"><div class="tech-marquee" aria-hidden="true"><div class="tech-marquee-track"><span>Python</span><span>SQL</span><span>Docker</span><span>Proxmox</span><span>Debian</span><span>Tailscale</span><span>TypeScript</span><span>HTML5 / CSS</span><span>AP ENPS</span><span>FL Studio</span><span>Power Query</span><span>Ollama</span><span>Python</span><span>SQL</span><span>Docker</span><span>Proxmox</span><span>Debian</span><span>Tailscale</span><span>TypeScript</span><span>HTML5 / CSS</span><span>AP ENPS</span><span>FL Studio</span><span>Power Query</span><span>Ollama</span></div></div><div class="section-shell footer-inner"><div><a class="brand" href="index.html"><span class="brand-mark">TS</span><span>Tyson Shields</span></a><address class="footer-location">Lincoln, Nebraska / Available for hybrid or remote work</address></div><div class="footer-links"><a href="about.html">About</a><a href="career.html">Career</a><a href="skills.html">Skills</a><a href="contact.html">Contact</a><a href="Tyson-Shields-Resume.html" download>Download resume</a><a href="mailto:tysonshields00@gmail.com?subject=Portfolio%20inquiry" class="copy-email" data-email="tysonshields00@gmail.com">Email</a></div><p>© 2026 / Built with intention.</p></div></footer>
+  <footer class="site-footer"><div class="tech-marquee" aria-hidden="true"><div class="tech-marquee-track"><span>Python</span><span>SQL</span><span>Docker</span><span>Proxmox</span><span>Debian</span><span>Tailscale</span><span>TypeScript</span><span>HTML5 / CSS</span><span>AP ENPS</span><span>FL Studio</span><span>Power Query</span><span>Ollama</span><span>Python</span><span>SQL</span><span>Docker</span><span>Proxmox</span><span>Debian</span><span>Tailscale</span><span>TypeScript</span><span>HTML5 / CSS</span><span>AP ENPS</span><span>FL Studio</span><span>Power Query</span><span>Ollama</span></div></div><div class="section-shell footer-inner"><div><a class="brand" href="index.html"><span class="brand-mark">TS</span><span>Tyson Shields</span></a><address class="footer-location">Lincoln, Nebraska / Available for hybrid or remote work</address></div><div class="footer-links"><a href="about.html">About</a><a href="career.html">Career</a><a href="skills.html">Skills</a><a href="contact.html">Contact</a><a href="Tyson-Shields-Resume.pdf" download="Tyson-Shields-Resume.pdf">Download resume (PDF)</a><a href="mailto:tysonshields00@gmail.com?subject=Portfolio%20inquiry" class="copy-email" data-email="tysonshields00@gmail.com">Email</a></div><p>© 2026 / Built with intention.</p></div></footer>
   <div class="drawer-backdrop" data-close-drawer></div>
   <aside class="settings-drawer" id="settings-drawer" aria-labelledby="settings-title" aria-hidden="true">
     <div class="drawer-header">

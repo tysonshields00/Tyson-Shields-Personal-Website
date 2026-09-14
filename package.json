@@ -1,0 +1,24 @@
+{
+  "name": "tyson-shields-personal-website",
+  "version": "2.0.0",
+  "description": "Personal website for Tyson Shields: data analytics, systems engineering, and media production.",
+  "scripts": {
+    "build": "npx esbuild styles.css --minify --outfile=styles.min.css",
+    "build:ssg": "npx esbuild styles.css --minify --outfile=styles.min.css && npx @11ty/eleventy",
+    "minify:css": "npx esbuild styles.css --minify --outfile=styles.min.css",
+    "dev": "npx @11ty/eleventy --serve",
+    "preview": "python -m http.server 8000"
+  },
+  "keywords": [
+    "portfolio",
+    "data-analytics",
+    "systems",
+    "media"
+  ],
+  "author": "Tyson Shields",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "esbuild": "^0.25.0"
+  }
+}
