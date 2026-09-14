@@ -7,6 +7,12 @@
   const backdrop = document.querySelector('.drawer-backdrop');
   const menu = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
+  const settingsTrigger = document.querySelector('.settings-trigger');
+
+  const closeMobileNav = () => {
+    navLinks?.classList.remove('is-open');
+    menu?.setAttribute('aria-expanded', 'false');
+  };
 
   if (navLinks && !navLinks.querySelector('.command-trigger')) {
     navLinks.insertAdjacentHTML('beforeend', '<button class="icon-button command-trigger" type="button" aria-label="Open command palette">⌘K</button>');
@@ -51,17 +57,15 @@
     drawer.classList.toggle('is-open', isOpen);
     backdrop.classList.toggle('is-visible', isOpen);
     drawer.setAttribute('aria-hidden', String(!isOpen));
-    document.querySelector('.settings-trigger').setAttribute('aria-expanded', String(isOpen));
+    settingsTrigger?.setAttribute('aria-expanded', String(isOpen));
     document.body.classList.toggle('drawer-open', isOpen);
     if (isOpen) drawer.querySelector('.drawer-close').focus();
   };
 
   if (drawer && backdrop) {
-    document.querySelector('.settings-trigger')?.addEventListener('click', () => setDrawer(true));
+    settingsTrigger?.addEventListener('click', () => { closeMobileNav(); setDrawer(true); });
     drawer.querySelector('.drawer-close')?.addEventListener('click', () => setDrawer(false));
     backdrop.addEventListener('click', () => setDrawer(false));
-    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') setDrawer(false); });
-
     document.querySelectorAll('[data-setting]').forEach((control) => {
       control.addEventListener('click', () => {
         if (control.dataset.setting === 'motion') preferences.reducedMotion = !preferences.reducedMotion;
@@ -83,8 +87,7 @@
     menu.setAttribute('aria-expanded', String(isOpen));
   });
   navLinks?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-    navLinks.classList.remove('is-open');
-    menu.setAttribute('aria-expanded', 'false');
+    closeMobileNav();
   }));
 
   document.querySelectorAll('.filter-button').forEach((button) => {
@@ -123,22 +126,29 @@
     paletteIndex = 0;
   };
   const setPalette = (isOpen) => {
-    if (isOpen) { if (!palette.open) palette.showModal(); paletteBackdrop.classList.add('is-visible'); paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); }
+    if (isOpen) { if (drawer?.classList.contains('is-open')) setDrawer(false); if (!palette.open) palette.showModal(); paletteBackdrop.classList.add('is-visible'); paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); }
     else { palette.close(); paletteBackdrop.classList.remove('is-visible'); }
   };
   const commandTrigger = document.querySelector('.command-trigger');
-  commandTrigger?.addEventListener('click', () => setPalette(true));
+  commandTrigger?.addEventListener('click', () => { closeMobileNav(); setPalette(true); });
   document.querySelector('.palette-close').addEventListener('click', () => setPalette(false));
   paletteBackdrop.addEventListener('click', () => setPalette(false));
   paletteSearch.addEventListener('input', () => renderPalette(paletteSearch.value));
   paletteSearch.addEventListener('keydown', (event) => {
     const results = [...paletteResults.querySelectorAll('.palette-result')];
-    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); paletteIndex = (paletteIndex + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length; results.forEach((result, index) => result.classList.toggle('is-active', index === paletteIndex)); results[paletteIndex]?.scrollIntoView({ block: 'nearest' }); }
+    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && results.length) { event.preventDefault(); paletteIndex = (paletteIndex + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length; results.forEach((result, index) => result.classList.toggle('is-active', index === paletteIndex)); results[paletteIndex]?.scrollIntoView({ block: 'nearest' }); }
     if (event.key === 'Enter' && results[paletteIndex]) { event.preventDefault(); window.location.href = results[paletteIndex].href; }
     if (event.key === 'Escape') setPalette(false);
   });
   palette.addEventListener('close', () => paletteBackdrop.classList.remove('is-visible'));
-  document.addEventListener('keydown', (event) => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); setPalette(true); } });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      if (palette.open) { setPalette(false); return; }
+      if (drawer?.classList.contains('is-open')) { setDrawer(false); return; }
+      closeMobileNav();
+    }
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); closeMobileNav(); setPalette(true); }
+  });
 
   applyPreferences();
 })();
