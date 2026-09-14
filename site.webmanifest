@@ -1,0 +1,10 @@
+{
+  "name": "Tyson Shields | Data, Systems, and Media",
+  "short_name": "Tyson Shields",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0f1d",
+  "theme_color": "#0a0f1d",
+  "description": "Data analytics, systems engineering, and media production.",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

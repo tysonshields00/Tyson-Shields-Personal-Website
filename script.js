@@ -1,4 +1,4 @@
-(() => {
+document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
   const storageKey = 'tyson-shields-preferences';
   const defaults = { theme: 'navy', accent: 'blue', density: 'spacious', reducedMotion: false };
@@ -20,6 +20,27 @@
     navLinks?.classList.remove('is-open');
     menu?.setAttribute('aria-expanded', 'false');
   };
+
+  navLinks?.querySelectorAll('a').forEach((link) => {
+    const isCurrent = new URL(link.href, window.location.href).pathname === window.location.pathname;
+    link.toggleAttribute('aria-current', isCurrent);
+  });
+
+  document.querySelectorAll('a[target="_blank"]').forEach((link) => link.setAttribute('rel', 'noopener noreferrer'));
+  document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
+    const url = new URL(link.href);
+    if (!url.searchParams.has('subject')) url.searchParams.set('subject', 'Portfolio inquiry');
+    link.href = url.href;
+  });
+  document.querySelectorAll('form input, form select, form textarea').forEach((field) => field.setAttribute('autocomplete', 'off'));
+  document.querySelectorAll('.career-date').forEach((dateBlock) => {
+    const dateText = dateBlock.firstChild?.textContent?.trim();
+    if (!dateText || dateBlock.querySelector('time')) return;
+    const time = document.createElement('time');
+    time.dateTime = dateText.split('—')[0].trim().replace(/\s+/g, '-');
+    time.textContent = dateText;
+    dateBlock.replaceChild(time, dateBlock.firstChild);
+  });
 
   if (navLinks && !navLinks.querySelector('.command-trigger')) {
     navLinks.insertAdjacentHTML(
@@ -147,7 +168,7 @@
     '</div>',
     '<label class="sr-only" for="palette-search">Search pages</label>',
     '<input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off">',
-    '<div class="palette-results" role="listbox" aria-live="polite" aria-atomic="true"></div>',
+    '<div class="palette-results" role="listbox"></div>',
     '<p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p>',
     '</dialog>',
   ].join('');
@@ -165,7 +186,7 @@
     paletteResults.innerHTML = filtered
       .map(
         ([name, path, description], index) =>
-          `<a class="palette-result${index === 0 ? ' is-active' : ''}" role="option" href="${path}"` +
+          `<a class="palette-result${index === 0 ? ' is-active' : ''}${localStorage.getItem('tyson-last-page') === path ? ' is-visited' : ''}" role="option" href="${path}"` +
           ` data-palette-index="${index}"><strong>${name}</strong><span>${description}</span><b>↗</b></a>`
       )
       .join('') || '<p class="palette-empty">No matching pages.</p>';
@@ -174,7 +195,6 @@
   const setPalette = (isOpen) => {
     if (isOpen) {
       if (drawer?.classList.contains('is-open')) setDrawer(false);
-      paletteReturnFocus = document.activeElement;
       if (!palette.open) palette.showModal();
       requestAnimationFrame(() => paletteBackdrop.classList.add('is-visible'));
       paletteSearch.value = '';
@@ -202,10 +222,13 @@
     }
     if (event.key === 'Enter' && results[paletteIndex]) {
       event.preventDefault();
+      localStorage.setItem('tyson-last-page', results[paletteIndex].getAttribute('href'));
       window.location.href = results[paletteIndex].href;
     }
     if (event.key === 'Escape') setPalette(false);
   });
+  paletteSearch.setAttribute('spellcheck', 'false');
+  document.querySelector('.palette-clear').addEventListener('click', () => { paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); });
   palette.addEventListener(
     'close',
     () => paletteBackdrop.classList.remove('is-visible')
@@ -230,7 +253,31 @@
       closeMobileNav();
       setPalette(true);
     }
+    if (event.key === '/' && document.activeElement !== paletteSearch && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) { event.preventDefault(); setPalette(true); }
   });
+
+  document.querySelectorAll('.copy-anchor').forEach((anchor) => anchor.addEventListener('click', async (event) => {
+    event.preventDefault();
+    const url = `${window.location.origin}${window.location.pathname}${anchor.hash}`;
+    try { await navigator.clipboard.writeText(url); anchor.dataset.copied = 'Copied'; setTimeout(() => delete anchor.dataset.copied, 1200); } catch (error) { window.location.hash = anchor.hash; }
+  }));
+
+  const topButton = document.createElement('button');
+  topButton.className = 'back-to-top';
+  topButton.type = 'button';
+  topButton.setAttribute('aria-label', 'Back to top');
+  topButton.textContent = '↑';
+  document.body.append(topButton);
+  topButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: preferences.reducedMotion ? 'auto' : 'smooth' }));
+  const updateTopButton = () => topButton.classList.toggle('is-visible', window.scrollY > document.documentElement.scrollHeight / 2);
+  window.addEventListener('scroll', updateTopButton, { passive: true });
+  updateTopButton();
+
+  const countdown = document.querySelector('[data-countdown]');
+  if (countdown) {
+    let remaining = 5;
+    const timer = setInterval(() => { remaining -= 1; countdown.textContent = String(remaining); if (remaining <= 0) { clearInterval(timer); window.location.href = '/'; } }, 1000);
+  }
 
   const motionOK = () => !preferences.reducedMotion
     && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -305,4 +352,4 @@
   initMagneticButtons();
 
   applyPreferences();
-})();
+});
