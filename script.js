@@ -48,7 +48,7 @@
     }
   };
 
-  const applyPreferences = () => {
+  const updatePreferenceDom = () => {
     root.dataset.theme = preferences.theme;
     root.dataset.accent = preferences.accent;
     root.dataset.density = preferences.density;
@@ -64,6 +64,14 @@
         control.setAttribute('aria-checked', String(preferences.reducedMotion));
       }
     });
+  };
+
+  const applyPreferences = () => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => updatePreferenceDom());
+    } else {
+      updatePreferenceDom();
+    }
   };
 
   const setDrawer = (isOpen) => {
@@ -207,6 +215,78 @@
       setPalette(true);
     }
   });
+
+  const motionOK = () => !preferences.reducedMotion
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const initScrollReveals = () => {
+    const targets = document.querySelectorAll('.reveal');
+    if (!targets.length) return;
+    if (!('IntersectionObserver' in window) || !motionOK()) {
+      targets.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+    const staggerGroups = ['.pillar-grid', '.metric-grid', '.routing-links', '.project-grid', '.skills-grid'];
+    staggerGroups.forEach((sel) => {
+      document.querySelectorAll(sel).forEach((group) => {
+        [...group.children].forEach((child, i) => {
+          child.style.setProperty('--reveal-delay', `${Math.min(i * 90, 540)}ms`);
+        });
+      });
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach((el) => io.observe(el));
+  };
+
+  const initSpotlights = () => {
+    if (!motionOK() || window.matchMedia('(pointer: coarse)').matches) return;
+    const cards = document.querySelectorAll('.project-card, .skill-group, .glass-card');
+    cards.forEach((card) => {
+      let raf = 0;
+      card.addEventListener('pointermove', (e) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--x', `${e.clientX - r.left}px`);
+          card.style.setProperty('--y', `${e.clientY - r.top}px`);
+          raf = 0;
+        });
+      });
+    });
+  };
+
+  const initMagneticButtons = () => {
+    if (!motionOK() || window.matchMedia('(pointer: coarse)').matches) return;
+    document.querySelectorAll('.button').forEach((btn) => {
+      let raf = 0;
+      btn.addEventListener('mousemove', (e) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          const r = btn.getBoundingClientRect();
+          const x = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+          const y = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+          btn.style.setProperty('--mx', `${(x * 6).toFixed(2)}px`);
+          btn.style.setProperty('--my', `${(y * 5).toFixed(2)}px`);
+          raf = 0;
+        });
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.setProperty('--mx', '0px');
+        btn.style.setProperty('--my', '0px');
+      });
+    });
+  };
+
+  initScrollReveals();
+  initSpotlights();
+  initMagneticButtons();
 
   applyPreferences();
 })();
