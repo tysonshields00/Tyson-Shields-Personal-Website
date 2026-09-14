@@ -385,6 +385,7 @@ h1 em, h2 span {
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
+  transform: translate(var(--mx, 0px), var(--my, 0px));
   transition: background .32s var(--ease-decel),
     color .25s var(--ease-decel),
     border-color .28s var(--ease-spring),
@@ -394,7 +395,7 @@ h1 em, h2 span {
 }
 
 .button:hover {
-  transform: translateY(-2px) scale(1.03);
+  transform: translate(var(--mx, 0px), var(--my, 0px)) translateY(-2px) scale(1.03);
   box-shadow: 0 0 0 5px var(--accent-soft), 0 18px 42px -18px var(--accent-soft);
 }
 
@@ -473,6 +474,8 @@ h1 em, h2 span {
   border-radius: 50%;
   transform: rotate(-17deg);
   box-shadow: 0 -20px 30px var(--accent-soft);
+  animation: signal-scan 3.2s var(--ease-decel) infinite;
+  transform-origin: 50% 100%;
 }
 
 .signal-point {
@@ -743,7 +746,23 @@ h1 em, h2 span {
 }
 
 .art-orbit {
+  position: relative;
+  overflow: hidden;
   background: #101c2b;
+  isolation: isolate;
+}
+
+.art-orbit .orbit-ring {
+  animation: orbit-spin 22s linear infinite;
+}
+
+.art-orbit .ring-two {
+  animation-duration: 34s;
+  animation-direction: reverse;
+}
+
+.art-orbit .orbit-core {
+  animation: core-pulse 3.6s var(--ease-decel) infinite;
 }
 
 .orbit-ring {
@@ -1328,7 +1347,13 @@ html[data-density='compact'] .skill-group h3 {
 }
 
 .reveal {
+  opacity: 0;
+  transform: translateY(22px) scale(.985);
+}
+
+.reveal.is-visible {
   animation: rise-in .9s var(--ease-decel) both;
+  animation-delay: var(--reveal-delay, 0ms);
 }
 
 .reveal + .reveal {
@@ -1575,12 +1600,121 @@ html[data-reduced-motion='true'] .project-card:hover, html[data-reduced-motion='
   contain: layout paint;
 }
 
-.project-card, .skill-group, .glass-card, .route-card, .metric-grid article, .skill-directory-card, .contact-form-card {
+.project-card,
+.skill-group,
+.glass-card,
+.route-card,
+.metric-grid article,
+.skill-directory-card,
+.contact-form-card {
   border: 1px solid var(--line);
   background: var(--surface-overlay), var(--surface);
   box-shadow: var(--shadow-soft), inset 0 1px 0 rgba(255, 255, 255, .06);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+}
+
+/* Mouse-tracking spotlight + live-data motion. */
+.project-card,
+.skill-group,
+.glass-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.project-card::after,
+.skill-group::after,
+.glass-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    260px circle at var(--x, 50%) var(--y, 50%),
+    var(--accent-soft),
+    transparent 68%
+  );
+  transition: opacity .38s var(--ease-decel);
+}
+
+.project-card:hover::after,
+.skill-group:hover::after,
+.glass-card:hover::after {
+  opacity: 1;
+}
+
+.project-card > *,
+.skill-group > *,
+.glass-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes orbit-drift {
+  from {
+    transform: translate(-50%, -50%) rotate(-24deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(336deg);
+  }
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(20deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(380deg);
+  }
+}
+
+@keyframes core-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 50px 20px var(--accent-soft);
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 72px 30px var(--accent-soft);
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+@keyframes signal-scan {
+  0%,
+  100% {
+    opacity: .72;
+    box-shadow: 0 -20px 30px var(--accent-soft);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow: 0 -28px 46px var(--accent-soft), 0 0 24px var(--accent-soft);
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: .32s;
+  animation-timing-function: var(--ease-decel);
+}
+
+html[data-reduced-motion='true'] .screen-orbit,
+html[data-reduced-motion='true'] .art-orbit .orbit-ring,
+html[data-reduced-motion='true'] .art-orbit .orbit-core,
+html[data-reduced-motion='true'] .signal-line {
+  animation: none;
+}
+
+html[data-reduced-motion='true'] .reveal {
+  opacity: 1;
+  transform: none;
 }
 
 .settings-drawer {
@@ -1977,6 +2111,7 @@ html[data-reduced-motion='true'] .project-card:hover, html[data-reduced-motion='
   border-radius: 50%;
   transform: translate(-50%,-50%) rotate(-24deg);
   box-shadow: 0 0 70px var(--accent-soft);
+  animation: orbit-drift 26s linear infinite;
 }
 
 .dashboard-screen strong {
