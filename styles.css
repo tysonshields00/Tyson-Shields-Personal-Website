@@ -3784,7 +3784,14 @@ h2 em {
   z-index: 1;
 }
 
-/* Animated Radar Targets */
+/* Dynamic Radar Game Field & Targets */
+.radar-game-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: auto;
+}
+
 .radar-target {
   position: absolute;
   top: var(--ty);
@@ -3794,19 +3801,74 @@ h2 em {
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  pointer-events: none;
+  cursor: crosshair;
+  pointer-events: auto;
+  user-select: none;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+.radar-target:hover {
+  transform: translate(-50%, -50%) scale(1.18);
+}
+
+.radar-target:active {
+  transform: translate(-50%, -50%) scale(0.92);
 }
 
 .target-box {
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
   border: 1.5px solid var(--cyan-neon);
   box-shadow: 0 0 8px var(--cyan-neon);
   animation: target-pulse 2.5s infinite ease-in-out;
+  position: relative;
+  border-radius: 1px;
+}
+
+.target-timer-ring {
+  position: absolute;
+  inset: -6px;
+  border: 1px dashed var(--cyan-neon);
+  border-radius: 50%;
+  animation: timer-spin 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes timer-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.radar-target.target-rogue .target-box {
+  border-color: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+}
+
+.radar-target.target-rogue .target-timer-ring {
+  border-color: #f59e0b;
+}
+
+.radar-target.target-rogue .target-tag {
+  color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.radar-target.target-bonus .target-box {
+  border-color: #10b981;
+  box-shadow: 0 0 12px #10b981;
+}
+
+.radar-target.target-bonus .target-timer-ring {
+  border-color: #10b981;
+}
+
+.radar-target.target-bonus .target-tag {
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.4);
 }
 
 @keyframes target-pulse {
-  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.85; }
   50% { transform: scale(1.25) rotate(45deg); opacity: 1; border-color: var(--teal-neon); }
 }
 
@@ -3820,6 +3882,50 @@ h2 em {
   border: 1px solid var(--hud-border-bright);
   border-radius: 3px;
   white-space: nowrap;
+}
+
+/* Hit Shockwaves and Floating Score Popups */
+.radar-hit-ripple {
+  position: absolute;
+  top: var(--ry);
+  left: var(--rx);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid var(--cyan-neon);
+  box-shadow: 0 0 14px var(--cyan-glow);
+  pointer-events: none;
+  z-index: 5;
+  animation: radar-ripple 0.45s ease-out forwards;
+}
+
+@keyframes radar-ripple {
+  0% { width: 10px; height: 10px; opacity: 1; border-width: 2.5px; }
+  100% { width: 65px; height: 65px; opacity: 0; border-width: 0.5px; }
+}
+
+.radar-score-popup {
+  position: absolute;
+  top: var(--py);
+  left: var(--px);
+  transform: translate(-50%, -50%);
+  font-family: var(--font-hud);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 0 10px var(--cyan-neon);
+  background: rgba(0, 0, 0, 0.88);
+  border: 1px solid var(--hud-border-bright);
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 6;
+  animation: float-score 0.65s ease-out forwards;
+}
+
+@keyframes float-score {
+  0% { opacity: 1; transform: translate(-50%, 0) scale(0.85); }
+  50% { transform: translate(-50%, -18px) scale(1.1); }
+  100% { opacity: 0; transform: translate(-50%, -36px) scale(0.9); }
 }
 
 /* Telemetry Matrix Readout */
@@ -3907,7 +4013,7 @@ h2 em {
   100% { height: 95%; opacity: 0.9; }
 }
 
-/* Status Badge */
+/* Status Badge & Interactive Game Button */
 .screen-status-badge {
   position: absolute;
   bottom: 1.25rem;
@@ -3927,6 +4033,29 @@ h2 em {
   border-radius: 4px;
 }
 
+.radar-start-btn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.radar-start-btn:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px var(--cyan-neon);
+}
+
+.radar-start-btn:focus-visible {
+  outline: 2px solid var(--cyan-neon);
+  outline-offset: 2px;
+}
+
 .status-pulse-dot {
   width: 6px;
   height: 6px;
@@ -3934,6 +4063,68 @@ h2 em {
   background: var(--emerald-neon);
   box-shadow: 0 0 8px var(--emerald-neon);
   animation: pulse-glow 1.5s infinite;
+  flex-shrink: 0;
+}
+
+/* Game Debrief Modal */
+.radar-debrief {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 8, 16, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fadeIn 0.25s ease forwards;
+  padding: 1rem;
+}
+
+.radar-debrief[hidden] {
+  display: none;
+}
+
+.debrief-card {
+  text-align: center;
+  padding: 1.5rem 1.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--hud-border-bright);
+  background: var(--hud-card-bg);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(0, 240, 255, 0.2);
+  max-width: 270px;
+  width: 100%;
+}
+
+.debrief-kicker {
+  font-family: var(--font-hud);
+  font-size: 0.65rem;
+  color: var(--cyan-neon);
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.debrief-score {
+  font-family: var(--sans);
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0.2rem 0;
+  text-shadow: 0 0 16px var(--cyan-glow);
+}
+
+.debrief-rank {
+  font-family: var(--font-hud);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  margin-bottom: 1.1rem;
+}
+
+.screen-radar.is-playing {
+  animation-duration: 3.5s;
 }
 
 .dashboard-footer {

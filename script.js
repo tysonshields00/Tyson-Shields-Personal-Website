@@ -628,13 +628,320 @@ document.addEventListener('DOMContentLoaded', () => {
     render();
   };
 
-  const initTelemetryMonitor = () => {
-    const latencyEl = document.querySelector('.telemetry-matrix .t-val.text-emerald');
-    if (!latencyEl) return;
-    setInterval(() => {
-      const ms = Math.floor(Math.random() * 4) + 11;
-      latencyEl.textContent = `${ms}ms · 0% LOSS`;
-    }, 4000);
+  const initRadarGame = () => {
+    const screen = document.getElementById('radar-screen');
+    const layer = document.getElementById('radar-game-layer');
+    const startBtn = document.getElementById('radar-start-btn');
+    const btnText = document.getElementById('radar-btn-text');
+    const scoreEl = document.getElementById('radar-score');
+    const highEl = document.getElementById('radar-high');
+    const timerEl = document.getElementById('radar-timer');
+    const debrief = document.getElementById('radar-debrief');
+    const debriefScore = document.getElementById('debrief-score');
+    const debriefRank = document.getElementById('debrief-rank');
+    const retryBtn = document.getElementById('radar-retry-btn');
+    const radarSweep = document.getElementById('radar-sweep');
+    const statusMsg = document.getElementById('radar-status-msg');
+
+    if (!screen || !layer) return;
+
+    let isPlaying = false;
+    let score = 0;
+    let highScore = parseInt(localStorage.getItem('ts-radar-high-score') || '0', 10);
+    let timeLeft = 30;
+    let combo = 1;
+    let comboTimer = null;
+    let gameTimer = null;
+    let spawnTimer = null;
+    const activeTargets = new Set();
+
+    if (highEl) highEl.textContent = String(highScore);
+
+    // Lightweight Web Audio API Synthesizer (0 KB assets)
+    const playAudio = (type) => {
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const ctx = new AudioContextClass();
+        if (ctx.state === 'suspended') ctx.resume();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        const now = ctx.currentTime;
+
+        if (type === 'hit') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(540, now);
+          osc.frequency.exponentialRampToValueAtTime(920, now + 0.08);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+          osc.start(now);
+          osc.stop(now + 0.1);
+        } else if (type === 'bonus') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.05);
+          osc.frequency.setValueAtTime(783.99, now + 0.1);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.2);
+        } else if (type === 'start') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(280, now);
+          osc.frequency.exponentialRampToValueAtTime(840, now + 0.16);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+          osc.start(now);
+          osc.stop(now + 0.18);
+        } else if (type === 'over') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(220, now + 0.28);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        }
+      } catch (e) {
+        // Gracefully ignore audio errors if disabled
+      }
+    };
+
+    const normalAnomalies = [
+      'SIG_01: ETL_CORRUPT',
+      'PORT_SCAN: 8080',
+      'MEMORY_LEAK',
+      'SQL_INJECTION',
+      '404_DRIFT',
+      'RUNDOWN_DELAY',
+      'API_TIMEOUT',
+      'NULL_POINTER',
+    ];
+
+    const rogueAnomalies = [
+      'ROGUE_PACKET // RED',
+      'ZERO_DAY // CRIT',
+      'DDOS_BURST // 10G',
+    ];
+
+    const bonusRelays = [
+      '[POWER_QUERY_SYNC]',
+      '[PYTHON_ETL_CORE]',
+      '[PROXMOX_NODE]',
+      '[10/11_LIVE_FEED]',
+    ];
+
+    const showHitEffect = (xPercent, yPercent, points, isBonus) => {
+      // Create expanding shockwave ripple
+      const ripple = document.createElement('div');
+      ripple.className = 'radar-hit-ripple';
+      ripple.style.setProperty('--rx', `${xPercent}%`);
+      ripple.style.setProperty('--ry', `${yPercent}%`);
+      if (isBonus) ripple.style.borderColor = '#10b981';
+      layer.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 480);
+
+      // Create floating score popup
+      const popup = document.createElement('div');
+      popup.className = 'radar-score-popup';
+      popup.style.setProperty('--px', `${xPercent}%`);
+      popup.style.setProperty('--py', `${yPercent}%`);
+      popup.textContent = combo > 1 ? `+${points} (${combo}x)` : `+${points}`;
+      if (isBonus) {
+        popup.style.color = '#10b981';
+        popup.textContent = `+${points} BONUS!`;
+      }
+      layer.appendChild(popup);
+      setTimeout(() => popup.remove(), 680);
+    };
+
+    const spawnTarget = () => {
+      if (!layer) return;
+      if (activeTargets.size >= (isPlaying ? 4 : 2)) return;
+
+      // Polar coordinates centered in radar circle (30% to 75% radius)
+      const angle = Math.random() * Math.PI * 2;
+      const radiusPercent = 18 + Math.random() * 24; // percentage offset from center
+      const tx = Math.round(50 + Math.cos(angle) * radiusPercent);
+      const ty = Math.round(50 + Math.sin(angle) * radiusPercent);
+
+      const roll = Math.random();
+      let type = 'normal';
+      let tagText = normalAnomalies[Math.floor(Math.random() * normalAnomalies.length)];
+      let basePoints = 100;
+      let duration = 3800;
+
+      if (roll < 0.15) {
+        type = 'bonus';
+        tagText = bonusRelays[Math.floor(Math.random() * bonusRelays.length)];
+        basePoints = 300;
+        duration = 3200;
+      } else if (roll < 0.35) {
+        type = 'rogue';
+        tagText = rogueAnomalies[Math.floor(Math.random() * rogueAnomalies.length)];
+        basePoints = 175;
+        duration = 2800;
+      }
+
+      const targetEl = document.createElement('div');
+      targetEl.className = `radar-target target-${type}`;
+      targetEl.style.setProperty('--tx', `${tx}%`);
+      targetEl.style.setProperty('--ty', `${ty}%`);
+      targetEl.setAttribute('role', 'button');
+      targetEl.setAttribute('tabindex', '0');
+      targetEl.setAttribute('aria-label', `Intercept ${tagText}`);
+
+      targetEl.innerHTML = `
+        <span class="target-box"><span class="target-timer-ring"></span></span>
+        <span class="target-tag">${tagText}</span>
+      `;
+
+      const removeTarget = () => {
+        if (activeTargets.has(targetEl)) {
+          activeTargets.delete(targetEl);
+          targetEl.remove();
+        }
+      };
+
+      const handleIntercept = (e) => {
+        e.stopPropagation();
+        if (!activeTargets.has(targetEl)) return;
+
+        playAudio(type === 'bonus' ? 'bonus' : 'hit');
+
+        // Combo system
+        combo = Math.min(combo + 1, 4);
+        clearTimeout(comboTimer);
+        comboTimer = setTimeout(() => { combo = 1; }, 2500);
+
+        const totalEarned = basePoints * (type === 'bonus' ? 1 : combo);
+        score += totalEarned;
+        if (scoreEl) scoreEl.textContent = String(score);
+
+        showHitEffect(tx, ty, totalEarned, type === 'bonus');
+        removeTarget();
+
+        // If not already playing, auto-start game for instant gratification!
+        if (!isPlaying) {
+          startGame();
+        } else {
+          // Immediately spawn a replacement target
+          setTimeout(spawnTarget, 200);
+        }
+      };
+
+      targetEl.addEventListener('click', handleIntercept);
+      targetEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleIntercept(e);
+        }
+      });
+
+      layer.appendChild(targetEl);
+      activeTargets.add(targetEl);
+
+      // Auto-expire target if not intercepted
+      setTimeout(() => {
+        if (activeTargets.has(targetEl)) {
+          targetEl.style.opacity = '0';
+          setTimeout(removeTarget, 200);
+          if (isPlaying) {
+            combo = 1; // reset combo on missed target
+            setTimeout(spawnTarget, 400);
+          }
+        }
+      }, duration);
+    };
+
+    const startGame = () => {
+      if (isPlaying) return;
+      isPlaying = true;
+      score = 0;
+      timeLeft = 30;
+      combo = 1;
+
+      if (scoreEl) scoreEl.textContent = '0';
+      if (timerEl) timerEl.textContent = '30s';
+      if (btnText) btnText.textContent = 'DEFENSE ACTIVE...';
+      if (statusMsg) statusMsg.textContent = 'INTERCEPT ALL ROGUE SIGNALS // 30s MISSION';
+      if (debrief) debrief.hidden = true;
+      if (radarSweep) radarSweep.classList.add('is-playing');
+
+      playAudio('start');
+
+      // Clear existing targets and spawn initial wave
+      activeTargets.forEach((t) => t.remove());
+      activeTargets.clear();
+
+      spawnTarget();
+      setTimeout(spawnTarget, 300);
+      setTimeout(spawnTarget, 700);
+
+      clearInterval(spawnTimer);
+      spawnTimer = setInterval(() => {
+        if (isPlaying && activeTargets.size < 4) spawnTarget();
+      }, 950);
+
+      clearInterval(gameTimer);
+      gameTimer = setInterval(() => {
+        timeLeft -= 1;
+        if (timerEl) timerEl.textContent = `${timeLeft}s`;
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+    };
+
+    const endGame = () => {
+      isPlaying = false;
+      clearInterval(gameTimer);
+      clearInterval(spawnTimer);
+
+      if (radarSweep) radarSweep.classList.remove('is-playing');
+      if (timerEl) timerEl.textContent = '0s';
+      if (btnText) btnText.textContent = 'INTERCEPT SIM [START]';
+
+      playAudio('over');
+
+      // Update High Score
+      if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('ts-radar-high-score', String(highScore));
+        if (highEl) highEl.textContent = String(highScore);
+      }
+
+      // Rank calculation
+      let rank = 'TELEMETRY ANALYST // C-TIER';
+      if (score >= 2200) rank = 'CYBER EXECUTIVE // S-TIER';
+      else if (score >= 1500) rank = 'SYSTEMS ARCHITECT // A-TIER';
+      else if (score >= 900) rank = 'DATA ENGINEER // B-TIER';
+
+      if (debriefScore) debriefScore.textContent = `SCORE: ${score}`;
+      if (debriefRank) debriefRank.textContent = rank;
+      if (debrief) debrief.hidden = false;
+
+      if (statusMsg) statusMsg.textContent = `MISSION COMPLETE · FINAL SCORE: ${score} · ${rank}`;
+
+      // Reset to idle target after a brief delay
+      setTimeout(() => {
+        activeTargets.forEach((t) => t.remove());
+        activeTargets.clear();
+        spawnTarget();
+      }, 1200);
+    };
+
+    startBtn?.addEventListener('click', startGame);
+    retryBtn?.addEventListener('click', () => {
+      if (debrief) debrief.hidden = true;
+      startGame();
+    });
+
+    // Spawn 1 initial idle target on page load
+    spawnTarget();
   };
 
   initScrollReveals();
@@ -642,6 +949,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMagneticButtons();
   initAmbientCanvas();
   initTelemetryMonitor();
+  initRadarGame();
 
   applyPreferences();
 });

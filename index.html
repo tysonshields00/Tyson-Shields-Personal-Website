@@ -39,33 +39,38 @@
           <a href="mailto:tysonshields00@gmail.com?subject=Portfolio%20inquiry" class="copy-email" data-email="tysonshields00@gmail.com" aria-label="Email (Click to copy)">@</a>
         </div>
       </div>
-      <div class="hero-dashboard reveal" aria-hidden="true">
+      <div class="hero-dashboard reveal" id="hero-dashboard" role="region" aria-label="Radar Telemetry Simulation">
         <div class="dashboard-header">
           <div class="dash-title-wrap">
             <span class="hud-indicator-dot"></span>
-            <span class="dash-title">OPERATIONS COMMAND // 2026</span>
+            <span class="dash-title">OPERATIONS COMMAND // RADAR INTERCEPT</span>
           </div>
           <div class="dashboard-live">
             <span class="live-pulse"></span>
             <span id="dashboard-clock">ONLINE</span>
           </div>
         </div>
-        <div class="dashboard-screen">
-          <div class="screen-radar"></div>
+        <div class="dashboard-screen" id="radar-screen" tabindex="0" role="application" aria-label="Interactive Radar Intercept Game">
+          <div class="screen-radar" id="radar-sweep"></div>
           <div class="radar-crosshair"></div>
 
-          <div class="radar-target" style="--tx: 38%; --ty: 46%;">
-            <span class="target-box"></span>
-            <span class="target-tag">SIG_01: ETL_CORE</span>
+          <!-- Dynamic Game Layer for Targets and Shockwaves -->
+          <div class="radar-game-layer" id="radar-game-layer">
+            <div class="radar-target" style="--tx: 38%; --ty: 46%;">
+              <span class="target-box"></span>
+              <span class="target-tag">SIG_01: ETL_CORE</span>
+            </div>
           </div>
 
-          <div class="telemetry-matrix">
-            <div class="telemetry-row"><span class="t-label">SYS_ID:</span><span class="t-val">LNK-40.81N.96.70W</span></div>
-            <div class="telemetry-row"><span class="t-label">LATENCY:</span><span class="t-val text-emerald">12ms · 0% LOSS</span></div>
-            <div class="telemetry-row"><span class="t-label">SECURITY:</span><span class="t-val">AES-256-GCM</span></div>
-            <div class="telemetry-row"><span class="t-label">PIPELINE:</span><span class="t-val text-cyan">SYNCHRONIZED</span></div>
+          <!-- Telemetry Matrix with Live Game Stats -->
+          <div class="telemetry-matrix" id="radar-telemetry">
+            <div class="telemetry-row"><span class="t-label">SYS_ID:</span><span class="t-val">LNK-40.81N</span></div>
+            <div class="telemetry-row"><span class="t-label">SCORE:</span><span class="t-val text-cyan" id="radar-score">0</span></div>
+            <div class="telemetry-row"><span class="t-label">HIGH:</span><span class="t-val text-emerald" id="radar-high">0</span></div>
+            <div class="telemetry-row"><span class="t-label">TIME:</span><span class="t-val text-amber" id="radar-timer">30s</span></div>
           </div>
 
+          <!-- Audio / Signal Spectrum Visualizer -->
           <div class="screen-spectrum-wrap">
             <span class="spectrum-label">SIGNAL SPECTRUM</span>
             <div class="screen-spectrum" aria-hidden="true">
@@ -80,9 +85,22 @@
             </div>
           </div>
 
+          <!-- Interactive Game Control Badge -->
           <div class="screen-status-badge">
-            <span class="status-pulse-dot"></span>
-            <span>TELEMETRY LOCK // OPTIMAL</span>
+            <button type="button" class="radar-start-btn" id="radar-start-btn" aria-label="Start Radar Intercept Mini-Game">
+              <span class="status-pulse-dot"></span>
+              <span id="radar-btn-text">INTERCEPT SIM [START]</span>
+            </button>
+          </div>
+
+          <!-- Mission Complete Debrief Modal Overlay -->
+          <div class="radar-debrief" id="radar-debrief" hidden>
+            <div class="debrief-card">
+              <span class="debrief-kicker">MISSION COMPLETE</span>
+              <h3 class="debrief-score" id="debrief-score">SCORE: 0</h3>
+              <p class="debrief-rank" id="debrief-rank">RANK: CYBER OPERATIVE</p>
+              <button type="button" class="button button-primary cyber-btn" id="radar-retry-btn">REDEPLOY SIM <span>↻</span></button>
+            </div>
           </div>
         </div>
         <div class="dashboard-footer">
@@ -91,7 +109,7 @@
             <span class="status-chip">MEDIA</span>
             <span class="status-chip">INFRA</span>
           </div>
-          <span class="channel-readout">CH 01—03 // BROADCAST_SYNC</span>
+          <span class="channel-readout" id="radar-status-msg">CLICK RADAR TARGETS TO INTERCEPT ANOMALIES</span>
         </div>
       </div>
     </section>
