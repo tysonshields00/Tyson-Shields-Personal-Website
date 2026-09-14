@@ -243,7 +243,6 @@ document.addEventListener('DOMContentLoaded', () => {
   navLinks?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
     closeMobileNav();
   }));
-  });
 
   const commandItems = [
     ['Home', 'index.html', 'Main command center'],
