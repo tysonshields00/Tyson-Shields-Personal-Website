@@ -114,7 +114,9 @@ body {
   margin: 0;
   min-height: 100vh;
   min-height: 100svh;
-  background: radial-gradient(circle at 15% 10%, rgba(0, 240, 255, .08), transparent 35%), radial-gradient(circle at 85% 80%, rgba(104, 168, 255, .1), transparent 38%), var(--bg);
+  background: radial-gradient(circle at 15% 10%, rgba(0, 240, 255, .08), transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(104, 168, 255, .1), transparent 38%),
+    var(--bg);
   color: var(--text);
   font-family: var(--sans);
   font-size: var(--text-base);
@@ -201,7 +203,11 @@ button:focus-visible, a:focus-visible {
 .nav-shell {
   width: 100%;
   min-height: 68px;
-  padding: max(.85rem, env(safe-area-inset-top, 0px)) max(1.5rem, env(safe-area-inset-right, 0px)) max(.85rem, env(safe-area-inset-bottom, 0px)) max(1.5rem, env(safe-area-inset-left, 0px));
+  padding:
+    max(.85rem, env(safe-area-inset-top, 0px))
+    max(1.5rem, env(safe-area-inset-right, 0px))
+    max(.85rem, env(safe-area-inset-bottom, 0px))
+    max(1.5rem, env(safe-area-inset-left, 0px));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -263,7 +269,11 @@ button:focus-visible, a:focus-visible {
   background: var(--surface);
   cursor: pointer;
   font-size: 1.05rem;
-  transition: border-color .28s var(--ease-spring), color .25s var(--ease-decel), transform .34s var(--ease-spring), box-shadow .3s var(--ease-decel), background .25s var(--ease-decel);
+  transition: border-color .28s var(--ease-spring),
+    color .25s var(--ease-decel),
+    transform .34s var(--ease-spring),
+    box-shadow .3s var(--ease-decel),
+    background .25s var(--ease-decel);
 }
 
 .icon-button:hover {
@@ -294,7 +304,16 @@ button:focus-visible, a:focus-visible {
   gap: clamp(3rem, 8vw, 8rem);
 }
 
-.eyebrow, .section-kicker, .console-top, .console-bottom, .art-label, .project-meta, .skill-number, .timeline-year, .timeline-type, .setting-label {
+.eyebrow,
+.section-kicker,
+.console-top,
+.console-bottom,
+.art-label,
+.project-meta,
+.skill-number,
+.timeline-year,
+.timeline-type,
+.setting-label {
   margin: 0;
   color: var(--accent);
   font-family: var(--mono);
@@ -366,7 +385,11 @@ h1 em, h2 span {
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
-  transition: background .32s var(--ease-decel), color .25s var(--ease-decel), border-color .28s var(--ease-spring), transform .34s var(--ease-spring), box-shadow .32s var(--ease-decel);
+  transition: background .32s var(--ease-decel),
+    color .25s var(--ease-decel),
+    border-color .28s var(--ease-spring),
+    transform .34s var(--ease-spring),
+    box-shadow .32s var(--ease-decel);
   will-change: transform, box-shadow;
 }
 
@@ -436,7 +459,8 @@ h1 em, h2 span {
 .console-graphic {
   position: absolute;
   inset: 20% 8% 18%;
-  background: repeating-linear-gradient(0deg, transparent 0 39px, var(--line) 40px), repeating-linear-gradient(90deg, transparent 0 54px, var(--line) 55px);
+  background: repeating-linear-gradient(0deg, transparent 0 39px, var(--line) 40px),
+    repeating-linear-gradient(90deg, transparent 0 54px, var(--line) 55px);
 }
 
 .signal-line {
@@ -1328,7 +1352,9 @@ html[data-reduced-motion='true'] {
   scroll-behavior: auto;
 }
 
-html[data-reduced-motion='true'] *, html[data-reduced-motion='true'] *::before, html[data-reduced-motion='true'] *::after {
+html[data-reduced-motion='true'] *,
+html[data-reduced-motion='true'] *::before,
+html[data-reduced-motion='true'] *::after {
   animation-duration: .001ms !important;
   animation-iteration-count: 1 !important;
   scroll-behavior: auto !important;
@@ -1464,7 +1490,11 @@ html[data-reduced-motion='true'] *, html[data-reduced-motion='true'] *::before, 
 
 }
 
-/* Premium elevated surfaces: solid depth with a crisp inner edge. */ .hero-console, .project-card, .skill-group, .settings-drawer, .sandbox-panel {
+/* Premium elevated surfaces: solid depth with a crisp inner edge. */ .hero-console,
+.project-card,
+.skill-group,
+.settings-drawer,
+.sandbox-panel {
   border-radius: var(--radius);
   background: var(--surface-overlay), var(--surface);
 }
@@ -1511,7 +1541,11 @@ html[data-reduced-motion='true'] *, html[data-reduced-motion='true'] *::before, 
   background: var(--accent-soft);
 }
 
-html[data-theme='light'] .hero-console, html[data-theme='light'] .project-card, html[data-theme='light'] .skill-group, html[data-theme='light'] .settings-drawer, html[data-theme='light'] .sandbox-panel {
+html[data-theme='light'] .hero-console,
+html[data-theme='light'] .project-card,
+html[data-theme='light'] .skill-group,
+html[data-theme='light'] .settings-drawer,
+html[data-theme='light'] .sandbox-panel {
   background: var(--surface-overlay), var(--surface);
 }
 
@@ -1519,11 +1553,25 @@ html[data-reduced-motion='true'] .project-card:hover, html[data-reduced-motion='
   transform: none;
 }
 
-/* Intrinsic component layout and the two-layer blur budget. */ .home-hero, .pillar-grid, .metric-grid, .home-routing, .career-entry, .skill-directory-card, .contact-layout {
+/* Intrinsic component layout and the two-layer blur budget. */ .home-hero,
+.pillar-grid,
+.metric-grid,
+.home-routing,
+.career-entry,
+.skill-directory-card,
+.contact-layout {
   container-type: inline-size;
 }
 
-.hero-dashboard, .project-card, .skill-group, .glass-card, .route-card, .metric-grid article, .skill-directory-card, .contact-form-card, .settings-drawer {
+.hero-dashboard,
+.project-card,
+.skill-group,
+.glass-card,
+.route-card,
+.metric-grid article,
+.skill-directory-card,
+.contact-form-card,
+.settings-drawer {
   contain: layout paint;
 }
 
@@ -1638,7 +1686,10 @@ html[data-reduced-motion='true'] .project-card:hover, html[data-reduced-motion='
   color: var(--muted);
   font-family: var(--mono);
   font-size: .62rem;
-  transition: border-color .28s var(--ease-spring), color .25s var(--ease-decel), transform .34s var(--ease-spring), box-shadow .3s var(--ease-decel);
+  transition: border-color .28s var(--ease-spring),
+    color .25s var(--ease-decel),
+    transform .34s var(--ease-spring),
+    box-shadow .3s var(--ease-decel);
 }
 
 .command-trigger:hover {
@@ -1675,11 +1726,16 @@ html[data-reduced-motion='true'] .project-card:hover, html[data-reduced-motion='
   background: linear-gradient(135deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03)), rgba(10, 15, 29, .86);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, .75), inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -1px 0 rgba(0, 0, 0, .4);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, .75),
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    inset 0 -1px 0 rgba(0, 0, 0, .4);
   color: var(--text);
   transform: translateY(14px) scale(.975);
   transform-origin: 50% 0%;
-  transition: opacity .18s var(--ease-decel), transform .32s var(--ease-spring), overlay .18s allow-discrete, display .18s allow-discrete;
+  transition: opacity .18s var(--ease-decel),
+    transform .32s var(--ease-spring),
+    overlay .18s allow-discrete,
+    display .18s allow-discrete;
 }
 
 .command-palette[open] {
@@ -1905,7 +1961,8 @@ html[data-reduced-motion='true'] .project-card:hover, html[data-reduced-motion='
 .screen-grid {
   position: absolute;
   inset: 0;
-  background: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background: linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
   background-size: 38px 38px;
   opacity: .7;
 }

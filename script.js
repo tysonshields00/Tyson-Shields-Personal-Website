@@ -2,7 +2,11 @@
   const root = document.documentElement;
   const storageKey = 'tyson-shields-preferences';
   const defaults = { theme: 'navy', accent: 'blue', density: 'spacious', reducedMotion: false };
-  const valid = { theme: ['navy', 'slate', 'light'], accent: ['blue', 'teal', 'white'], density: ['spacious', 'compact'] };
+  const valid = {
+    theme: ['navy', 'slate', 'light'],
+    accent: ['blue', 'teal', 'white'],
+    density: ['spacious', 'compact'],
+  };
   const drawer = document.querySelector('.settings-drawer');
   const backdrop = document.querySelector('.drawer-backdrop');
   const menu = document.querySelector('.menu-toggle');
@@ -15,7 +19,10 @@
   };
 
   if (navLinks && !navLinks.querySelector('.command-trigger')) {
-    navLinks.insertAdjacentHTML('beforeend', '<button class="icon-button command-trigger" type="button" aria-label="Open command palette">⌘K</button>');
+    navLinks.insertAdjacentHTML(
+      'beforeend',
+      '<button class="icon-button command-trigger" type="button" aria-label="Open command palette">⌘K</button>'
+    );
   }
 
   const loadPreferences = () => {
@@ -34,7 +41,11 @@
   preferences.reducedMotion = Boolean(preferences.reducedMotion);
 
   const savePreferences = () => {
-    try { localStorage.setItem(storageKey, JSON.stringify(preferences)); } catch (error) { /* Storage may be unavailable in private browsing. */ }
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(preferences));
+    } catch (error) {
+      /* Storage may be unavailable in private browsing. */
+    }
   };
 
   const applyPreferences = () => {
@@ -44,7 +55,9 @@
     root.dataset.reducedMotion = preferences.reducedMotion;
     document.querySelectorAll('[data-setting]').forEach((control) => {
       const setting = control.dataset.setting;
-      const selected = setting === 'motion' ? preferences.reducedMotion : preferences[setting] === control.dataset.value;
+      const selected = setting === 'motion'
+        ? preferences.reducedMotion
+        : preferences[setting] === control.dataset.value;
       control.classList.toggle('is-selected', selected);
       if (control.matches('.toggle')) {
         control.classList.toggle('is-on', preferences.reducedMotion);
@@ -112,7 +125,19 @@
     ['Contact', 'contact.html', 'Start a conversation'],
     ['Resume', 'Tyson-Shields-Resume.html', 'Downloadable career summary']
   ];
-  const paletteMarkup = `<div class="palette-backdrop" data-close-palette></div><dialog class="command-palette" aria-labelledby="palette-title"><div class="palette-header"><h2 id="palette-title">Navigate</h2><button class="icon-button palette-close" type="button" aria-label="Close command palette">×</button></div><label class="sr-only" for="palette-search">Search pages</label><input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off"><div class="palette-results" role="listbox"></div><p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p></dialog>`;
+  const paletteMarkup = [
+    '<div class="palette-backdrop" data-close-palette></div>',
+    '<dialog class="command-palette" aria-labelledby="palette-title">',
+    '<div class="palette-header">',
+    '<h2 id="palette-title">Navigate</h2>',
+    '<button class="icon-button palette-close" type="button" aria-label="Close command palette">×</button>',
+    '</div>',
+    '<label class="sr-only" for="palette-search">Search pages</label>',
+    '<input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off">',
+    '<div class="palette-results" role="listbox"></div>',
+    '<p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p>',
+    '</dialog>',
+  ].join('');
   document.body.insertAdjacentHTML('beforeend', paletteMarkup);
   const palette = document.querySelector('.command-palette');
   const paletteBackdrop = document.querySelector('.palette-backdrop');
@@ -121,8 +146,16 @@
   let paletteIndex = 0;
 
   const renderPalette = (query = '') => {
-    const filtered = commandItems.filter(([name, path, description]) => `${name} ${path} ${description}`.toLowerCase().includes(query.toLowerCase()));
-    paletteResults.innerHTML = filtered.map(([name, path, description], index) => `<a class="palette-result${index === 0 ? ' is-active' : ''}" role="option" href="${path}" data-palette-index="${index}"><strong>${name}</strong><span>${description}</span><b>↗</b></a>`).join('') || '<p class="palette-empty">No matching pages.</p>';
+    const filtered = commandItems.filter(
+      ([name, path, description]) => `${name} ${path} ${description}`.toLowerCase().includes(query.toLowerCase())
+    );
+    paletteResults.innerHTML = filtered
+      .map(
+        ([name, path, description], index) =>
+          `<a class="palette-result${index === 0 ? ' is-active' : ''}" role="option" href="${path}"` +
+          ` data-palette-index="${index}"><strong>${name}</strong><span>${description}</span><b>↗</b></a>`
+      )
+      .join('') || '<p class="palette-empty">No matching pages.</p>';
     paletteIndex = 0;
   };
   const setPalette = (isOpen) => {
@@ -146,18 +179,33 @@
   paletteSearch.addEventListener('input', () => renderPalette(paletteSearch.value));
   paletteSearch.addEventListener('keydown', (event) => {
     const results = [...paletteResults.querySelectorAll('.palette-result')];
-    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && results.length) { event.preventDefault(); paletteIndex = (paletteIndex + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length; results.forEach((result, index) => result.classList.toggle('is-active', index === paletteIndex)); results[paletteIndex]?.scrollIntoView({ block: 'nearest' }); }
-    if (event.key === 'Enter' && results[paletteIndex]) { event.preventDefault(); window.location.href = results[paletteIndex].href; }
+    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && results.length) {
+      event.preventDefault();
+      paletteIndex = (paletteIndex + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length;
+      results.forEach((result, index) => result.classList.toggle('is-active', index === paletteIndex));
+      results[paletteIndex]?.scrollIntoView({ block: 'nearest' });
+    }
+    if (event.key === 'Enter' && results[paletteIndex]) {
+      event.preventDefault();
+      window.location.href = results[paletteIndex].href;
+    }
     if (event.key === 'Escape') setPalette(false);
   });
-  palette.addEventListener('close', () => paletteBackdrop.classList.remove('is-visible'));
+  palette.addEventListener(
+    'close',
+    () => paletteBackdrop.classList.remove('is-visible')
+  );
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       if (palette.open) { setPalette(false); return; }
       if (drawer?.classList.contains('is-open')) { setDrawer(false); return; }
       closeMobileNav();
     }
-    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); closeMobileNav(); setPalette(true); }
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      closeMobileNav();
+      setPalette(true);
+    }
   });
 
   applyPreferences();
