@@ -1,3 +1,27 @@
+// Developer console greetings
+console.log(
+  `%c
+████████╗██╗   ██╗███████╗ ██████╗ ███╗   ██╗
+╚══██╔══╝╚██╗ ██╔╝██╔════╝██╔═══██╗████╗  ██║
+   ██║    ╚████╔╝ ███████╗██║   ██║██╔██╗ ██║
+   ██║     ╚██╔╝  ╚════██║██║   ██║██║╚██╗██║
+   ██║      ██║   ███████║╚██████╔╝██║ ╚████║
+   ╚═╝      ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
+Tyson Shields — Data Analytics, Systems & Media Production
+Lincoln, Nebraska · https://github.com/tysonshields
+`,
+  'color: #0ea5e9; font-weight: bold; font-family: monospace; font-size: 11px;'
+);
+
+// Global unhandled error handler to briefly flash status dot red
+window.addEventListener('error', () => {
+  const dot = document.querySelector('.status-dot');
+  if (dot) {
+    dot.classList.add('is-error');
+    setTimeout(() => dot.classList.remove('is-error'), 2200);
+  }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
   const storageKey = 'tyson-shields-preferences';
@@ -7,11 +31,35 @@ document.addEventListener('DOMContentLoaded', () => {
     accent: ['blue', 'teal', 'white'],
     density: ['spacious', 'compact'],
   };
+  const themeColors = {
+    navy: '#0a0f1d',
+    slate: '#0f172a',
+    light: '#f8fafc'
+  };
+
+  // Detect data saver
+  if (navigator.connection?.saveData) {
+    defaults.reducedMotion = true;
+    root.dataset.reducedMotion = 'true';
+  }
+
+  // Pre-cached DOM queries
   const drawer = document.querySelector('.settings-drawer');
   const backdrop = document.querySelector('.drawer-backdrop');
   const menu = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
   const settingsTrigger = document.querySelector('.settings-trigger');
+  const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+  const statusDot = document.querySelector('.status-dot');
+  const clockEl = document.getElementById('dashboard-clock');
+  const contactForm = document.getElementById('contact-form');
+  const formConfirmation = document.getElementById('form-confirmation');
+  const resetFormBtn = document.getElementById('reset-form-btn');
+  const copyAnchors = document.querySelectorAll('.copy-anchor');
+  const copyEmails = document.querySelectorAll('.copy-email');
+  const filterButtons = document.querySelectorAll('.filter-button');
+  const projectCards = document.querySelectorAll('.project-card');
+
   let drawerReturnFocus = settingsTrigger;
   let paletteReturnFocus = null;
   let paletteDebounce;
@@ -26,13 +74,19 @@ document.addEventListener('DOMContentLoaded', () => {
     link.toggleAttribute('aria-current', isCurrent);
   });
 
-  document.querySelectorAll('a[target="_blank"]').forEach((link) => link.setAttribute('rel', 'noopener noreferrer'));
+  document.querySelectorAll('a[target="_blank"]').forEach((link) => {
+    const isProfile = link.href.includes('github.com') || link.href.includes('linkedin.com');
+    link.setAttribute('rel', isProfile ? 'noopener noreferrer me' : 'noopener noreferrer');
+  });
+
   document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
     const url = new URL(link.href);
     if (!url.searchParams.has('subject')) url.searchParams.set('subject', 'Portfolio inquiry');
     link.href = url.href;
   });
+
   document.querySelectorAll('form input, form select, form textarea').forEach((field) => field.setAttribute('autocomplete', 'off'));
+
   document.querySelectorAll('.career-date').forEach((dateBlock) => {
     const dateText = dateBlock.firstChild?.textContent?.trim();
     if (!dateText || dateBlock.querySelector('time')) return;
@@ -41,6 +95,74 @@ document.addEventListener('DOMContentLoaded', () => {
     time.textContent = dateText;
     dateBlock.replaceChild(time, dateBlock.firstChild);
   });
+
+  // Link prefetching on mouseenter / touchstart
+  const prefetchedUrls = new Set();
+  const prefetchLink = (url) => {
+    if (!url || prefetchedUrls.has(url) || url.startsWith('http') || url.startsWith('mailto:') || url.startsWith('#')) return;
+    prefetchedUrls.add(url);
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.href = url;
+    document.head.appendChild(link);
+  };
+  document.querySelectorAll('a[href]').forEach((link) => {
+    const href = link.getAttribute('href');
+    if (href && !href.startsWith('mailto:') && !href.startsWith('http') && !href.startsWith('#')) {
+      link.addEventListener('mouseenter', () => prefetchLink(href), { passive: true, once: true });
+      link.addEventListener('touchstart', () => prefetchLink(href), { passive: true, once: true });
+    }
+  });
+
+  // Copy email to clipboard
+  copyEmails.forEach((elem) => {
+    elem.addEventListener('click', async (e) => {
+      const email = elem.dataset.email || 'tysonshields00@gmail.com';
+      if (navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(email);
+          const target = elem.querySelector('.email-text') || elem;
+          const original = target.textContent;
+          target.textContent = 'Copied!';
+          elem.dataset.copied = 'true';
+          setTimeout(() => {
+            target.textContent = original;
+            delete elem.dataset.copied;
+          }, 1800);
+        } catch (err) {
+          // Ignore error and allow mailto default
+        }
+      }
+    });
+  });
+
+  // Live clock formatting with Intl.DateTimeFormat
+  if (clockEl) {
+    const dtf = new Intl.DateTimeFormat('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    });
+    const updateClock = () => {
+      clockEl.textContent = `${dtf.format(new Date())} CST`;
+    };
+    updateClock();
+    setInterval(updateClock, 1000);
+  }
+
+  // Contact form submission handling
+  if (contactForm && formConfirmation) {
+    contactForm.addEventListener('submit', () => {
+      contactForm.classList.add('is-hidden');
+      formConfirmation.classList.remove('is-hidden');
+    });
+    resetFormBtn?.addEventListener('click', () => {
+      contactForm.reset();
+      formConfirmation.classList.add('is-hidden');
+      contactForm.classList.remove('is-hidden');
+    });
+  }
 
   if (navLinks && !navLinks.querySelector('.command-trigger')) {
     navLinks.insertAdjacentHTML(
@@ -77,6 +199,11 @@ document.addEventListener('DOMContentLoaded', () => {
     root.dataset.accent = preferences.accent;
     root.dataset.density = preferences.density;
     root.dataset.reducedMotion = preferences.reducedMotion;
+
+    if (themeColorMeta) {
+      themeColorMeta.setAttribute('content', themeColors[preferences.theme] || '#0a0f1d');
+    }
+
     document.querySelectorAll('[data-setting]').forEach((control) => {
       const setting = control.dataset.setting;
       const selected = setting === 'motion'
@@ -100,13 +227,17 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const setDrawer = (isOpen) => {
-    drawer.classList.toggle('is-open', isOpen);
-    backdrop.classList.toggle('is-visible', isOpen);
-    drawer.setAttribute('aria-hidden', String(!isOpen));
+    drawer?.classList.toggle('is-open', isOpen);
+    backdrop?.classList.toggle('is-visible', isOpen);
+    drawer?.setAttribute('aria-hidden', String(!isOpen));
     settingsTrigger?.setAttribute('aria-expanded', String(isOpen));
     document.body.classList.toggle('drawer-open', isOpen);
-    if (isOpen) { drawerReturnFocus = document.activeElement; drawer.querySelector('.drawer-close').focus(); }
-    else drawerReturnFocus?.focus();
+    if (isOpen) {
+      drawerReturnFocus = document.activeElement;
+      drawer?.querySelector('.drawer-close')?.focus();
+    } else {
+      drawerReturnFocus?.focus();
+    }
   };
 
   if (drawer && backdrop) {
@@ -137,15 +268,15 @@ document.addEventListener('DOMContentLoaded', () => {
     closeMobileNav();
   }));
 
-  document.querySelectorAll('.filter-button').forEach((button) => {
+  filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const filter = button.dataset.filter;
-      document.querySelectorAll('.filter-button').forEach((item) => {
+      filterButtons.forEach((item) => {
         const isActive = item === button;
         item.classList.toggle('is-active', isActive);
         item.setAttribute('aria-pressed', String(isActive));
       });
-      document.querySelectorAll('.project-card').forEach((card) => {
+      projectCards.forEach((card) => {
         card.classList.toggle('is-hidden', filter !== 'all' && card.dataset.category !== filter);
       });
     });
@@ -169,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
     '<label class="sr-only" for="palette-search">Search pages</label>',
     '<div class="palette-search-wrap"><input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off" spellcheck="false"><button class="palette-clear" type="button" aria-label="Clear search">×</button></div>',
     '<div class="palette-results" role="listbox" aria-live="polite" aria-atomic="true"></div>',
-    '<p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p>',
+    '<p class="palette-hint"><kbd>↑</kbd> <kbd>↓</kbd> to move · <kbd>↵</kbd> to open · <kbd>Esc</kbd> to close</p>',
     '</dialog>',
   ].join('');
   document.body.insertAdjacentHTML('beforeend', paletteMarkup);
@@ -195,25 +326,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const setPalette = (isOpen) => {
     if (isOpen) {
       if (drawer?.classList.contains('is-open')) setDrawer(false);
-    paletteReturnFocus = document.activeElement;
+      paletteReturnFocus = document.activeElement;
       if (!palette.open) palette.showModal();
       requestAnimationFrame(() => paletteBackdrop.classList.add('is-visible'));
       paletteSearch.value = '';
       renderPalette();
       requestAnimationFrame(() => paletteSearch.focus({ preventScroll: true }));
-    }
-    else {
+    } else {
       paletteBackdrop.classList.remove('is-visible');
       if (palette.open) palette.close();
+      paletteSearch.value = '';
+      renderPalette();
       paletteReturnFocus?.focus();
     }
   };
   const commandTrigger = document.querySelector('.command-trigger');
   commandTrigger?.addEventListener('click', () => { closeMobileNav(); setPalette(true); });
-  document.querySelector('.palette-close').addEventListener('click', () => setPalette(false));
-  paletteBackdrop.addEventListener('click', () => setPalette(false));
-  paletteSearch.addEventListener('input', () => { clearTimeout(paletteDebounce); paletteDebounce = setTimeout(() => renderPalette(paletteSearch.value), 120); });
-  paletteSearch.addEventListener('keydown', (event) => {
+  document.querySelector('.palette-close')?.addEventListener('click', () => setPalette(false));
+  paletteBackdrop?.addEventListener('click', () => setPalette(false));
+  paletteSearch?.addEventListener('input', () => { clearTimeout(paletteDebounce); paletteDebounce = setTimeout(() => renderPalette(paletteSearch.value), 120); });
+  paletteSearch?.addEventListener('keydown', (event) => {
     const results = [...paletteResults.querySelectorAll('.palette-result')];
     if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && results.length) {
       event.preventDefault();
@@ -228,12 +360,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (event.key === 'Escape') setPalette(false);
   });
-  paletteSearch.setAttribute('spellcheck', 'false');
-  document.querySelector('.palette-clear').addEventListener('click', () => { paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); });
-  palette.addEventListener(
-    'close',
-    () => paletteBackdrop.classList.remove('is-visible')
-  );
+  document.querySelector('.palette-clear')?.addEventListener('click', () => { paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); });
+  palette?.addEventListener('close', () => {
+    paletteBackdrop.classList.remove('is-visible');
+    paletteSearch.value = '';
+    renderPalette();
+  });
+
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Tab' && drawer?.classList.contains('is-open')) {
       const focusable = [...drawer.querySelectorAll('button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])')].filter((item) => !item.hasAttribute('disabled'));
@@ -245,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     if (event.key === 'Escape') {
-      if (palette.open) { setPalette(false); return; }
+      if (palette?.open) { setPalette(false); return; }
       if (drawer?.classList.contains('is-open')) { setDrawer(false); return; }
       closeMobileNav();
     }
@@ -254,13 +387,22 @@ document.addEventListener('DOMContentLoaded', () => {
       closeMobileNav();
       setPalette(true);
     }
-    if (event.key === '/' && document.activeElement !== paletteSearch && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) { event.preventDefault(); setPalette(true); }
+    if (event.key === '/' && document.activeElement !== paletteSearch && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+      event.preventDefault();
+      setPalette(true);
+    }
   });
 
-  document.querySelectorAll('.copy-anchor').forEach((anchor) => anchor.addEventListener('click', async (event) => {
+  copyAnchors.forEach((anchor) => anchor.addEventListener('click', async (event) => {
     event.preventDefault();
     const url = `${window.location.origin}${window.location.pathname}${anchor.hash}`;
-    try { await navigator.clipboard.writeText(url); anchor.dataset.copied = 'Copied'; setTimeout(() => delete anchor.dataset.copied, 1200); } catch (error) { window.location.hash = anchor.hash; }
+    try {
+      await navigator.clipboard.writeText(url);
+      anchor.dataset.copied = 'Copied';
+      setTimeout(() => delete anchor.dataset.copied, 1200);
+    } catch (error) {
+      window.location.hash = anchor.hash;
+    }
   }));
 
   const topButton = document.createElement('button');
@@ -270,8 +412,17 @@ document.addEventListener('DOMContentLoaded', () => {
   topButton.textContent = '↑';
   document.body.append(topButton);
   topButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: preferences.reducedMotion ? 'auto' : 'smooth' }));
+
   const updateTopButton = () => topButton.classList.toggle('is-visible', window.scrollY > document.documentElement.scrollHeight / 2);
-  window.addEventListener('scroll', updateTopButton, { passive: true });
+  let scrollRaf = 0;
+  window.addEventListener('scroll', () => {
+    if (!scrollRaf) {
+      scrollRaf = requestAnimationFrame(() => {
+        updateTopButton();
+        scrollRaf = 0;
+      });
+    }
+  }, { passive: true });
   updateTopButton();
 
   const countdown = document.querySelector('[data-countdown]');
