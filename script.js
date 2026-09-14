@@ -2,7 +2,11 @@
   const root = document.documentElement;
   const storageKey = 'tyson-shields-preferences';
   const defaults = { theme: 'navy', accent: 'blue', density: 'spacious', reducedMotion: false };
-  const valid = { theme: ['navy', 'slate', 'light'], accent: ['blue', 'teal', 'white'], density: ['spacious', 'compact'] };
+  const valid = {
+    theme: ['navy', 'slate', 'light'],
+    accent: ['blue', 'teal', 'white'],
+    density: ['spacious', 'compact'],
+  };
   const drawer = document.querySelector('.settings-drawer');
   const backdrop = document.querySelector('.drawer-backdrop');
   const menu = document.querySelector('.menu-toggle');
@@ -18,7 +22,10 @@
   };
 
   if (navLinks && !navLinks.querySelector('.command-trigger')) {
-    navLinks.insertAdjacentHTML('beforeend', '<button class="icon-button command-trigger" type="button" aria-label="Open command palette">⌘K</button>');
+    navLinks.insertAdjacentHTML(
+      'beforeend',
+      '<button class="icon-button command-trigger" type="button" aria-label="Open command palette">⌘K</button>'
+    );
   }
 
   const loadPreferences = () => {
@@ -37,17 +44,28 @@
   preferences.reducedMotion = Boolean(preferences.reducedMotion);
 
   const savePreferences = () => {
-    try { localStorage.setItem(storageKey, JSON.stringify(preferences)); } catch (error) { /* Storage may be unavailable in private browsing. */ }
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(preferences));
+    } catch (error) {
+      /* Storage may be unavailable in private browsing. */
+    }
   };
 
+<<<<<<< HEAD
   const applyPreferences = () => {
     const update = () => { root.dataset.theme = preferences.theme;
+=======
+  const updatePreferenceDom = () => {
+    root.dataset.theme = preferences.theme;
+>>>>>>> efbd431e2a30245a31e92ea3b361e198512027a7
     root.dataset.accent = preferences.accent;
     root.dataset.density = preferences.density;
     root.dataset.reducedMotion = preferences.reducedMotion;
     document.querySelectorAll('[data-setting]').forEach((control) => {
       const setting = control.dataset.setting;
-      const selected = setting === 'motion' ? preferences.reducedMotion : preferences[setting] === control.dataset.value;
+      const selected = setting === 'motion'
+        ? preferences.reducedMotion
+        : preferences[setting] === control.dataset.value;
       control.classList.toggle('is-selected', selected);
       if (control.matches('.toggle')) {
         control.classList.toggle('is-on', preferences.reducedMotion);
@@ -57,6 +75,14 @@
     }); };
     if (document.startViewTransition && !preferences.reducedMotion) document.startViewTransition(update);
     else update();
+  };
+
+  const applyPreferences = () => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => updatePreferenceDom());
+    } else {
+      updatePreferenceDom();
+    }
   };
 
   const setDrawer = (isOpen) => {
@@ -119,7 +145,23 @@
     ['Contact', 'contact.html', 'Start a conversation'],
     ['Resume', 'Tyson-Shields-Resume.html', 'Downloadable career summary']
   ];
+<<<<<<< HEAD
   const paletteMarkup = `<div class="palette-backdrop" data-close-palette></div><dialog class="command-palette" aria-labelledby="palette-title"><div class="palette-header"><h2 id="palette-title">Navigate</h2><button class="icon-button palette-close" type="button" aria-label="Close command palette">×</button></div><label class="sr-only" for="palette-search">Search pages</label><input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off"><div class="palette-results" role="listbox" aria-live="polite" aria-atomic="true"></div><p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p></dialog>`;
+=======
+  const paletteMarkup = [
+    '<div class="palette-backdrop" data-close-palette></div>',
+    '<dialog class="command-palette" aria-labelledby="palette-title">',
+    '<div class="palette-header">',
+    '<h2 id="palette-title">Navigate</h2>',
+    '<button class="icon-button palette-close" type="button" aria-label="Close command palette">×</button>',
+    '</div>',
+    '<label class="sr-only" for="palette-search">Search pages</label>',
+    '<input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off">',
+    '<div class="palette-results" role="listbox"></div>',
+    '<p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p>',
+    '</dialog>',
+  ].join('');
+>>>>>>> efbd431e2a30245a31e92ea3b361e198512027a7
   document.body.insertAdjacentHTML('beforeend', paletteMarkup);
   const palette = document.querySelector('.command-palette');
   const paletteBackdrop = document.querySelector('.palette-backdrop');
@@ -128,13 +170,36 @@
   let paletteIndex = 0;
 
   const renderPalette = (query = '') => {
-    const filtered = commandItems.filter(([name, path, description]) => `${name} ${path} ${description}`.toLowerCase().includes(query.toLowerCase()));
-    paletteResults.innerHTML = filtered.map(([name, path, description], index) => `<a class="palette-result${index === 0 ? ' is-active' : ''}" role="option" href="${path}" data-palette-index="${index}"><strong>${name}</strong><span>${description}</span><b>↗</b></a>`).join('') || '<p class="palette-empty">No matching pages.</p>';
+    const filtered = commandItems.filter(
+      ([name, path, description]) => `${name} ${path} ${description}`.toLowerCase().includes(query.toLowerCase())
+    );
+    paletteResults.innerHTML = filtered
+      .map(
+        ([name, path, description], index) =>
+          `<a class="palette-result${index === 0 ? ' is-active' : ''}" role="option" href="${path}"` +
+          ` data-palette-index="${index}"><strong>${name}</strong><span>${description}</span><b>↗</b></a>`
+      )
+      .join('') || '<p class="palette-empty">No matching pages.</p>';
     paletteIndex = 0;
   };
   const setPalette = (isOpen) => {
+<<<<<<< HEAD
     if (isOpen) { if (drawer?.classList.contains('is-open')) setDrawer(false); paletteReturnFocus = document.activeElement; if (!palette.open) palette.showModal(); paletteBackdrop.classList.add('is-visible'); paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); }
     else { palette.close(); paletteBackdrop.classList.remove('is-visible'); paletteReturnFocus?.focus(); }
+=======
+    if (isOpen) {
+      if (drawer?.classList.contains('is-open')) setDrawer(false);
+      if (!palette.open) palette.showModal();
+      requestAnimationFrame(() => paletteBackdrop.classList.add('is-visible'));
+      paletteSearch.value = '';
+      renderPalette();
+      requestAnimationFrame(() => paletteSearch.focus({ preventScroll: true }));
+    }
+    else {
+      paletteBackdrop.classList.remove('is-visible');
+      if (palette.open) palette.close();
+    }
+>>>>>>> efbd431e2a30245a31e92ea3b361e198512027a7
   };
   const commandTrigger = document.querySelector('.command-trigger');
   commandTrigger?.addEventListener('click', () => { closeMobileNav(); setPalette(true); });
@@ -143,11 +208,22 @@
   paletteSearch.addEventListener('input', () => { clearTimeout(paletteDebounce); paletteDebounce = setTimeout(() => renderPalette(paletteSearch.value), 120); });
   paletteSearch.addEventListener('keydown', (event) => {
     const results = [...paletteResults.querySelectorAll('.palette-result')];
-    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && results.length) { event.preventDefault(); paletteIndex = (paletteIndex + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length; results.forEach((result, index) => result.classList.toggle('is-active', index === paletteIndex)); results[paletteIndex]?.scrollIntoView({ block: 'nearest' }); }
-    if (event.key === 'Enter' && results[paletteIndex]) { event.preventDefault(); window.location.href = results[paletteIndex].href; }
+    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && results.length) {
+      event.preventDefault();
+      paletteIndex = (paletteIndex + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length;
+      results.forEach((result, index) => result.classList.toggle('is-active', index === paletteIndex));
+      results[paletteIndex]?.scrollIntoView({ block: 'nearest' });
+    }
+    if (event.key === 'Enter' && results[paletteIndex]) {
+      event.preventDefault();
+      window.location.href = results[paletteIndex].href;
+    }
     if (event.key === 'Escape') setPalette(false);
   });
-  palette.addEventListener('close', () => paletteBackdrop.classList.remove('is-visible'));
+  palette.addEventListener(
+    'close',
+    () => paletteBackdrop.classList.remove('is-visible')
+  );
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Tab' && drawer?.classList.contains('is-open')) {
       const focusable = [...drawer.querySelectorAll('button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])')].filter((item) => !item.hasAttribute('disabled'));
@@ -163,8 +239,84 @@
       if (drawer?.classList.contains('is-open')) { setDrawer(false); return; }
       closeMobileNav();
     }
-    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); closeMobileNav(); setPalette(true); }
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      closeMobileNav();
+      setPalette(true);
+    }
   });
+
+  const motionOK = () => !preferences.reducedMotion
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const initScrollReveals = () => {
+    const targets = document.querySelectorAll('.reveal');
+    if (!targets.length) return;
+    if (!('IntersectionObserver' in window) || !motionOK()) {
+      targets.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+    const staggerGroups = ['.pillar-grid', '.metric-grid', '.routing-links', '.project-grid', '.skills-grid'];
+    staggerGroups.forEach((sel) => {
+      document.querySelectorAll(sel).forEach((group) => {
+        [...group.children].forEach((child, i) => {
+          child.style.setProperty('--reveal-delay', `${Math.min(i * 90, 540)}ms`);
+        });
+      });
+    });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach((el) => io.observe(el));
+  };
+
+  const initSpotlights = () => {
+    if (!motionOK() || window.matchMedia('(pointer: coarse)').matches) return;
+    const cards = document.querySelectorAll('.project-card, .skill-group, .glass-card');
+    cards.forEach((card) => {
+      let raf = 0;
+      card.addEventListener('pointermove', (e) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--x', `${e.clientX - r.left}px`);
+          card.style.setProperty('--y', `${e.clientY - r.top}px`);
+          raf = 0;
+        });
+      });
+    });
+  };
+
+  const initMagneticButtons = () => {
+    if (!motionOK() || window.matchMedia('(pointer: coarse)').matches) return;
+    document.querySelectorAll('.button').forEach((btn) => {
+      let raf = 0;
+      btn.addEventListener('mousemove', (e) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          const r = btn.getBoundingClientRect();
+          const x = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+          const y = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+          btn.style.setProperty('--mx', `${(x * 6).toFixed(2)}px`);
+          btn.style.setProperty('--my', `${(y * 5).toFixed(2)}px`);
+          raf = 0;
+        });
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.setProperty('--mx', '0px');
+        btn.style.setProperty('--my', '0px');
+      });
+    });
+  };
+
+  initScrollReveals();
+  initSpotlights();
+  initMagneticButtons();
 
   applyPreferences();
 })();
