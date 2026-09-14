@@ -51,13 +51,8 @@
     }
   };
 
-<<<<<<< HEAD
-  const applyPreferences = () => {
-    const update = () => { root.dataset.theme = preferences.theme;
-=======
   const updatePreferenceDom = () => {
     root.dataset.theme = preferences.theme;
->>>>>>> efbd431e2a30245a31e92ea3b361e198512027a7
     root.dataset.accent = preferences.accent;
     root.dataset.density = preferences.density;
     root.dataset.reducedMotion = preferences.reducedMotion;
@@ -72,9 +67,7 @@
         control.setAttribute('aria-checked', String(preferences.reducedMotion));
       }
       if (control.dataset.setting === 'theme') control.setAttribute('aria-expanded', String(selected));
-    }); };
-    if (document.startViewTransition && !preferences.reducedMotion) document.startViewTransition(update);
-    else update();
+    });
   };
 
   const applyPreferences = () => {
@@ -145,9 +138,6 @@
     ['Contact', 'contact.html', 'Start a conversation'],
     ['Resume', 'Tyson-Shields-Resume.html', 'Downloadable career summary']
   ];
-<<<<<<< HEAD
-  const paletteMarkup = `<div class="palette-backdrop" data-close-palette></div><dialog class="command-palette" aria-labelledby="palette-title"><div class="palette-header"><h2 id="palette-title">Navigate</h2><button class="icon-button palette-close" type="button" aria-label="Close command palette">×</button></div><label class="sr-only" for="palette-search">Search pages</label><input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off"><div class="palette-results" role="listbox" aria-live="polite" aria-atomic="true"></div><p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p></dialog>`;
-=======
   const paletteMarkup = [
     '<div class="palette-backdrop" data-close-palette></div>',
     '<dialog class="command-palette" aria-labelledby="palette-title">',
@@ -157,11 +147,10 @@
     '</div>',
     '<label class="sr-only" for="palette-search">Search pages</label>',
     '<input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off">',
-    '<div class="palette-results" role="listbox"></div>',
+    '<div class="palette-results" role="listbox" aria-live="polite" aria-atomic="true"></div>',
     '<p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p>',
     '</dialog>',
   ].join('');
->>>>>>> efbd431e2a30245a31e92ea3b361e198512027a7
   document.body.insertAdjacentHTML('beforeend', paletteMarkup);
   const palette = document.querySelector('.command-palette');
   const paletteBackdrop = document.querySelector('.palette-backdrop');
@@ -183,12 +172,9 @@
     paletteIndex = 0;
   };
   const setPalette = (isOpen) => {
-<<<<<<< HEAD
-    if (isOpen) { if (drawer?.classList.contains('is-open')) setDrawer(false); paletteReturnFocus = document.activeElement; if (!palette.open) palette.showModal(); paletteBackdrop.classList.add('is-visible'); paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); }
-    else { palette.close(); paletteBackdrop.classList.remove('is-visible'); paletteReturnFocus?.focus(); }
-=======
     if (isOpen) {
       if (drawer?.classList.contains('is-open')) setDrawer(false);
+      paletteReturnFocus = document.activeElement;
       if (!palette.open) palette.showModal();
       requestAnimationFrame(() => paletteBackdrop.classList.add('is-visible'));
       paletteSearch.value = '';
@@ -198,8 +184,8 @@
     else {
       paletteBackdrop.classList.remove('is-visible');
       if (palette.open) palette.close();
+      paletteReturnFocus?.focus();
     }
->>>>>>> efbd431e2a30245a31e92ea3b361e198512027a7
   };
   const commandTrigger = document.querySelector('.command-trigger');
   commandTrigger?.addEventListener('click', () => { closeMobileNav(); setPalette(true); });
