@@ -2528,7 +2528,7 @@ html[data-reduced-motion='true'] .reveal {
 }
 
 .principle-grid h3 {
-  margin: 2.5rem 0 .7rem;
+  margin: 0.8rem 0 .7rem;
   font-size: 1.1rem;
 }
 
@@ -2649,7 +2649,8 @@ html[data-reduced-motion='true'] .reveal {
   font-family: var(--serif);
   font-size: clamp(1.8rem, 3.5vw, 3.5rem);
   font-style: italic;
-  line-height: 1.1;
+  line-height: 1.32;
+  padding: 0.25rem 0;
 }
 
 .contact-layout {
@@ -2880,18 +2881,7 @@ html {
 }
 
 .dashboard-screen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.18) 0px,
-    rgba(0, 0, 0, 0.18) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  pointer-events: none;
-  z-index: 3;
+  display: none;
 }
 
 /* 5. Radar sweep conic-gradient loading animation */
@@ -3514,10 +3504,14 @@ body::before {
   background-image: 
     linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background-size: 54px 54px;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.7;
+  opacity: 0.32;
+}
+
+html[data-theme='light'] body::before {
+  opacity: 0.15;
 }
 
 /* 2. Cybernetic Navigation & Header */
@@ -3616,29 +3610,35 @@ h2 em {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
   display: inline-block;
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
+  padding-right: 0.15em;
+  margin-right: -0.15em;
+  vertical-align: top;
 }
 
 .home-hero h1 {
   max-width: 100% !important;
   margin: 1rem 0 1.5rem !important;
   font-size: clamp(2.4rem, 4.2vw, 4rem) !important;
-  line-height: 1.08 !important;
+  line-height: 1.18 !important;
   letter-spacing: -0.02em !important;
 }
 
 .home-hero h1 span {
   display: block;
-  font-size: clamp(1.25rem, 2.2vw, 2.05rem);
+  font-size: clamp(1.2rem, 2.1vw, 1.95rem);
   font-weight: 300;
-  margin-top: 0.45rem;
-  line-height: 1.25;
+  margin-top: 0.5rem;
+  line-height: 1.35;
 }
 
 .page-hero h1 {
-  max-width: 18ch !important;
+  max-width: 26ch !important;
   margin: 0.8rem 0 1.25rem !important;
-  font-size: clamp(2.6rem, 5.2vw, 4.6rem) !important;
-  line-height: 1.06 !important;
+  font-size: clamp(2.4rem, 4.6vw, 4.2rem) !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.02em;
 }
 
 /* 4. Cybernetic Operations Terminal (Dashboard) */
@@ -3747,17 +3747,17 @@ h2 em {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 480px;
-  height: 480px;
-  margin-top: -240px;
-  margin-left: -240px;
+  width: min(290px, 72%);
+  height: min(290px, 72%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   background: conic-gradient(
     from 0deg at 50% 50%,
     transparent 0deg,
     transparent 280deg,
-    rgba(14, 165, 233, 0.12) 340deg,
-    rgba(0, 240, 255, 0.45) 360deg
+    rgba(14, 165, 233, 0.1) 340deg,
+    rgba(0, 240, 255, 0.35) 360deg
   );
   opacity: 0.65;
   animation: radar-sweep 6s linear infinite;
@@ -3767,29 +3767,22 @@ h2 em {
 
 .radar-crosshair {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  width: min(280px, 70%);
+  height: min(280px, 70%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(0, 240, 255, 0.15);
   background: 
-    radial-gradient(circle at 50% 50%, transparent 70px, rgba(0, 240, 255, 0.08) 71px, transparent 72px),
-    radial-gradient(circle at 50% 50%, transparent 140px, rgba(0, 240, 255, 0.08) 141px, transparent 142px),
+    radial-gradient(circle at 50% 50%, transparent 45px, rgba(0, 240, 255, 0.08) 46px, transparent 47px),
+    radial-gradient(circle at 50% 50%, transparent 95px, rgba(0, 240, 255, 0.08) 96px, transparent 97px),
     linear-gradient(to right, transparent calc(50% - 0.5px), rgba(0, 240, 255, 0.12) 50%, transparent calc(50% + 0.5px)),
     linear-gradient(to bottom, transparent calc(50% - 0.5px), rgba(0, 240, 255, 0.12) 50%, transparent calc(50% + 0.5px));
   pointer-events: none;
   z-index: 1;
 }
-
-.radar-degree {
-  position: absolute;
-  font-family: var(--font-hud);
-  font-size: 0.62rem;
-  color: rgba(0, 240, 255, 0.5);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.deg-0 { top: 0.6rem; left: 50%; transform: translateX(-50%); }
-.deg-90 { top: 50%; right: 0.6rem; transform: translateY(-50%); }
-.deg-180 { bottom: 0.6rem; left: 50%; transform: translateX(-50%); }
-.deg-270 { top: 50%; left: 0.6rem; transform: translateY(-50%); }
 
 /* Animated Radar Targets */
 .radar-target {
@@ -3797,16 +3790,16 @@ h2 em {
   top: var(--ty);
   left: var(--tx);
   transform: translate(-50%, -50%);
-  z-index: 3;
+  z-index: 2;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   pointer-events: none;
 }
 
 .target-box {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border: 1.5px solid var(--cyan-neon);
   box-shadow: 0 0 8px var(--cyan-neon);
   animation: target-pulse 2.5s infinite ease-in-out;
@@ -3814,72 +3807,19 @@ h2 em {
 
 @keyframes target-pulse {
   0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
-  50% { transform: scale(1.3) rotate(45deg); opacity: 1; border-color: var(--teal-neon); }
+  50% { transform: scale(1.25) rotate(45deg); opacity: 1; border-color: var(--teal-neon); }
 }
 
 .target-tag {
   font-family: var(--font-hud);
-  font-size: 0.58rem;
+  font-size: 0.6rem;
+  font-weight: 600;
   color: var(--cyan-neon);
-  background: rgba(0, 0, 0, 0.7);
-  padding: 0.1rem 0.35rem;
+  background: rgba(5, 10, 22, 0.85);
+  padding: 0.15rem 0.45rem;
   border: 1px solid var(--hud-border-bright);
-  border-radius: 2px;
+  border-radius: 3px;
   white-space: nowrap;
-}
-
-/* Dynamic Waveform Spectrum Visualizer */
-.screen-spectrum {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 42px;
-  position: absolute;
-  bottom: 1.25rem;
-  left: 1.25rem;
-  z-index: 3;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 0.3rem 0.5rem;
-  border-radius: 4px;
-  border: 1px solid var(--hud-border);
-}
-
-.spectrum-bar {
-  width: 4px;
-  background: linear-gradient(180deg, var(--cyan-neon), var(--teal-neon));
-  border-radius: 1px;
-  box-shadow: 0 0 6px var(--cyan-neon);
-  animation: spectrum-osc 1.4s infinite ease-in-out alternate;
-  animation-delay: var(--d);
-  height: var(--h);
-}
-
-@keyframes spectrum-osc {
-  0% { height: 15%; opacity: 0.4; }
-  50% { height: var(--h); opacity: 1; }
-  100% { height: 95%; opacity: 0.9; }
-}
-
-.screen-label-top {
-  position: absolute;
-  top: 1rem;
-  left: 1.25rem;
-  font-family: var(--font-hud);
-  font-size: 0.64rem;
-  color: var(--text-dim);
-  letter-spacing: 0.08em;
-  z-index: 2;
-}
-
-.screen-label-bottom {
-  position: absolute;
-  bottom: 4.5rem;
-  left: 1.25rem;
-  font-family: var(--font-hud);
-  font-size: 0.62rem;
-  color: var(--text-dim);
-  letter-spacing: 0.08em;
-  z-index: 2;
 }
 
 /* Telemetry Matrix Readout */
@@ -3903,7 +3843,7 @@ h2 em {
 .telemetry-row {
   display: flex;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
 .t-label {
@@ -3921,30 +3861,79 @@ h2 em {
 .text-purple { color: var(--purple-neon) !important; text-shadow: 0 0 8px rgba(168, 85, 247, 0.5); }
 .text-amber { color: var(--amber-neon) !important; text-shadow: 0 0 8px rgba(245, 158, 11, 0.5); }
 
-.screen-hero-text {
+/* Spectrum Visualizer Wrap */
+.screen-spectrum-wrap {
   position: absolute;
-  right: 1.25rem;
   bottom: 1.25rem;
-  text-align: right;
+  left: 1.25rem;
   z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
-.screen-hero-text strong {
-  position: static !important;
-  color: #ffffff !important;
-  font-family: var(--font-hud) !important;
-  font-size: 1.05rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase;
-  line-height: 1.15 !important;
-  display: block;
+.spectrum-label {
+  font-family: var(--font-hud);
+  font-size: 0.58rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  font-weight: 600;
 }
 
-.screen-hero-text em {
-  font-style: normal;
+.screen-spectrum {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 36px;
+  background: rgba(5, 10, 22, 0.75);
+  padding: 0.35rem 0.55rem;
+  border-radius: 4px;
+  border: 1px solid var(--hud-border);
+}
+
+.spectrum-bar {
+  width: 4px;
+  background: linear-gradient(180deg, var(--cyan-neon), var(--teal-neon));
+  border-radius: 1px;
+  box-shadow: 0 0 6px var(--cyan-neon);
+  animation: spectrum-osc 1.4s infinite ease-in-out alternate;
+  animation-delay: var(--d);
+  height: var(--h);
+}
+
+@keyframes spectrum-osc {
+  0% { height: 15%; opacity: 0.4; }
+  50% { height: var(--h); opacity: 1; }
+  100% { height: 95%; opacity: 0.9; }
+}
+
+/* Status Badge */
+.screen-status-badge {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-hud);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   color: var(--cyan-neon);
-  text-shadow: 0 0 10px var(--cyan-glow);
+  background: rgba(5, 10, 22, 0.75);
+  border: 1px solid var(--hud-border);
+  padding: 0.35rem 0.7rem;
+  border-radius: 4px;
+}
+
+.status-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--emerald-neon);
+  box-shadow: 0 0 8px var(--emerald-neon);
+  animation: pulse-glow 1.5s infinite;
 }
 
 .dashboard-footer {
@@ -3985,15 +3974,15 @@ h2 em {
 
 .credential-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
 }
 
 .credential-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.65rem 0.95rem;
+  gap: 0.85rem;
+  padding: 0.75rem 1.1rem;
   border-radius: 8px;
   background: rgba(15, 23, 42, 0.5);
   border: 1px solid var(--hud-border);
@@ -4013,10 +4002,10 @@ html[data-theme='light'] .credential-item {
 
 .credential-badge {
   font-family: var(--font-hud);
-  font-size: 0.64rem;
+  font-size: 0.62rem;
   font-weight: 800;
-  letter-spacing: 0.06em;
-  padding: 0.2rem 0.48rem;
+  letter-spacing: 0.05em;
+  padding: 0.22rem 0.5rem;
   border-radius: 4px;
   background: rgba(0, 240, 255, 0.12);
   color: var(--cyan-neon);
@@ -4026,10 +4015,10 @@ html[data-theme='light'] .credential-item {
 }
 
 .credential-text {
-  font-size: 0.86rem;
+  font-size: 0.88rem;
   color: var(--text-dim);
   min-width: 0;
-  line-height: 1.35;
+  line-height: 1.45;
 }
 
 .credential-text strong {
@@ -4069,12 +4058,12 @@ html[data-theme='light'] .credential-item {
   position: absolute;
   top: -1px;
   left: -1px;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-top: 2px solid var(--cyan-neon);
   border-left: 2px solid var(--cyan-neon);
   border-top-left-radius: 12px;
-  opacity: 0.5;
+  opacity: 0.32;
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
@@ -4089,12 +4078,12 @@ html[data-theme='light'] .credential-item {
   position: absolute;
   bottom: -1px;
   right: -1px;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-bottom: 2px solid var(--cyan-neon);
   border-right: 2px solid var(--cyan-neon);
   border-bottom-right-radius: 12px;
-  opacity: 0.5;
+  opacity: 0.32;
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
@@ -4617,6 +4606,7 @@ html[data-theme='light'] .button-secondary {
 .contact-channel strong {
   font-size: 0.95rem;
   color: var(--text);
+  overflow-wrap: anywhere;
 }
 
 .contact-channel b {
@@ -4629,10 +4619,11 @@ html[data-theme='light'] .button-secondary {
 }
 
 .contact-location small {
-  grid-column: 2;
+  grid-column: 1 / -1;
   color: var(--text-dim);
-  font-size: 0.78rem;
-  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  margin-top: 0.35rem;
+  line-height: 1.4;
 }
 
 .email-text {
@@ -4707,6 +4698,7 @@ html[data-theme='light'] .contact-form-card textarea {
 
 .cyber-btn {
   clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  padding: 0.85rem 1.85rem !important;
 }
 
 /* 14. Responsive Media Queries */
@@ -4734,40 +4726,28 @@ html[data-theme='light'] .contact-form-card textarea {
 
 @media (max-width: 640px) {
   .dashboard-screen {
-    min-height: 350px !important;
+    min-height: 330px !important;
     padding: 1rem !important;
   }
   .telemetry-matrix {
     font-size: 0.62rem;
-    padding: 0.4rem 0.65rem;
+    padding: 0.45rem 0.65rem;
     top: 0.75rem;
     right: 0.75rem;
   }
-  .screen-label-top {
-    top: 0.75rem;
+  .screen-spectrum-wrap {
+    bottom: 0.75rem;
     left: 0.75rem;
-    font-size: 0.56rem;
-  }
-  .screen-label-bottom {
-    bottom: 3.8rem;
-    left: 0.75rem;
-    font-size: 0.56rem;
   }
   .screen-spectrum {
-    bottom: 0.75rem;
-    left: 0.75rem;
-    height: 36px;
-    padding: 0.2rem 0.35rem;
+    height: 30px;
+    padding: 0.25rem 0.45rem;
   }
-  .screen-hero-text {
+  .screen-status-badge {
     bottom: 0.75rem;
     right: 0.75rem;
-  }
-  .screen-hero-text strong {
-    font-size: 0.88rem !important;
-  }
-  .radar-degree {
-    display: none;
+    font-size: 0.56rem;
+    padding: 0.3rem 0.55rem;
   }
   .contact-channel {
     grid-template-columns: 1fr auto;

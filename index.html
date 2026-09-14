@@ -52,21 +52,11 @@
         </div>
         <div class="dashboard-screen">
           <div class="screen-radar"></div>
-          <div class="screen-orbit"></div>
-          <div class="screen-grid"></div>
           <div class="radar-crosshair"></div>
-          <div class="radar-degree deg-0">000°</div>
-          <div class="radar-degree deg-90">090°</div>
-          <div class="radar-degree deg-180">180°</div>
-          <div class="radar-degree deg-270">270°</div>
 
-          <div class="radar-target" style="--tx: 34%; --ty: 36%;">
+          <div class="radar-target" style="--tx: 38%; --ty: 46%;">
             <span class="target-box"></span>
             <span class="target-tag">SIG_01: ETL_CORE</span>
-          </div>
-          <div class="radar-target" style="--tx: 70%; --ty: 24%;">
-            <span class="target-box"></span>
-            <span class="target-tag">SIG_02: 10/11_LIVE</span>
           </div>
 
           <div class="telemetry-matrix">
@@ -76,25 +66,23 @@
             <div class="telemetry-row"><span class="t-label">PIPELINE:</span><span class="t-val text-cyan">SYNCHRONIZED</span></div>
           </div>
 
-          <div class="screen-spectrum" aria-hidden="true">
-            <span class="spectrum-bar" style="--h: 45%; --d: 0.1s;"></span>
-            <span class="spectrum-bar" style="--h: 80%; --d: 0.3s;"></span>
-            <span class="spectrum-bar" style="--h: 30%; --d: 0.15s;"></span>
-            <span class="spectrum-bar" style="--h: 95%; --d: 0.4s;"></span>
-            <span class="spectrum-bar" style="--h: 60%; --d: 0.25s;"></span>
-            <span class="spectrum-bar" style="--h: 100%; --d: 0.5s;"></span>
-            <span class="spectrum-bar" style="--h: 75%; --d: 0.35s;"></span>
-            <span class="spectrum-bar" style="--h: 40%; --d: 0.2s;"></span>
-            <span class="spectrum-bar" style="--h: 85%; --d: 0.45s;"></span>
-            <span class="spectrum-bar" style="--h: 65%; --d: 0.3s;"></span>
-            <span class="spectrum-bar" style="--h: 90%; --d: 0.4s;"></span>
-            <span class="spectrum-bar" style="--h: 50%; --d: 0.25s;"></span>
+          <div class="screen-spectrum-wrap">
+            <span class="spectrum-label">SIGNAL SPECTRUM</span>
+            <div class="screen-spectrum" aria-hidden="true">
+              <span class="spectrum-bar" style="--h: 45%; --d: 0.1s;"></span>
+              <span class="spectrum-bar" style="--h: 80%; --d: 0.3s;"></span>
+              <span class="spectrum-bar" style="--h: 30%; --d: 0.15s;"></span>
+              <span class="spectrum-bar" style="--h: 95%; --d: 0.4s;"></span>
+              <span class="spectrum-bar" style="--h: 60%; --d: 0.25s;"></span>
+              <span class="spectrum-bar" style="--h: 100%; --d: 0.5s;"></span>
+              <span class="spectrum-bar" style="--h: 75%; --d: 0.35s;"></span>
+              <span class="spectrum-bar" style="--h: 45%; --d: 0.2s;"></span>
+            </div>
           </div>
 
-          <span class="screen-label screen-label-top">SYS_ARCH // HYBRID_CORE</span>
-          <span class="screen-label screen-label-bottom">STABILITY // 99.99% NOMINAL</span>
-          <div class="screen-hero-text">
-            <strong>signal<br><em>found</em></strong>
+          <div class="screen-status-badge">
+            <span class="status-pulse-dot"></span>
+            <span>TELEMETRY LOCK // OPTIMAL</span>
           </div>
         </div>
         <div class="dashboard-footer">
