@@ -1591,7 +1591,7 @@ html[data-reduced-motion='true'] *::after {
 .project-card:hover, .skill-group:hover {
   border-color: rgba(255, 255, 255, .16);
   transform: translateY(-5px);
-  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .1), 0 0 0 1px var(--accent-soft);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .1), 0 0 0 1px var(--accent-soft), 0 0 44px -14px var(--accent-soft);
 }
 
 .button, .filter-bar, .choice-grid button, .reset-button {
