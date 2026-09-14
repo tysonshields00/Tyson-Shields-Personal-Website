@@ -52,31 +52,33 @@
     if (isOpen) drawer.querySelector('.drawer-close').focus();
   };
 
-  document.querySelector('.settings-trigger').addEventListener('click', () => setDrawer(true));
-  document.querySelector('.drawer-close').addEventListener('click', () => setDrawer(false));
-  backdrop.addEventListener('click', () => setDrawer(false));
-  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') setDrawer(false); });
+  if (drawer && backdrop) {
+    document.querySelector('.settings-trigger')?.addEventListener('click', () => setDrawer(true));
+    drawer.querySelector('.drawer-close')?.addEventListener('click', () => setDrawer(false));
+    backdrop.addEventListener('click', () => setDrawer(false));
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') setDrawer(false); });
 
-  document.querySelectorAll('[data-setting]').forEach((control) => {
-    control.addEventListener('click', () => {
-      if (control.dataset.setting === 'motion') preferences.reducedMotion = !preferences.reducedMotion;
-      else preferences[control.dataset.setting] = control.dataset.value;
+    document.querySelectorAll('[data-setting]').forEach((control) => {
+      control.addEventListener('click', () => {
+        if (control.dataset.setting === 'motion') preferences.reducedMotion = !preferences.reducedMotion;
+        else preferences[control.dataset.setting] = control.dataset.value;
+        applyPreferences();
+        savePreferences();
+      });
+    });
+
+    document.querySelector('[data-reset]')?.addEventListener('click', () => {
+      preferences = { ...defaults };
       applyPreferences();
       savePreferences();
     });
-  });
+  }
 
-  document.querySelector('[data-reset]').addEventListener('click', () => {
-    preferences = { ...defaults };
-    applyPreferences();
-    savePreferences();
-  });
-
-  menu.addEventListener('click', () => {
+  menu?.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('is-open');
     menu.setAttribute('aria-expanded', String(isOpen));
   });
-  navLinks.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+  navLinks?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
     navLinks.classList.remove('is-open');
     menu.setAttribute('aria-expanded', 'false');
   }));
