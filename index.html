@@ -45,21 +45,28 @@
             <span class="hud-indicator-dot"></span>
             <span class="dash-title">OPERATIONS COMMAND // RADAR INTERCEPT</span>
           </div>
-          <div class="dashboard-live">
-            <span class="live-pulse"></span>
-            <span id="dashboard-clock">ONLINE</span>
+          <div class="dashboard-controls">
+            <button type="button" class="radar-audio-btn" id="radar-audio-btn" aria-label="Toggle Radar Audio" title="Mute/Unmute Audio">
+              <span class="audio-icon" id="audio-icon">🔊</span>
+            </button>
+            <div class="dashboard-live">
+              <span class="live-pulse"></span>
+              <span id="dashboard-clock">ONLINE</span>
+            </div>
           </div>
         </div>
-        <div class="dashboard-screen" id="radar-screen" tabindex="0" role="application" aria-label="Interactive Radar Intercept Game">
+        <div class="dashboard-screen" id="radar-screen" tabindex="0" role="application" aria-label="Interactive Radar Intercept Game (Click or Tap to Play)">
           <div class="screen-radar" id="radar-sweep"></div>
           <div class="radar-crosshair"></div>
 
-          <!-- Dynamic Game Layer for Targets and Shockwaves -->
-          <div class="radar-game-layer" id="radar-game-layer">
-            <div class="radar-target" style="--tx: 38%; --ty: 46%;">
-              <span class="target-box"></span>
-              <span class="target-tag">SIG_01: ETL_CORE</span>
-            </div>
+          <!-- Dynamic Game Layer for Targets, Laser Pings and Shockwaves -->
+          <div class="radar-game-layer" id="radar-game-layer"></div>
+
+          <!-- Idle Play Callout / Mission Banner -->
+          <div class="radar-idle-banner" id="radar-idle-banner">
+            <span class="idle-ping-ring"></span>
+            <span class="idle-title">▶ CLICK RADAR TO DEFEND</span>
+            <span class="idle-subtitle">TAP ANOMALIES · CHAIN COMBOS · 30s SURVIVAL</span>
           </div>
 
           <!-- Telemetry Matrix with Live Game Stats -->
@@ -68,6 +75,7 @@
             <div class="telemetry-row"><span class="t-label">SCORE:</span><span class="t-val text-cyan" id="radar-score">0</span></div>
             <div class="telemetry-row"><span class="t-label">HIGH:</span><span class="t-val text-emerald" id="radar-high">0</span></div>
             <div class="telemetry-row"><span class="t-label">TIME:</span><span class="t-val text-amber" id="radar-timer">30s</span></div>
+            <div class="telemetry-row combo-row"><span class="t-label">COMBO:</span><span class="t-val text-teal" id="radar-combo">1x</span></div>
           </div>
 
           <!-- Audio / Signal Spectrum Visualizer -->
@@ -98,6 +106,7 @@
             <div class="debrief-card">
               <span class="debrief-kicker">MISSION COMPLETE</span>
               <h3 class="debrief-score" id="debrief-score">SCORE: 0</h3>
+              <p class="debrief-stat" id="debrief-stat">INTERCEPTS: 0 · BEST COMBO: 1x</p>
               <p class="debrief-rank" id="debrief-rank">RANK: CYBER OPERATIVE</p>
               <button type="button" class="button button-primary cyber-btn" id="radar-retry-btn">REDEPLOY SIM <span>↻</span></button>
             </div>
@@ -109,7 +118,7 @@
             <span class="status-chip">MEDIA</span>
             <span class="status-chip">INFRA</span>
           </div>
-          <span class="channel-readout" id="radar-status-msg">CLICK RADAR TARGETS TO INTERCEPT ANOMALIES</span>
+          <span class="channel-readout" id="radar-status-msg">CLICK ANYWHERE ON RADAR TO START INTERCEPT SIM</span>
         </div>
       </div>
     </section>

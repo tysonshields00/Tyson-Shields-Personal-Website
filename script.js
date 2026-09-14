@@ -631,15 +631,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const initRadarGame = () => {
     const screen = document.getElementById('radar-screen');
     const layer = document.getElementById('radar-game-layer');
+    const idleBanner = document.getElementById('radar-idle-banner');
     const startBtn = document.getElementById('radar-start-btn');
     const btnText = document.getElementById('radar-btn-text');
     const scoreEl = document.getElementById('radar-score');
     const highEl = document.getElementById('radar-high');
     const timerEl = document.getElementById('radar-timer');
+    const comboEl = document.getElementById('radar-combo');
     const debrief = document.getElementById('radar-debrief');
     const debriefScore = document.getElementById('debrief-score');
+    const debriefStat = document.getElementById('debrief-stat');
     const debriefRank = document.getElementById('debrief-rank');
     const retryBtn = document.getElementById('radar-retry-btn');
+    const audioBtn = document.getElementById('radar-audio-btn');
+    const audioIcon = document.getElementById('audio-icon');
     const radarSweep = document.getElementById('radar-sweep');
     const statusMsg = document.getElementById('radar-status-msg');
 
@@ -650,62 +655,118 @@ document.addEventListener('DOMContentLoaded', () => {
     let highScore = parseInt(localStorage.getItem('ts-radar-high-score') || '0', 10);
     let timeLeft = 30;
     let combo = 1;
+    let maxCombo = 1;
+    let interceptsCount = 0;
     let comboTimer = null;
     let gameTimer = null;
     let spawnTimer = null;
-    const activeTargets = new Set();
+    let audioCtx = null;
+    let audioMuted = localStorage.getItem('ts-radar-audio-muted') === 'true';
+
+    // Update initial audio button icon
+    if (audioIcon) {
+      audioIcon.textContent = audioMuted ? '🔇' : '🔊';
+    }
+    if (audioBtn) {
+      audioBtn.setAttribute('aria-pressed', String(!audioMuted));
+      audioBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        audioMuted = !audioMuted;
+        localStorage.setItem('ts-radar-audio-muted', String(audioMuted));
+        if (audioIcon) audioIcon.textContent = audioMuted ? '🔇' : '🔊';
+        audioBtn.setAttribute('aria-pressed', String(!audioMuted));
+      });
+    }
 
     if (highEl) highEl.textContent = String(highScore);
 
-    // Lightweight Web Audio API Synthesizer (0 KB assets)
-    const playAudio = (type) => {
+    // Dynamic target pool
+    const activeTargets = new Map(); // id -> { id, el, x, y, type, points, timeout }
+    let targetCounter = 0;
+
+    // High-performance 0 KB Web Audio API Synthesizer
+    const playAudio = (type, pitchMultiplier = 1) => {
+      if (audioMuted) return;
       try {
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         if (!AudioContextClass) return;
-        const ctx = new AudioContextClass();
-        if (ctx.state === 'suspended') ctx.resume();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+        if (!audioCtx) {
+          audioCtx = new AudioContextClass();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
         osc.connect(gain);
-        gain.connect(ctx.destination);
-        const now = ctx.currentTime;
+        gain.connect(audioCtx.destination);
 
         if (type === 'hit') {
+          const baseFreq = 480 * pitchMultiplier;
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(540, now);
-          osc.frequency.exponentialRampToValueAtTime(920, now + 0.08);
-          gain.gain.setValueAtTime(0.12, now);
+          osc.frequency.setValueAtTime(baseFreq, now);
+          osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.6, now + 0.08);
+          gain.gain.setValueAtTime(0.14, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
           osc.start(now);
           osc.stop(now + 0.1);
         } else if (type === 'bonus') {
+          // Triad power chord arpeggio
+          const freqs = [523.25, 659.25, 783.99, 1046.5];
+          freqs.forEach((f, idx) => {
+            const subOsc = audioCtx.createOscillator();
+            const subGain = audioCtx.createGain();
+            subOsc.type = 'triangle';
+            subOsc.frequency.setValueAtTime(f, now + idx * 0.045);
+            subGain.gain.setValueAtTime(0.12, now + idx * 0.045);
+            subGain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.045 + 0.12);
+            subOsc.connect(subGain);
+            subGain.connect(audioCtx.destination);
+            subOsc.start(now + idx * 0.045);
+            subOsc.stop(now + idx * 0.045 + 0.14);
+          });
+        } else if (type === 'miss') {
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(523.25, now);
-          osc.frequency.setValueAtTime(659.25, now + 0.05);
-          osc.frequency.setValueAtTime(783.99, now + 0.1);
-          gain.gain.setValueAtTime(0.15, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+          osc.frequency.setValueAtTime(240, now);
+          osc.frequency.exponentialRampToValueAtTime(140, now + 0.07);
+          gain.gain.setValueAtTime(0.05, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
           osc.start(now);
-          osc.stop(now + 0.2);
+          osc.stop(now + 0.08);
+        } else if (type === 'laser') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(880, now);
+          osc.frequency.exponentialRampToValueAtTime(320, now + 0.06);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+          osc.start(now);
+          osc.stop(now + 0.07);
         } else if (type === 'start') {
           osc.type = 'sawtooth';
           osc.frequency.setValueAtTime(280, now);
-          osc.frequency.exponentialRampToValueAtTime(840, now + 0.16);
-          gain.gain.setValueAtTime(0.08, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+          osc.frequency.exponentialRampToValueAtTime(840, now + 0.18);
+          gain.gain.setValueAtTime(0.1, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
           osc.start(now);
-          osc.stop(now + 0.18);
+          osc.stop(now + 0.2);
         } else if (type === 'over') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(440, now);
-          osc.frequency.exponentialRampToValueAtTime(220, now + 0.28);
-          gain.gain.setValueAtTime(0.12, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-          osc.start(now);
-          osc.stop(now + 0.3);
+          const notes = [440, 370, 311, 220];
+          notes.forEach((f, idx) => {
+            const subOsc = audioCtx.createOscillator();
+            const subGain = audioCtx.createGain();
+            subOsc.type = 'sine';
+            subOsc.frequency.setValueAtTime(f, now + idx * 0.07);
+            subGain.gain.setValueAtTime(0.12, now + idx * 0.07);
+            subGain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.15);
+            subOsc.connect(subGain);
+            subGain.connect(audioCtx.destination);
+            subOsc.start(now + idx * 0.07);
+            subOsc.stop(now + idx * 0.07 + 0.16);
+          });
         }
       } catch (e) {
-        // Gracefully ignore audio errors if disabled
+        // Fallback gracefully if audio permissions are denied
       }
     };
 
@@ -717,144 +778,269 @@ document.addEventListener('DOMContentLoaded', () => {
       '404_DRIFT',
       'RUNDOWN_DELAY',
       'API_TIMEOUT',
-      'NULL_POINTER',
+      'NULL_PTR_EXCP',
+      'BUFFER_OVERFLOW',
     ];
 
     const rogueAnomalies = [
       'ROGUE_PACKET // RED',
       'ZERO_DAY // CRIT',
       'DDOS_BURST // 10G',
+      'HOSTILE_PROBE',
     ];
 
     const bonusRelays = [
       '[POWER_QUERY_SYNC]',
       '[PYTHON_ETL_CORE]',
       '[PROXMOX_NODE]',
-      '[10/11_LIVE_FEED]',
+      '[LIVE_FEED_10/11]',
     ];
 
-    const showHitEffect = (xPercent, yPercent, points, isBonus) => {
-      // Create expanding shockwave ripple
+    // Visual ripple effect at coordinate
+    const showHitEffect = (px, py, points, isBonus, isComboBonus) => {
       const ripple = document.createElement('div');
       ripple.className = 'radar-hit-ripple';
-      ripple.style.setProperty('--rx', `${xPercent}%`);
-      ripple.style.setProperty('--ry', `${yPercent}%`);
-      if (isBonus) ripple.style.borderColor = '#10b981';
+      ripple.style.left = `${px}px`;
+      ripple.style.top = `${py}px`;
+      if (isBonus) {
+        ripple.style.borderColor = '#10b981';
+        ripple.style.boxShadow = '0 0 16px rgba(16, 185, 129, 0.8)';
+      }
       layer.appendChild(ripple);
       setTimeout(() => ripple.remove(), 480);
 
-      // Create floating score popup
       const popup = document.createElement('div');
       popup.className = 'radar-score-popup';
-      popup.style.setProperty('--px', `${xPercent}%`);
-      popup.style.setProperty('--py', `${yPercent}%`);
-      popup.textContent = combo > 1 ? `+${points} (${combo}x)` : `+${points}`;
+      popup.style.left = `${px}px`;
+      popup.style.top = `${py}px`;
       if (isBonus) {
         popup.style.color = '#10b981';
-        popup.textContent = `+${points} BONUS!`;
+        popup.style.borderColor = '#10b981';
+        popup.textContent = `+${points} CORE SYNC (+3s)!`;
+      } else if (isComboBonus) {
+        popup.textContent = `+${points} (${combo}x COMBO!)`;
+      } else {
+        popup.textContent = `+${points}`;
       }
       layer.appendChild(popup);
-      setTimeout(() => popup.remove(), 680);
+      setTimeout(() => popup.remove(), 720);
+    };
+
+    // Visual laser firing feedback at click coordinate
+    const showLaserPing = (px, py, isHit) => {
+      const ping = document.createElement('div');
+      ping.className = isHit ? 'radar-laser-burst' : 'radar-miss-ping';
+      ping.style.left = `${px}px`;
+      ping.style.top = `${py}px`;
+      layer.appendChild(ping);
+      setTimeout(() => ping.remove(), 350);
+    };
+
+    const removeTarget = (id) => {
+      const target = activeTargets.get(id);
+      if (target) {
+        clearTimeout(target.timeout);
+        target.el.remove();
+        activeTargets.delete(id);
+      }
     };
 
     const spawnTarget = () => {
       if (!layer) return;
-      if (activeTargets.size >= (isPlaying ? 4 : 2)) return;
+      const maxActive = isPlaying ? 4 : 2;
+      if (activeTargets.size >= maxActive) return;
 
-      // Polar coordinates centered in radar circle (30% to 75% radius)
+      const rect = screen.getBoundingClientRect();
+      const width = rect.width || 340;
+      const height = rect.height || 260;
+      const centerX = width / 2;
+      const centerY = height / 2;
+
+      // Safe radar radius (stay inside circular boundary)
+      const maxRadius = Math.min(centerX, centerY) * 0.78;
+      const minRadius = maxRadius * 0.22;
       const angle = Math.random() * Math.PI * 2;
-      const radiusPercent = 18 + Math.random() * 24; // percentage offset from center
-      const tx = Math.round(50 + Math.cos(angle) * radiusPercent);
-      const ty = Math.round(50 + Math.sin(angle) * radiusPercent);
+      const dist = minRadius + Math.random() * (maxRadius - minRadius);
+
+      const posX = Math.round(centerX + Math.cos(angle) * dist);
+      const posY = Math.round(centerY + Math.sin(angle) * dist);
 
       const roll = Math.random();
       let type = 'normal';
       let tagText = normalAnomalies[Math.floor(Math.random() * normalAnomalies.length)];
       let basePoints = 100;
-      let duration = 3800;
+      let duration = 3600;
 
-      if (roll < 0.15) {
+      if (roll < 0.14) {
         type = 'bonus';
         tagText = bonusRelays[Math.floor(Math.random() * bonusRelays.length)];
         basePoints = 300;
         duration = 3200;
-      } else if (roll < 0.35) {
+      } else if (roll < 0.36) {
         type = 'rogue';
         tagText = rogueAnomalies[Math.floor(Math.random() * rogueAnomalies.length)];
         basePoints = 175;
-        duration = 2800;
+        duration = 2900;
       }
 
+      const id = ++targetCounter;
       const targetEl = document.createElement('div');
       targetEl.className = `radar-target target-${type}`;
-      targetEl.style.setProperty('--tx', `${tx}%`);
-      targetEl.style.setProperty('--ty', `${ty}%`);
+      targetEl.style.left = `${posX}px`;
+      targetEl.style.top = `${posY}px`;
       targetEl.setAttribute('role', 'button');
       targetEl.setAttribute('tabindex', '0');
-      targetEl.setAttribute('aria-label', `Intercept ${tagText}`);
+      targetEl.setAttribute('aria-label', `Target: ${tagText}`);
+      targetEl.dataset.targetId = String(id);
 
       targetEl.innerHTML = `
         <span class="target-box"><span class="target-timer-ring"></span></span>
         <span class="target-tag">${tagText}</span>
       `;
 
-      const removeTarget = () => {
-        if (activeTargets.has(targetEl)) {
-          activeTargets.delete(targetEl);
-          targetEl.remove();
+      layer.appendChild(targetEl);
+
+      const timeout = setTimeout(() => {
+        if (activeTargets.has(id)) {
+          targetEl.style.opacity = '0';
+          setTimeout(() => {
+            removeTarget(id);
+            if (isPlaying) {
+              combo = 1;
+              if (comboEl) comboEl.textContent = '1x';
+              setTimeout(spawnTarget, 300);
+            }
+          }, 180);
         }
-      };
+      }, duration);
 
-      const handleIntercept = (e) => {
-        e.stopPropagation();
-        if (!activeTargets.has(targetEl)) return;
+      activeTargets.set(id, {
+        id,
+        el: targetEl,
+        x: posX,
+        y: posY,
+        type,
+        points: basePoints,
+        timeout
+      });
+    };
 
-        playAudio(type === 'bonus' ? 'bonus' : 'hit');
+    // Core Intercept Mechanics (proximity detection + laser fire)
+    const handleScreenClick = (clientX, clientY) => {
+      const rect = screen.getBoundingClientRect();
+      const clickX = clientX - rect.left;
+      const clickY = clientY - rect.top;
 
-        // Combo system
-        combo = Math.min(combo + 1, 4);
-        clearTimeout(comboTimer);
-        comboTimer = setTimeout(() => { combo = 1; }, 2500);
+      // If game is not active, start it right now!
+      if (!isPlaying) {
+        startGame();
+      }
 
-        const totalEarned = basePoints * (type === 'bonus' ? 1 : combo);
-        score += totalEarned;
-        if (scoreEl) scoreEl.textContent = String(score);
+      // Proximity detection: find closest target within 55px
+      let closestTarget = null;
+      let minDistance = 56; // 56px proximity threshold
 
-        showHitEffect(tx, ty, totalEarned, type === 'bonus');
-        removeTarget();
-
-        // If not already playing, auto-start game for instant gratification!
-        if (!isPlaying) {
-          startGame();
-        } else {
-          // Immediately spawn a replacement target
-          setTimeout(spawnTarget, 200);
-        }
-      };
-
-      targetEl.addEventListener('click', handleIntercept);
-      targetEl.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          handleIntercept(e);
+      activeTargets.forEach((target) => {
+        const dx = target.x - clickX;
+        const dy = target.y - clickY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestTarget = target;
         }
       });
 
-      layer.appendChild(targetEl);
-      activeTargets.add(targetEl);
+      if (closestTarget) {
+        // HIT!
+        interceptsCount += 1;
+        const isBonus = closestTarget.type === 'bonus';
 
-      // Auto-expire target if not intercepted
-      setTimeout(() => {
-        if (activeTargets.has(targetEl)) {
-          targetEl.style.opacity = '0';
-          setTimeout(removeTarget, 200);
-          if (isPlaying) {
-            combo = 1; // reset combo on missed target
-            setTimeout(spawnTarget, 400);
+        if (isBonus) {
+          // Bonus time reward (+3s, max 45s)
+          timeLeft = Math.min(timeLeft + 3, 45);
+          if (timerEl) {
+            timerEl.textContent = `${timeLeft}s`;
+            timerEl.classList.add('timer-boost');
+            setTimeout(() => timerEl.classList.remove('timer-boost'), 500);
+          }
+          playAudio('bonus');
+        } else {
+          // Combo progression
+          combo = Math.min(combo + 1, 4);
+          if (combo > maxCombo) maxCombo = combo;
+          playAudio('hit', 1 + (combo - 1) * 0.22);
+        }
+
+        clearTimeout(comboTimer);
+        comboTimer = setTimeout(() => {
+          combo = 1;
+          if (comboEl) comboEl.textContent = '1x';
+        }, 2400);
+
+        if (comboEl) {
+          comboEl.textContent = combo > 1 ? `${combo}x` : '1x';
+          comboEl.classList.toggle('combo-active', combo > 1);
+        }
+
+        const pointsEarned = closestTarget.points * (isBonus ? 1 : combo);
+        score += pointsEarned;
+        if (scoreEl) scoreEl.textContent = String(score);
+
+        showLaserPing(clickX, clickY, true);
+        showHitEffect(closestTarget.x, closestTarget.y, pointsEarned, isBonus, combo > 1);
+        removeTarget(closestTarget.id);
+
+        if (statusMsg) {
+          statusMsg.textContent = isBonus
+            ? `CORE SYNCHRONIZED · +${pointsEarned} PTS · +3s EXTENSION`
+            : `TARGET ELIMINATED · +${pointsEarned} PTS · ${combo}x COMBO`;
+        }
+
+        // Fast respawn for fluid action
+        setTimeout(spawnTarget, 220);
+      } else {
+        // MISS!
+        playAudio('miss');
+        showLaserPing(clickX, clickY, false);
+        combo = 1;
+        if (comboEl) {
+          comboEl.textContent = '1x';
+          comboEl.classList.remove('combo-active');
+        }
+      }
+    };
+
+    // Pointer events on radar screen for mouse + mobile touch
+    screen.addEventListener('pointerdown', (e) => {
+      // Don't intercept if clicking audio button or retry button
+      if (e.target.closest('#radar-audio-btn') || e.target.closest('#radar-retry-btn')) {
+        return;
+      }
+      e.preventDefault();
+      handleScreenClick(e.clientX, e.clientY);
+    });
+
+    // Keyboard controls (Spacebar or Enter to intercept nearest anomaly)
+    screen.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        if (!isPlaying) {
+          startGame();
+          return;
+        }
+        // Fire at closest target or screen center
+        if (activeTargets.size > 0) {
+          const firstTarget = activeTargets.values().next().value;
+          if (firstTarget) {
+            const rect = screen.getBoundingClientRect();
+            handleScreenClick(rect.left + firstTarget.x, rect.top + firstTarget.y);
+            return;
           }
         }
-      }, duration);
-    };
+        const rect = screen.getBoundingClientRect();
+        handleScreenClick(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      }
+    });
 
     const startGame = () => {
       if (isPlaying) return;
@@ -862,28 +1048,40 @@ document.addEventListener('DOMContentLoaded', () => {
       score = 0;
       timeLeft = 30;
       combo = 1;
+      maxCombo = 1;
+      interceptsCount = 0;
 
       if (scoreEl) scoreEl.textContent = '0';
       if (timerEl) timerEl.textContent = '30s';
+      if (comboEl) {
+        comboEl.textContent = '1x';
+        comboEl.classList.remove('combo-active');
+      }
       if (btnText) btnText.textContent = 'DEFENSE ACTIVE...';
-      if (statusMsg) statusMsg.textContent = 'INTERCEPT ALL ROGUE SIGNALS // 30s MISSION';
+      if (statusMsg) statusMsg.textContent = 'INTERCEPT INCOMING ANOMALIES // 30s SURVIVAL';
       if (debrief) debrief.hidden = true;
+      if (idleBanner) idleBanner.classList.add('is-hidden');
       if (radarSweep) radarSweep.classList.add('is-playing');
 
       playAudio('start');
 
       // Clear existing targets and spawn initial wave
-      activeTargets.forEach((t) => t.remove());
+      activeTargets.forEach((t) => {
+        clearTimeout(t.timeout);
+        t.el.remove();
+      });
       activeTargets.clear();
 
       spawnTarget();
-      setTimeout(spawnTarget, 300);
-      setTimeout(spawnTarget, 700);
+      setTimeout(spawnTarget, 250);
+      setTimeout(spawnTarget, 600);
 
       clearInterval(spawnTimer);
       spawnTimer = setInterval(() => {
-        if (isPlaying && activeTargets.size < 4) spawnTarget();
-      }, 950);
+        if (isPlaying && activeTargets.size < 4) {
+          spawnTarget();
+        }
+      }, 850);
 
       clearInterval(gameTimer);
       gameTimer = setInterval(() => {
@@ -900,10 +1098,12 @@ document.addEventListener('DOMContentLoaded', () => {
       isPlaying = false;
       clearInterval(gameTimer);
       clearInterval(spawnTimer);
+      clearTimeout(comboTimer);
 
       if (radarSweep) radarSweep.classList.remove('is-playing');
       if (timerEl) timerEl.textContent = '0s';
       if (btnText) btnText.textContent = 'INTERCEPT SIM [START]';
+      if (idleBanner) idleBanner.classList.remove('is-hidden');
 
       playAudio('over');
 
@@ -915,29 +1115,46 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Rank calculation
-      let rank = 'TELEMETRY ANALYST // C-TIER';
-      if (score >= 2200) rank = 'CYBER EXECUTIVE // S-TIER';
-      else if (score >= 1500) rank = 'SYSTEMS ARCHITECT // A-TIER';
-      else if (score >= 900) rank = 'DATA ENGINEER // B-TIER';
+      let rank = 'TELEMETRY OPERATIVE // C-TIER';
+      if (score >= 2600) rank = 'DEFENSE ARCHITECT // SSS-TIER';
+      else if (score >= 1800) rank = 'CYBER COMMANDER // S-TIER';
+      else if (score >= 1100) rank = 'SYSTEMS SPECIALIST // A-TIER';
+      else if (score >= 600) rank = 'DATA ANALYST // B-TIER';
 
       if (debriefScore) debriefScore.textContent = `SCORE: ${score}`;
-      if (debriefRank) debriefRank.textContent = rank;
+      if (debriefStat) debriefStat.textContent = `INTERCEPTS: ${interceptsCount} · MAX COMBO: ${maxCombo}x`;
+      if (debriefRank) debriefRank.textContent = `RANK: ${rank}`;
       if (debrief) debrief.hidden = false;
 
       if (statusMsg) statusMsg.textContent = `MISSION COMPLETE · FINAL SCORE: ${score} · ${rank}`;
 
-      // Reset to idle target after a brief delay
+      // Reset to idle target after brief delay
       setTimeout(() => {
-        activeTargets.forEach((t) => t.remove());
+        activeTargets.forEach((t) => {
+          clearTimeout(t.timeout);
+          t.el.remove();
+        });
         activeTargets.clear();
         spawnTarget();
-      }, 1200);
+      }, 1000);
     };
 
-    startBtn?.addEventListener('click', startGame);
-    retryBtn?.addEventListener('click', () => {
+    startBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      startGame();
+    });
+
+    retryBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (debrief) debrief.hidden = true;
       startGame();
+    });
+
+    // Close debrief modal on Escape key
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && debrief && !debrief.hidden) {
+        debrief.hidden = true;
+      }
     });
 
     // Spawn 1 initial idle target on page load
