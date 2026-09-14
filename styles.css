@@ -5379,42 +5379,45 @@ html[data-theme='light'] .contact-form-card textarea {
 }
 
 /* ==========================================================================
-   ACCESSIBILITY & TOUCH TARGET STANDARDS (WCAG AA - 44x44px Minimum)
+   ACCESSIBILITY & TOUCH TARGET STANDARDS (WCAG AA - 44x44px Hit Area)
    ========================================================================== */
-button,
 .button,
 .filter-button,
-.icon-button,
-.settings-trigger,
-.menu-toggle,
-.social-links a,
-.nav-links a,
 .contact-channel,
-.choice-grid button,
 .radar-audio-btn,
 .radar-start-btn,
 .skip-link {
   min-height: 44px;
+}
+
+.icon-button,
+.settings-trigger,
+.menu-toggle {
   min-width: 44px;
+  min-height: 44px;
 }
 
-.nav-links a {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.5rem 0.85rem;
-}
-
-.filter-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.6rem 1rem;
-}
-
+/* Accessible touch target extension without distorting visual geometry */
 .social-links a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+}
+
+.social-links a::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 44px;
+  min-height: 44px;
+}
+
+@media (pointer: coarse) {
+  .nav-links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
 }
 
 /* ==========================================================================
@@ -5432,28 +5435,6 @@ html[data-theme='light'] .domain-chip,
 html[data-theme='light'] .credential-chip {
   color: #0369a1 !important;
   font-weight: 600 !important;
-}
-
-/* ==========================================================================
-   SYSTEM COLOR PREFERENCE DETECTION
-   ========================================================================== */
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) {
-    --bg: #f4f5f6;
-    --surface: #ffffff;
-    --surface-raised: #ffffff;
-    --surface-overlay: linear-gradient(180deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0) 48%);
-    --text: #111827;
-    --muted: #475569;
-    --text-dim: #334155;
-    --line: rgba(0, 0, 0, .1);
-    --line-strong: rgba(0, 0, 0, .22);
-    --accent: #0284c7;
-    --accent-hover: #0369a1;
-    --accent-soft: rgba(2, 132, 199, .14);
-    --header-bg: rgba(244, 245, 246, .85);
-    color-scheme: light;
-  }
 }
 
 /* ==========================================================================

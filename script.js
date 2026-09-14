@@ -24,7 +24,7 @@ window.addEventListener('error', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
-  const storageKey = 'tyson-shields-preferences';
+  const storageKey = 'tyson-shields-preferences-v2';
   const defaults = { theme: 'navy', accent: 'blue', density: 'spacious', reducedMotion: false };
   const valid = {
     theme: ['navy', 'slate', 'obsidian', 'matrix', 'amber', 'light'],

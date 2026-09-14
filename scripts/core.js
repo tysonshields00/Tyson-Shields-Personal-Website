@@ -24,7 +24,7 @@ window.addEventListener('error', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
-  const storageKey = 'tyson-shields-preferences';
+  const storageKey = 'tyson-shields-preferences-v2';
   const defaults = { theme: 'navy', accent: 'blue', density: 'spacious', reducedMotion: false };
   const valid = {
     theme: ['navy', 'slate', 'obsidian', 'matrix', 'amber', 'light'],
@@ -149,8 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadPreferences = () => {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey));
-      const systemTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'navy';
-      return { ...defaults, theme: systemTheme, ...saved };
+      return { ...defaults, ...saved };
     } catch (error) {
       return { ...defaults };
     }
@@ -412,8 +411,15 @@ document.addEventListener('DOMContentLoaded', () => {
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
-    targets.forEach((el) => io.observe(el));
+    }, { threshold: 0.05, rootMargin: '50px 0px 50px 0px' });
+    targets.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('is-visible');
+      } else {
+        io.observe(el);
+      }
+    });
   };
 
   const initSpotlights = () => {
