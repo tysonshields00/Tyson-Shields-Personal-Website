@@ -850,44 +850,35 @@ document.addEventListener('DOMContentLoaded', () => {
       const maxActive = isPlaying ? 4 : 2;
       if (activeTargets.size >= maxActive) return;
 
-      const rect = screen.getBoundingClientRect();
-      const width = rect.width || 340;
-      const height = rect.height || 260;
-      const centerX = width / 2;
-      const centerY = height / 2;
-
-      // Safe radar radius (stay inside circular boundary)
-      const maxRadius = Math.min(centerX, centerY) * 0.78;
-      const minRadius = maxRadius * 0.22;
+      // Polar percentage coordinates centered in radar circle (16% to 38% radius from center 50%, 50%)
       const angle = Math.random() * Math.PI * 2;
-      const dist = minRadius + Math.random() * (maxRadius - minRadius);
-
-      const posX = Math.round(centerX + Math.cos(angle) * dist);
-      const posY = Math.round(centerY + Math.sin(angle) * dist);
+      const radiusPercent = 16 + Math.random() * 22;
+      const tx = Math.round(50 + Math.cos(angle) * radiusPercent);
+      const ty = Math.round(50 + Math.sin(angle) * radiusPercent);
 
       const roll = Math.random();
       let type = 'normal';
       let tagText = normalAnomalies[Math.floor(Math.random() * normalAnomalies.length)];
       let basePoints = 100;
-      let duration = 3600;
+      let duration = 3800;
 
       if (roll < 0.14) {
         type = 'bonus';
         tagText = bonusRelays[Math.floor(Math.random() * bonusRelays.length)];
         basePoints = 300;
-        duration = 3200;
+        duration = 3400;
       } else if (roll < 0.36) {
         type = 'rogue';
         tagText = rogueAnomalies[Math.floor(Math.random() * rogueAnomalies.length)];
         basePoints = 175;
-        duration = 2900;
+        duration = 3000;
       }
 
       const id = ++targetCounter;
       const targetEl = document.createElement('div');
       targetEl.className = `radar-target target-${type}`;
-      targetEl.style.left = `${posX}px`;
-      targetEl.style.top = `${posY}px`;
+      targetEl.style.left = `${tx}%`;
+      targetEl.style.top = `${ty}%`;
       targetEl.setAttribute('role', 'button');
       targetEl.setAttribute('tabindex', '0');
       targetEl.setAttribute('aria-label', `Target: ${tagText}`);
@@ -897,6 +888,13 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="target-box"><span class="target-timer-ring"></span></span>
         <span class="target-tag">${tagText}</span>
       `;
+
+      // Direct click listener on target element for guaranteed hits
+      targetEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const tRect = targetEl.getBoundingClientRect();
+        handleScreenClick(tRect.left + tRect.width / 2, tRect.top + tRect.height / 2, targetEl);
+      });
 
       layer.appendChild(targetEl);
 
@@ -917,8 +915,8 @@ document.addEventListener('DOMContentLoaded', () => {
       activeTargets.set(id, {
         id,
         el: targetEl,
-        x: posX,
-        y: posY,
+        tx,
+        ty,
         type,
         points: basePoints,
         timeout
@@ -926,29 +924,49 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Core Intercept Mechanics (proximity detection + laser fire)
-    const handleScreenClick = (clientX, clientY) => {
+    const handleScreenClick = (clientX, clientY, clickedTargetEl) => {
       const rect = screen.getBoundingClientRect();
       const clickX = clientX - rect.left;
       const clickY = clientY - rect.top;
+
+      // Resume AudioContext if suspended (required on Safari / iOS / Android on first user gesture)
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
 
       // If game is not active, start it right now!
       if (!isPlaying) {
         startGame();
       }
 
-      // Proximity detection: find closest target within 55px
       let closestTarget = null;
-      let minDistance = 56; // 56px proximity threshold
+      let minDistance = 64; // Generous 64px proximity threshold for touch + desktop
 
-      activeTargets.forEach((target) => {
-        const dx = target.x - clickX;
-        const dy = target.y - clickY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < minDistance) {
-          minDistance = dist;
-          closestTarget = target;
+      // Check direct target click first
+      const directTarget = clickedTargetEl ? clickedTargetEl.closest('.radar-target') : null;
+      if (directTarget && directTarget.dataset.targetId) {
+        const targetId = Number(directTarget.dataset.targetId);
+        if (activeTargets.has(targetId)) {
+          closestTarget = activeTargets.get(targetId);
+          minDistance = 0;
         }
-      });
+      }
+
+      // Proximity detection using getBoundingClientRect() - 100% screen and device independent
+      if (!closestTarget) {
+        activeTargets.forEach((target) => {
+          const tRect = target.el.getBoundingClientRect();
+          const targetCenterX = tRect.left + tRect.width / 2;
+          const targetCenterY = tRect.top + tRect.height / 2;
+          const dx = targetCenterX - clientX;
+          const dy = targetCenterY - clientY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestTarget = target;
+          }
+        });
+      }
 
       if (closestTarget) {
         // HIT!
@@ -987,7 +1005,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (scoreEl) scoreEl.textContent = String(score);
 
         showLaserPing(clickX, clickY, true);
-        showHitEffect(closestTarget.x, closestTarget.y, pointsEarned, isBonus, combo > 1);
+
+        // Get target coordinates relative to screen for hit ripple
+        const tRect = closestTarget.el.getBoundingClientRect();
+        const hitX = tRect.left + tRect.width / 2 - rect.left;
+        const hitY = tRect.top + tRect.height / 2 - rect.top;
+        showHitEffect(hitX, hitY, pointsEarned, isBonus, combo > 1);
         removeTarget(closestTarget.id);
 
         if (statusMsg) {
@@ -1010,15 +1033,42 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    // Pointer events on radar screen for mouse + mobile touch
-    screen.addEventListener('pointerdown', (e) => {
+    // Cross-device interaction handler (mouse click + mobile touch)
+    let lastActionTime = 0;
+    const onRadarInteraction = (e) => {
       // Don't intercept if clicking audio button or retry button
       if (e.target.closest('#radar-audio-btn') || e.target.closest('#radar-retry-btn')) {
         return;
       }
-      e.preventDefault();
-      handleScreenClick(e.clientX, e.clientY);
-    });
+
+      const now = Date.now();
+      // Debounce touch + click synthetic event pairing (150ms)
+      if (now - lastActionTime < 150) return;
+      lastActionTime = now;
+
+      let clientX = e.clientX;
+      let clientY = e.clientY;
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if (e.changedTouches && e.changedTouches.length > 0) {
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+      }
+
+      // If start button is clicked
+      if (e.target.closest('#radar-start-btn')) {
+        if (!isPlaying) {
+          startGame();
+          return;
+        }
+      }
+
+      handleScreenClick(clientX, clientY, e.target);
+    };
+
+    screen.addEventListener('click', onRadarInteraction);
+    screen.addEventListener('touchend', onRadarInteraction, { passive: true });
 
     // Keyboard controls (Spacebar or Enter to intercept nearest anomaly)
     screen.addEventListener('keydown', (e) => {
@@ -1032,8 +1082,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeTargets.size > 0) {
           const firstTarget = activeTargets.values().next().value;
           if (firstTarget) {
-            const rect = screen.getBoundingClientRect();
-            handleScreenClick(rect.left + firstTarget.x, rect.top + firstTarget.y);
+            const tRect = firstTarget.el.getBoundingClientRect();
+            handleScreenClick(tRect.left + tRect.width / 2, tRect.top + tRect.height / 2, firstTarget.el);
             return;
           }
         }
@@ -1165,7 +1215,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initSpotlights();
   initMagneticButtons();
   initAmbientCanvas();
-  initTelemetryMonitor();
   initRadarGame();
 
   applyPreferences();
