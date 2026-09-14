@@ -27,14 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const storageKey = 'tyson-shields-preferences';
   const defaults = { theme: 'navy', accent: 'blue', density: 'spacious', reducedMotion: false };
   const valid = {
-    theme: ['navy', 'slate', 'light'],
-    accent: ['blue', 'teal', 'white'],
+    theme: ['navy', 'slate', 'obsidian', 'matrix', 'amber', 'light'],
+    accent: ['blue', 'teal', 'emerald', 'amber', 'purple', 'white'],
     density: ['spacious', 'compact'],
   };
   const themeColors = {
-    navy: '#0a0f1d',
-    slate: '#0f172a',
-    light: '#f8fafc'
+    navy: '#070c18',
+    slate: '#0e1217',
+    obsidian: '#020408',
+    matrix: '#030a06',
+    amber: '#0a0703',
+    light: '#f5f7fa'
   };
 
   // Detect data saver
@@ -514,6 +517,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     window.addEventListener('resize', onResize, { passive: true });
 
+    const accentPalettes = {
+      blue: ['rgba(0, 240, 255, ', 'rgba(56, 189, 248, ', 'rgba(14, 165, 233, '],
+      teal: ['rgba(16, 240, 192, ', 'rgba(94, 234, 212, ', 'rgba(20, 184, 166, '],
+      emerald: ['rgba(16, 185, 129, ', 'rgba(52, 211, 153, ', 'rgba(5, 150, 105, '],
+      amber: ['rgba(245, 158, 11, ', 'rgba(251, 191, 36, ', 'rgba(217, 119, 6, '],
+      purple: ['rgba(168, 85, 247, ', 'rgba(192, 132, 252, ', 'rgba(124, 58, 237, '],
+      white: ['rgba(248, 250, 252, ', 'rgba(226, 232, 240, ', 'rgba(203, 213, 225, '],
+    };
+
     if (!motionOK()) {
       ctx.fillStyle = 'rgba(0, 240, 255, 0.08)';
       for (let i = 0; i < 24; i++) {
@@ -528,7 +540,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const particleCount = Math.min(Math.floor((width * height) / 32000), 48);
     const particles = [];
-    const colors = ['rgba(0, 240, 255, ', 'rgba(16, 240, 192, ', 'rgba(56, 189, 248, '];
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
@@ -537,7 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
         radius: Math.random() * 1.8 + 1,
-        colorPrefix: colors[Math.floor(Math.random() * colors.length)],
+        colorIndex: i % 3,
         baseAlpha: Math.random() * 0.4 + 0.3,
       });
     }
@@ -556,6 +567,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
+      const activeAccent = root.dataset.accent || 'blue';
+      const palette = accentPalettes[activeAccent] || accentPalettes.blue;
+
       // Draw particle connections
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
@@ -566,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 115) {
             const alpha = (1 - dist / 115) * 0.16;
-            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+            ctx.strokeStyle = `${palette[0]}${alpha})`;
             ctx.lineWidth = 0.75;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
@@ -581,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
         if (mdist < 140) {
           const malpha = (1 - mdist / 140) * 0.35;
-          ctx.strokeStyle = `rgba(0, 240, 255, ${malpha})`;
+          ctx.strokeStyle = `${palette[0]}${malpha})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
@@ -593,14 +607,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Draw particle node
-        ctx.fillStyle = `${p1.colorPrefix}${p1.baseAlpha})`;
-        ctx.shadowColor = '#00f0ff';
-        ctx.shadowBlur = 6;
+        ctx.fillStyle = `${palette[p1.colorIndex]}${p1.baseAlpha})`;
         ctx.beginPath();
         ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
         ctx.fill();
-        ctx.shadowBlur = 0;
 
+        // Drift physics
         p1.x += p1.vx;
         p1.y += p1.vy;
 
