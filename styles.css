@@ -2776,3 +2776,377 @@ hr { border: 0; border-top: 1px dotted var(--line-strong); }
 .footer-skip { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 .footer-skip:focus { position: static; width: auto; height: auto; clip: auto; }
 @media print { .site-header, .settings-drawer, .drawer-backdrop, .palette-backdrop, .command-palette, .back-to-top { display: none !important; } body { background: #fff !important; color: #111 !important; } }
+
+/* ==========================================================================
+   MINIMAL POLISH UPDATES
+   ========================================================================== */
+
+/* 1. Global scroll padding for sticky header anchor link clearance */
+html {
+  scroll-padding-top: 5rem;
+}
+
+/* 2. Frosted glass drawer backdrop */
+.drawer-backdrop {
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+
+/* 3. Crosshair cursor over metrics section */
+.metrics-section,
+.metrics-section .metric-grid {
+  cursor: crosshair;
+}
+
+/* 4. CRT Scanline overlay on dashboard screen */
+.dashboard-screen {
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.18) 0px,
+    rgba(0, 0, 0, 0.18) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* 5. Radar sweep conic-gradient loading animation */
+.screen-radar {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    transparent 280deg,
+    rgba(14, 165, 233, 0.14) 340deg,
+    rgba(14, 165, 233, 0.45) 360deg
+  );
+  opacity: 0.65;
+  animation: radar-sweep 5s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 6. Physical elevated mechanical keys for <kbd> elements */
+kbd,
+.command-palette kbd,
+.palette-hint kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.45rem;
+  padding: 0.18rem 0.45rem;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text-primary, #f8fafc);
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 2px solid rgba(14, 165, 233, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.5), 0 3px 6px rgba(0, 0, 0, 0.35);
+  vertical-align: baseline;
+  user-select: none;
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] kbd,
+[data-theme="light"] .command-palette kbd,
+[data-theme="light"] .palette-hint kbd {
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  border-bottom: 2px solid #94a3b8;
+  box-shadow: 0 2px 0 #94a3b8, 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 7. Custom SVG chevrons for unordered list bullets */
+.career-entry ul,
+.content-section ul,
+.inner-page ul:not(.nav-links):not([role="listbox"]) {
+  list-style: none;
+  padding-left: 0;
+}
+
+.career-entry ul li,
+.content-section ul li,
+.inner-page ul:not(.nav-links):not([role="listbox"]) li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.55rem;
+}
+
+.career-entry ul li::before,
+.content-section ul li::before,
+.inner-page ul:not(.nav-links):not([role="listbox"]) li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 0.45rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: var(--accent, #0ea5e9);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center / contain;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* 8. Ultra-slim custom webkit scrollbar for command palette results */
+.palette-results {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line, rgba(255, 255, 255, 0.15)) transparent;
+}
+
+.palette-results::-webkit-scrollbar {
+  width: 4px;
+}
+
+.palette-results::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.palette-results::-webkit-scrollbar-thumb {
+  background: var(--line, rgba(255, 255, 255, 0.18));
+  border-radius: 4px;
+}
+
+.palette-results::-webkit-scrollbar-thumb:hover {
+  background: var(--accent, #0ea5e9);
+}
+
+/* 9. Fluid clamp gap in grid layouts */
+.project-grid,
+.pillar-grid,
+.skills-directory,
+.inquiry-grid,
+.principle-grid {
+  gap: clamp(1rem, 2.5vw, 2rem) !important;
+}
+
+/* 10. Faint neon tube glow on --accent text in dark mode */
+[data-theme="navy"] .dashboard-screen em,
+[data-theme="slate"] .dashboard-screen em,
+[data-theme="navy"] .card-index,
+[data-theme="slate"] .card-index,
+[data-theme="navy"] h1 span,
+[data-theme="slate"] h1 span,
+[data-theme="navy"] h2 em,
+[data-theme="slate"] h2 em,
+[data-theme="navy"] .brand-mark,
+[data-theme="slate"] .brand-mark {
+  text-shadow: 0 0 10px rgba(14, 165, 233, 0.45);
+}
+
+/* 11. Micro-interaction on GitHub footer icon */
+.social-links a[aria-label*="GitHub"],
+.social-links a[href*="github.com"],
+.footer-links a[href*="github.com"],
+.contact-channel[href*="github.com"] {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+}
+
+.social-links a[aria-label*="GitHub"]:hover,
+.social-links a[href*="github.com"]:hover,
+.footer-links a[href*="github.com"]:hover,
+.contact-channel[href*="github.com"]:hover {
+  transform: scale(1.12);
+}
+
+/* 12. Glass card click active state shadow transition */
+.glass-card,
+.pillar-card,
+.skill-directory-card,
+.route-card {
+  transition: box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.glass-card:active,
+.pillar-card:active,
+.skill-directory-card:active,
+.route-card:active {
+  box-shadow: 0 14px 32px -4px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(-1px) scale(0.995);
+}
+
+/* 13. Command palette border-radius */
+.command-palette {
+  border-radius: max(var(--radius-sm, 8px), 10px) !important;
+}
+
+/* 14. UI user-select none */
+.button,
+button,
+.nav-shell,
+.brand,
+.menu-toggle,
+.settings-drawer,
+.command-palette,
+.social-links,
+.choice-grid button,
+.accent-choice,
+.icon-button,
+.tech-marquee,
+.back-to-top {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 15. Skip link high-contrast focus ring */
+.skip-link:focus {
+  outline: 3px solid var(--accent, #0ea5e9) !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 6px #000000 !important;
+  z-index: 10000;
+  background: var(--bg-surface, #0f172a);
+  color: var(--text-primary, #ffffff);
+}
+
+/* 16. Form input border-color transition */
+form input,
+form select,
+form textarea {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+form input:hover,
+form select:hover,
+form textarea:hover {
+  border-color: var(--accent, #0ea5e9);
+}
+
+/* 17. Custom focus state on <select> dropdown */
+form select {
+  outline: none;
+}
+
+form select:focus,
+form select:focus-visible {
+  outline: 2px solid var(--accent, #0ea5e9);
+  outline-offset: 2px;
+  border-color: var(--accent, #0ea5e9);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
+}
+
+/* 18. Object-fit cover on future project card images */
+.project-card img,
+.pillar-card img,
+.glass-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* 19. CSS-only Infinite Tech Marquee in footer */
+.tech-marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--line, rgba(255, 255, 255, 0.1));
+  border-bottom: 1px solid var(--line, rgba(255, 255, 255, 0.1));
+  background: rgba(10, 15, 29, 0.55);
+  margin-bottom: 2rem;
+  user-select: none;
+}
+
+[data-theme="light"] .tech-marquee {
+  background: rgba(241, 245, 249, 0.7);
+}
+
+.tech-marquee-track {
+  display: inline-flex;
+  gap: 2.5rem;
+  animation: marqueeScroll 28s linear infinite;
+  will-change: transform;
+}
+
+.tech-marquee-track span {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary, #94a3b8);
+  position: relative;
+}
+
+.tech-marquee-track span::after {
+  content: "·";
+  position: absolute;
+  right: -1.35rem;
+  color: var(--accent, #0ea5e9);
+  font-weight: bold;
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* 20. Error flashing on status dot */
+.status-dot.is-error {
+  background: #ef4444 !important;
+  box-shadow: 0 0 12px #ef4444 !important;
+}
+
+/* 21. Contact Form Confirmation box */
+.form-confirmation {
+  padding: 2rem;
+  border: 1px solid var(--accent, #0ea5e9);
+  border-radius: var(--radius, 8px);
+  background: rgba(14, 165, 233, 0.08);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.form-confirmation h3 {
+  color: var(--accent, #0ea5e9);
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-confirmation p {
+  color: var(--text-primary, #f8fafc);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
