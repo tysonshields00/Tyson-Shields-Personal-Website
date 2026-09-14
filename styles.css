@@ -2123,20 +2123,21 @@ html[data-reduced-motion='true'] .reveal {
 
 /* Evidence pages */ .home-hero {
   min-height: min(720px, calc(100vh - 120px));
-  padding-block: clamp(2.5rem, 6vw, 5rem);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding-block: clamp(2rem, 5vw, 4.5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
 }
 
 .hero-copy {
-  max-width: 840px;
+  max-width: 640px;
 }
 
 .home-hero h1 {
-  max-width: 22ch;
+  max-width: 14ch;
   margin: 1.2rem 0 1.5rem;
-  font-size: clamp(3.5rem, 6.2vw, 6.8rem);
+  font-size: clamp(3.2rem, 5.5vw, 5.8rem);
 }
 
 .home-hero h1 span {
@@ -2150,6 +2151,156 @@ html[data-reduced-motion='true'] .reveal {
   max-width: 570px;
   color: var(--muted);
   font-size: 1rem;
+}
+
+/* Portrait Visual Card */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.portrait-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--hud-border, rgba(255, 255, 255, 0.12));
+  border-top-color: rgba(255, 255, 255, 0.28);
+  border-radius: 22px;
+  padding: 1.15rem;
+  box-shadow: 0 24px 55px -12px rgba(0, 0, 0, 0.65), 0 0 35px -10px rgba(0, 240, 255, 0.18);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease;
+}
+
+.portrait-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 30px 65px -12px rgba(0, 0, 0, 0.75), 0 0 45px -8px rgba(0, 240, 255, 0.32);
+}
+
+.portrait-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle at center, rgba(0, 240, 255, 0.12) 0%, transparent 68%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.portrait-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+  padding-inline: 0.2rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.portrait-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.portrait-status-text {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.portrait-loc {
+  color: var(--muted);
+}
+
+.portrait-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #060a14;
+}
+
+.portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portrait-card:hover .portrait-img {
+  transform: scale(1.03);
+}
+
+.portrait-scanline {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 240, 255, 0.03) 50%, rgba(0, 0, 0, 0.08) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.portrait-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--accent);
+  border-style: solid;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.portrait-corner.top-left {
+  top: 8px;
+  left: 8px;
+  border-width: 2px 0 0 2px;
+}
+
+.portrait-corner.top-right {
+  top: 8px;
+  right: 8px;
+  border-width: 2px 2px 0 0;
+}
+
+.portrait-corner.bottom-left {
+  bottom: 8px;
+  left: 8px;
+  border-width: 0 0 2px 2px;
+}
+
+.portrait-corner.bottom-right {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+}
+
+.portrait-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.85rem;
+  padding-inline: 0.2rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+}
+
+.portrait-tags {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.portrait-id {
+  color: var(--muted);
+  letter-spacing: 0.08em;
 }
 
 .social-links {
@@ -5197,6 +5348,15 @@ html[data-theme='light'] .contact-form-card textarea {
     gap: 2.5rem;
     padding-block: 2.5rem 3.5rem;
     min-height: auto;
+  }
+  .hero-copy {
+    max-width: 100%;
+  }
+  .hero-visual {
+    margin-top: 1rem;
+  }
+  .portrait-card {
+    max-width: 380px;
   }
   .content-grid {
     grid-template-columns: 1fr;
