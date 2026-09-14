@@ -1,20 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --bg: #07111f;
-  --surface: rgba(13, 26, 44, .64);
-  --surface-raised: rgba(24, 42, 64, .78);
-  --text: #f5f7fb;
-  --muted: #b4c0ce;
-  --line: rgba(215, 231, 247, .15);
+  --bg: #0a0f1d;
+  --surface: rgba(17, 24, 39, .78);
+  --surface-raised: rgba(21, 29, 48, .88);
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --line: rgba(255, 255, 255, .08);
   --line-strong: rgba(215, 231, 247, .25);
-  --accent: #68a8ff;
-  --accent-hover: #8bbcff;
-  --accent-soft: rgba(104, 168, 255, .14);
+  --accent: #0ea5e9;
+  --accent-hover: #38bdf8;
+  --accent-soft: rgba(14, 165, 233, .15);
   --warm: #efc7a2;
-  --header-bg: rgba(7, 17, 31, .7);
-  --shadow: 0 24px 70px rgba(0, 0, 0, .28), 0 0 1px rgba(255, 255, 255, .12);
-  --shadow-soft: 0 1px 2px rgba(0, 0, 0, .15), 0 16px 48px rgba(0, 0, 0, .16);
+  --header-bg: rgba(10, 15, 29, .72);
+  --shadow: 0 24px 70px rgba(0, 0, 0, .42), 0 0 1px rgba(255, 255, 255, .12);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, .2), 0 16px 48px rgba(0, 0, 0, .2);
   --serif: Georgia, 'Times New Roman', serif;
   --sans: 'Outfit', 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
@@ -42,8 +42,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 .skip-link { position: fixed; z-index: 20; top: -4rem; left: 1rem; background: var(--accent); color: var(--bg); padding: .5rem .8rem; font-weight: 700; }
 .skip-link:focus { top: 1rem; }
 .section-shell { width: min(1120px, calc(100% - 3rem)); margin-inline: auto; }
-.site-header { position: sticky; z-index: 10; top: 0; border-bottom: 1px solid var(--line); background: var(--header-bg); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%); }
-.nav-shell { width: min(1240px, calc(100% - 3rem)); min-height: 72px; margin-inline: auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.site-header { position: sticky; z-index: 10; top: 1.25rem; width: min(1240px, calc(100% - 3rem)); margin: 0 auto 3.5rem; border: 1px solid rgba(255, 255, 255, .1); border-top-color: rgba(255, 255, 255, .28); border-radius: 14px; background: linear-gradient(135deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02)), var(--header-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .2); }
+.nav-shell { width: 100%; min-height: 68px; padding: .85rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
 .brand { display: inline-flex; align-items: center; gap: .75rem; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
 .brand-mark { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--surface-raised); color: var(--accent); font-family: var(--mono); font-size: .62rem; letter-spacing: -.08em; box-shadow: var(--shadow-soft); }
 .nav-links { display: flex; align-items: center; gap: clamp(1rem, 3vw, 2.2rem); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
