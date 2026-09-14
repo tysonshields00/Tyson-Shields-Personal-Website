@@ -10,13 +10,14 @@
   <link rel="stylesheet" href="styles.css">
   <script defer src="script.js"></script>
 </head>
-<body>
+<body class="inner-page">
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
   <div class="error-page">
-    <div class="error-content">
-      <a class="brand" href="/"><span class="brand-mark">TS</span><span>Tyson Shields</span></a>
-      <h1>404</h1>
-      <p>The page you’re looking for moved somewhere more interesting. Returning home in <strong data-countdown>5</strong> seconds.</p>
-      <a class="button button-primary" href="/">Return home <span>↗</span></a>
+    <div class="error-content glass-card">
+      <div class="hud-kicker"><span class="kicker-pulse"></span>ERROR 404 // SIGNAL LOST</div>
+      <h1 class="glow-num">404</h1>
+      <p>The coordinates you requested do not correlate with an active endpoint. Re-establishing telemetry uplink in <strong data-countdown>5</strong> seconds.</p>
+      <a class="button button-primary cyber-btn" href="index.html">Return to Command <span>↗</span></a>
     </div>
   </div>
 </body>
