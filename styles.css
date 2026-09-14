@@ -1520,16 +1520,20 @@ html[data-reduced-motion='true'] *::after {
     display: grid;
     gap: 0;
     padding: .5rem 1rem 1rem;
-    border-bottom: 1px solid var(--line);
+    border-radius: 0 0 14px 14px;
+    border: 1px solid var(--line);
+    border-top: none;
     background: var(--surface);
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
     transform: translateY(-10px);
-    transition: opacity .32s var(--ease-decel), transform .44s var(--ease-decel);
+    transition: opacity .32s var(--ease-decel), transform .44s var(--ease-decel), visibility .32s;
   }
 
   .nav-links.is-open {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
     transform: none;
   }
