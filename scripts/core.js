@@ -72,9 +72,23 @@ document.addEventListener('DOMContentLoaded', () => {
     menu?.setAttribute('aria-expanded', 'false');
   };
 
+  const getCleanPath = (pathname) => {
+    let clean = pathname.split('/').pop().toLowerCase();
+    if (!clean || clean === '') clean = 'index.html';
+    return clean;
+  };
+  const currentCleanPath = getCleanPath(window.location.pathname);
+
   navLinks?.querySelectorAll('a').forEach((link) => {
-    const isCurrent = new URL(link.href, window.location.href).pathname === window.location.pathname;
-    link.toggleAttribute('aria-current', isCurrent);
+    const linkCleanPath = getCleanPath(new URL(link.href, window.location.href).pathname);
+    const isCurrent = linkCleanPath === currentCleanPath;
+    if (isCurrent) {
+      link.setAttribute('aria-current', 'page');
+      link.classList.add('is-active');
+    } else {
+      link.removeAttribute('aria-current');
+      link.classList.remove('is-active');
+    }
   });
 
   document.querySelectorAll('a[target="_blank"]').forEach((link) => {
