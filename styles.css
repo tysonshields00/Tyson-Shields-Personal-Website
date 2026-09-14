@@ -1560,6 +1560,18 @@ html[data-reduced-motion='true'] *::after {
 
 }
 
+.palette-search-wrap { position: relative; }
+.palette-search-wrap .palette-search { width: 100%; margin: 1rem 0; padding-right: 3rem; }
+.palette-clear { position: absolute; top: 50%; right: .75rem; display: grid; width: 32px; height: 32px; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; transform: translateY(-50%); }
+.palette-clear:hover { background: var(--accent-soft); color: var(--accent); }
+.palette-result.is-visited::after { content: 'recent'; color: var(--accent); font: var(--text-xs) var(--mono); text-transform: uppercase; }
+.error-page { background-image: linear-gradient(rgba(14, 165, 233, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, .06) 1px, transparent 1px); background-size: 32px 32px; }
+.brand-mark { width: 34px; height: 34px; }
+.settings-drawer { width: min(100%, 430px); will-change: transform; }
+.project-art, .orbit-ring, .orbit-core, .grid-chart, .frame-subject, .frame-sun, .terminal-lines, .tide-line, .tide-bars, .studio-lights, .studio-floor, .screen-grid, .screen-orbit, .console-graphic, .signal-line, .signal-point { pointer-events: none; }
+.career-date { position: sticky; top: 1rem; align-self: start; }
+@media (max-width: 760px) { .career-date { position: static; } }
+
 @media (min-width: 761px) {
   .project-card-featured {
     grid-column: span 2;

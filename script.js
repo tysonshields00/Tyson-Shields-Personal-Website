@@ -21,6 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
     menu?.setAttribute('aria-expanded', 'false');
   };
 
+  navLinks?.querySelectorAll('a').forEach((link) => {
+    const isCurrent = new URL(link.href, window.location.href).pathname === window.location.pathname;
+    link.toggleAttribute('aria-current', isCurrent);
+  });
+
   document.querySelectorAll('a[target="_blank"]').forEach((link) => link.setAttribute('rel', 'noopener noreferrer'));
   document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
     const url = new URL(link.href);
@@ -28,6 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
     link.href = url.href;
   });
   document.querySelectorAll('form input, form select, form textarea').forEach((field) => field.setAttribute('autocomplete', 'off'));
+  document.querySelectorAll('.career-date').forEach((dateBlock) => {
+    const dateText = dateBlock.firstChild?.textContent?.trim();
+    if (!dateText || dateBlock.querySelector('time')) return;
+    const time = document.createElement('time');
+    time.dateTime = dateText.split('—')[0].trim().replace(/\s+/g, '-');
+    time.textContent = dateText;
+    dateBlock.replaceChild(time, dateBlock.firstChild);
+  });
 
   if (navLinks && !navLinks.querySelector('.command-trigger')) {
     navLinks.insertAdjacentHTML(
@@ -154,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     '<button class="icon-button palette-close" type="button" aria-label="Close command palette">×</button>',
     '</div>',
     '<label class="sr-only" for="palette-search">Search pages</label>',
-    '<input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off">',
+    '<div class="palette-search-wrap"><input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off" spellcheck="false"><button class="palette-clear" type="button" aria-label="Clear search">×</button></div>',
     '<div class="palette-results" role="listbox" aria-live="polite" aria-atomic="true"></div>',
     '<p class="palette-hint">Use arrow keys to move · Enter to open · Esc to close</p>',
     '</dialog>',
@@ -173,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     paletteResults.innerHTML = filtered
       .map(
         ([name, path, description], index) =>
-          `<a class="palette-result${index === 0 ? ' is-active' : ''}" role="option" href="${path}"` +
+          `<a class="palette-result${index === 0 ? ' is-active' : ''}${localStorage.getItem('tyson-last-page') === path ? ' is-visited' : ''}" role="option" href="${path}"` +
           ` data-palette-index="${index}"><strong>${name}</strong><span>${description}</span><b>↗</b></a>`
       )
       .join('') || '<p class="palette-empty">No matching pages.</p>';
@@ -210,11 +223,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (event.key === 'Enter' && results[paletteIndex]) {
       event.preventDefault();
+      localStorage.setItem('tyson-last-page', results[paletteIndex].getAttribute('href'));
       window.location.href = results[paletteIndex].href;
     }
     if (event.key === 'Escape') setPalette(false);
   });
   paletteSearch.setAttribute('spellcheck', 'false');
+  document.querySelector('.palette-clear').addEventListener('click', () => { paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); });
   palette.addEventListener(
     'close',
     () => paletteBackdrop.classList.remove('is-visible')
