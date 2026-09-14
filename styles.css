@@ -73,7 +73,7 @@
   --surface-raised: #16213a;
   --surface-overlay: linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, 0) 42%);
   --text: #f8fafc;
-  --muted: #a8b6cc;
+  --muted: #b0bdd2;
   --line: rgba(255, 255, 255, .08);
   --line-strong: rgba(215, 231, 247, .25);
   --accent: #0ea5e9;
@@ -81,8 +81,8 @@
   --accent-soft: rgba(14, 165, 233, .15);
   --warm: #efc7a2;
   --header-bg: rgba(10, 15, 29, .72);
-  --shadow: 0 32px 80px -24px rgba(0, 0, 0, .55), 0 12px 32px -16px rgba(0, 0, 0, .45);
-  --shadow-soft: 0 24px 60px -24px rgba(0, 0, 0, .5), 0 8px 24px -12px rgba(0, 0, 0, .35);
+  --shadow: 0 40px 90px -32px rgba(0, 0, 0, .5), 0 18px 44px -22px rgba(0, 0, 0, .38);
+  --shadow-soft: 0 28px 64px -30px rgba(0, 0, 0, .45), 0 10px 30px -16px rgba(0, 0, 0, .3);
   --serif: Georgia, 'Times New Roman', serif;
   --sans: 'Outfit', 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
@@ -389,9 +389,13 @@ h1, h2, h3, p {
 
 h1, h2 {
   font-weight: 400;
-  letter-spacing: -.06em;
-  line-height: .96;
+  letter-spacing: -.05em;
+  line-height: .98;
   text-wrap: balance;
+}
+
+h2 {
+  letter-spacing: -.042em;
 }
 
 h1 {
@@ -1398,7 +1402,7 @@ html[data-density='compact'] .skill-group h3 {
 }
 
 .reveal.is-visible {
-  animation: rise-in .9s var(--ease-decel) both;
+  animation: rise-in .85s var(--ease-decel) both;
   animation-delay: var(--reveal-delay, 0ms);
 }
 
@@ -1406,13 +1410,19 @@ html[data-density='compact'] .skill-group h3 {
   animation-delay: .12s;
 }
 
+/* Organic entrance: settle past the resting scale, then ease back in. */
 @keyframes rise-in {
-  from {
+  0% {
     opacity: 0;
-    transform: translateY(22px) scale(.985);
+    transform: translateY(24px) scale(.982);
   }
 
-  to {
+  62% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.006);
+  }
+
+  100% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
@@ -1906,16 +1916,17 @@ html[data-reduced-motion='true'] .reveal {
   background: linear-gradient(135deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03)), rgba(10, 15, 29, .86);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, .75),
+  box-shadow: 0 24px 60px -16px rgba(0, 0, 0, .7),
+    0 8px 24px -10px rgba(0, 0, 0, .5),
     inset 0 1px 0 rgba(255, 255, 255, .22),
     inset 0 -1px 0 rgba(0, 0, 0, .4);
   color: var(--text);
-  transform: translateY(14px) scale(.975);
+  transform: translateY(10px) scale(.982);
   transform-origin: 50% 0%;
-  transition: opacity .18s var(--ease-decel),
-    transform .32s var(--ease-spring),
-    overlay .18s allow-discrete,
-    display .18s allow-discrete;
+  transition: opacity .12s var(--ease-decel),
+    transform .24s var(--ease-spring),
+    overlay .12s allow-discrete,
+    display .12s allow-discrete;
 }
 
 .command-palette[open] {
@@ -2235,8 +2246,8 @@ html[data-reduced-motion='true'] .reveal {
 .glass-card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.015)), var(--surface);
-  box-shadow: var(--shadow-soft);
+  background: var(--surface-overlay), var(--surface);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .05) inset, var(--shadow-soft);
 }
 
 .pillar-card {
