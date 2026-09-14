@@ -18,19 +18,104 @@
   <script defer src="script.js"></script>
 </head>
 <body class="inner-page">
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="brand" href="index.html"><span class="brand-mark">TS</span><span>Tyson Shields</span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-links"><span class="sr-only">Toggle navigation</span><span></span><span></span></button><div class="nav-links" id="primary-links"><a href="index.html">Home</a><a href="about.html">About</a><a href="career.html">Career</a><a aria-current="page" href="skills.html">Skills</a><a href="contact.html">Contact</a><button class="icon-button settings-trigger" type="button" aria-label="Open display settings" aria-controls="settings-drawer" aria-expanded="false">⚙</button></div></nav></header>
   <main id="main-content">
-    <section class="page-hero section-shell"><p class="section-kicker">03 / Technical skills</p><h1>A toolkit built<br><em>for real conditions.</em></h1><p class="lede">Competencies organized by domain, with the practical application that makes each tool worth having.</p></section>
+    <section class="page-hero section-shell">
+      <div class="hud-kicker"><span class="kicker-pulse"></span>03 // CYBERNETIC TOOLKIT &amp; DOMAINS</div>
+      <h1>A toolkit built<br><em>for real conditions.</em></h1>
+      <p class="lede">Core competencies organized by engineering domain, calibrated with the telemetry and practical application required for high-stakes production.</p>
+    </section>
     <section class="section-shell skills-directory">
-      <article class="skill-directory-card"><div><p class="section-kicker">01 / Data analytics & BI</p><h2>Numbers into<br><em>decisions.</em></h2></div><div><strong>Python, SQL, R, Power Query, Advanced Excel</strong><p>ETL pipeline construction, statistical analysis, dataset validation, data cleaning, and KPI dashboard reporting.</p></div></article>
-      <article class="skill-directory-card"><div><p class="section-kicker">02 / Homelab & infrastructure</p><h2>Systems that<br><em>stay up.</em></h2></div><div><strong>Docker, Proxmox, VMware Workstation, Debian Linux</strong><p>Self-hosting web services, container orchestration, virtual machine clustering, and home server administration.</p></div></article>
-      <article class="skill-directory-card"><div><p class="section-kicker">03 / Networking & streaming</p><h2>Access without<br><em>friction.</em></h2></div><div><strong>Tailscale, Sunshine, Moonlight, Parsec, Porkbun DNS</strong><p>Zero-config mesh networking, encrypted remote workstation access, and secure domain routing.</p></div></article>
-      <article class="skill-directory-card"><div><p class="section-kicker">04 / Local machine learning</p><h2>Private models,<br><em>useful tests.</em></h2></div><div><strong>Ollama, Open WebUI, Model Context Protocol</strong><p>Local LLM inference, testing DeepSeek, Qwen, Gemma, and Llama weights, and automated coding agents.</p></div></article>
-      <article class="skill-directory-card"><div><p class="section-kicker">05 / Software & web development</p><h2>Small, clean,<br><em>shippable.</em></h2></div><div><strong>TypeScript, JavaScript, Go, HTML5, Modern CSS</strong><p>Lightweight web service design, automated utility scripts, and clean front-end application development.</p></div></article>
-      <article class="skill-directory-card"><div><p class="section-kicker">06 / DevOps & hosting</p><h2>Deploy with<br><em>confidence.</em></h2></div><div><strong>Git, GitHub Pages, Vercel, Cloudflare Pages</strong><p>Version control, CI/CD pipeline automation, edge hosting, and DNS management.</p></div></article>
-      <article class="skill-directory-card"><div><p class="section-kicker">07 / Broadcast & audio</p><h2>Calm in the<br><em>control room.</em></h2></div><div><strong>AP ENPS, FL Studio, Adobe Premiere Pro, Audition</strong><p>Live news pacing, multi-track audio mixing, beat design, video post-production, and live switcher routing.</p></div></article>
-      <article class="skill-directory-card"><div><p class="section-kicker">08 / Enterprise & compliance</p><h2>Details that<br><em>hold up.</em></h2></div><div><strong>iSolved, Paylocity, Salesforce, Carrier Portals</strong><p>Corporate benefits administration, HRIS enrollment workflows, CRM maintenance, and ERISA/HIPAA compliance.</p></div></article>
+      <article class="skill-directory-card">
+        <div>
+          <div class="hud-kicker" style="margin-bottom:0.75rem;"><span class="kicker-pulse"></span>MODULE 01 // DATA_BI</div>
+          <h2>Numbers into<br><em>decisions.</em></h2>
+        </div>
+        <div>
+          <strong>Python, SQL, R, Power Query, Advanced Excel</strong>
+          <p>ETL pipeline construction, statistical analysis, dataset validation, data cleaning, and automated KPI dashboard reporting.</p>
+          <div class="skill-telemetry-bar" title="Production Proficiency: 96%"><div class="skill-telemetry-fill" style="width: 96%;"></div></div>
+        </div>
+      </article>
+      <article class="skill-directory-card">
+        <div>
+          <div class="hud-kicker" style="margin-bottom:0.75rem;"><span class="kicker-pulse"></span>MODULE 02 // INFRA_HOMELAB</div>
+          <h2>Systems that<br><em>stay up.</em></h2>
+        </div>
+        <div>
+          <strong>Docker, Proxmox, VMware Workstation, Debian Linux</strong>
+          <p>Self-hosting web services, container orchestration, virtual machine clustering, and bare-metal server administration.</p>
+          <div class="skill-telemetry-bar" title="Production Proficiency: 94%"><div class="skill-telemetry-fill" style="width: 94%;"></div></div>
+        </div>
+      </article>
+      <article class="skill-directory-card">
+        <div>
+          <div class="hud-kicker" style="margin-bottom:0.75rem;"><span class="kicker-pulse"></span>MODULE 03 // SECURE_MESH</div>
+          <h2>Access without<br><em>friction.</em></h2>
+        </div>
+        <div>
+          <strong>Tailscale, Sunshine, Moonlight, Parsec, Porkbun DNS</strong>
+          <p>Zero-config encrypted mesh networking, ultra-low-latency remote workstation access, and hardened domain routing.</p>
+          <div class="skill-telemetry-bar" title="Production Proficiency: 92%"><div class="skill-telemetry-fill" style="width: 92%;"></div></div>
+        </div>
+      </article>
+      <article class="skill-directory-card">
+        <div>
+          <div class="hud-kicker" style="margin-bottom:0.75rem;"><span class="kicker-pulse"></span>MODULE 04 // LOCAL_AI_LLM</div>
+          <h2>Private models,<br><em>useful tests.</em></h2>
+        </div>
+        <div>
+          <strong>Ollama, Open WebUI, Model Context Protocol</strong>
+          <p>Local LLM inference, testing DeepSeek, Qwen, Gemma, and Llama weights, and agentic tool integration via MCP.</p>
+          <div class="skill-telemetry-bar" title="Production Proficiency: 90%"><div class="skill-telemetry-fill" style="width: 90%;"></div></div>
+        </div>
+      </article>
+      <article class="skill-directory-card">
+        <div>
+          <div class="hud-kicker" style="margin-bottom:0.75rem;"><span class="kicker-pulse"></span>MODULE 05 // SOFTWARE_ENG</div>
+          <h2>Small, clean,<br><em>shippable.</em></h2>
+        </div>
+        <div>
+          <strong>TypeScript, JavaScript, Go, HTML5, Modern CSS</strong>
+          <p>High-performance web architecture, automated operational scripts, and clean front-end reactive interfaces.</p>
+          <div class="skill-telemetry-bar" title="Production Proficiency: 92%"><div class="skill-telemetry-fill" style="width: 92%;"></div></div>
+        </div>
+      </article>
+      <article class="skill-directory-card">
+        <div>
+          <div class="hud-kicker" style="margin-bottom:0.75rem;"><span class="kicker-pulse"></span>MODULE 06 // DEVOPS_EDGE</div>
+          <h2>Deploy with<br><em>confidence.</em></h2>
+        </div>
+        <div>
+          <strong>Git, GitHub Pages, Vercel, Cloudflare Pages</strong>
+          <p>Automated CI/CD build pipelines, distributed edge networks, version control, and DNS configuration.</p>
+          <div class="skill-telemetry-bar" title="Production Proficiency: 95%"><div class="skill-telemetry-fill" style="width: 95%;"></div></div>
+        </div>
+      </article>
+      <article class="skill-directory-card">
+        <div>
+          <div class="hud-kicker" style="margin-bottom:0.75rem;"><span class="kicker-pulse"></span>MODULE 07 // BROADCAST_DSP</div>
+          <h2>Calm in the<br><em>control room.</em></h2>
+        </div>
+        <div>
+          <strong>AP ENPS, FL Studio, Adobe Premiere Pro, Audition</strong>
+          <p>High-tempo live broadcast directing, multi-track audio engineering, sound design, and video production.</p>
+          <div class="skill-telemetry-bar" title="Production Proficiency: 98%"><div class="skill-telemetry-fill" style="width: 98%;"></div></div>
+        </div>
+      </article>
+      <article class="skill-directory-card">
+        <div>
+          <div class="hud-kicker" style="margin-bottom:0.75rem;"><span class="kicker-pulse"></span>MODULE 08 // ENTERPRISE_OPS</div>
+          <h2>Details that<br><em>hold up.</em></h2>
+        </div>
+        <div>
+          <strong>iSolved, Paylocity, Salesforce, Carrier Portals</strong>
+          <p>Corporate benefits architecture, HRIS automated workflows, CRM pipeline maintenance, and ERISA/HIPAA compliance.</p>
+          <div class="skill-telemetry-bar" title="Production Proficiency: 95%"><div class="skill-telemetry-fill" style="width: 95%;"></div></div>
+        </div>
+      </article>
     </section>
     <section class="section-shell quote-section"><blockquote>“Software exists to eliminate manual drudgery, not create new layers of busywork. Whether I am writing a SQL query, spinning up a Docker container, or directing a broadcast, the goal is always a stable, self-explanatory system that does not break under load.”</blockquote></section>
   </main>

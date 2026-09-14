@@ -499,9 +499,137 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const initAmbientCanvas = () => {
+    const canvas = document.getElementById('ambient-canvas');
+    if (!canvas || !('getContext' in canvas)) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const onResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', onResize, { passive: true });
+
+    if (!motionOK()) {
+      ctx.fillStyle = 'rgba(0, 240, 255, 0.08)';
+      for (let i = 0; i < 24; i++) {
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      return;
+    }
+
+    const particleCount = Math.min(Math.floor((width * height) / 32000), 48);
+    const particles = [];
+    const colors = ['rgba(0, 240, 255, ', 'rgba(16, 240, 192, ', 'rgba(56, 189, 248, '];
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 1.8 + 1,
+        colorPrefix: colors[Math.floor(Math.random() * colors.length)],
+        baseAlpha: Math.random() * 0.4 + 0.3,
+      });
+    }
+
+    let mouse = { x: -1000, y: -1000 };
+    window.addEventListener('pointermove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    }, { passive: true });
+
+    window.addEventListener('pointerleave', () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    }, { passive: true });
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw particle connections
+      for (let i = 0; i < particles.length; i++) {
+        const p1 = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 115) {
+            const alpha = (1 - dist / 115) * 0.16;
+            ctx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+            ctx.lineWidth = 0.75;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+
+        // Connect to cursor
+        const mdx = p1.x - mouse.x;
+        const mdy = p1.y - mouse.y;
+        const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (mdist < 140) {
+          const malpha = (1 - mdist / 140) * 0.35;
+          ctx.strokeStyle = `rgba(0, 240, 255, ${malpha})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+
+          p1.x += mdx * 0.005;
+          p1.y += mdy * 0.005;
+        }
+
+        // Draw particle node
+        ctx.fillStyle = `${p1.colorPrefix}${p1.baseAlpha})`;
+        ctx.shadowColor = '#00f0ff';
+        ctx.shadowBlur = 6;
+        ctx.beginPath();
+        ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        p1.x += p1.vx;
+        p1.y += p1.vy;
+
+        if (p1.x < 0) p1.x = width;
+        else if (p1.x > width) p1.x = 0;
+        if (p1.y < 0) p1.y = height;
+        else if (p1.y > height) p1.y = 0;
+      }
+
+      requestAnimationFrame(render);
+    };
+
+    render();
+  };
+
+  const initTelemetryMonitor = () => {
+    const latencyEl = document.querySelector('.telemetry-matrix .t-val.text-emerald');
+    if (!latencyEl) return;
+    setInterval(() => {
+      const ms = Math.floor(Math.random() * 4) + 11;
+      latencyEl.textContent = `${ms}ms · 0% LOSS`;
+    }, 4000);
+  };
+
   initScrollReveals();
   initSpotlights();
   initMagneticButtons();
+  initAmbientCanvas();
+  initTelemetryMonitor();
 
   applyPreferences();
 });

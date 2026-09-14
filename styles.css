@@ -3150,3 +3150,948 @@ form select:focus-visible {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ==========================================================================
+   FUTURISTIC & ULTRA-PROFESSIONAL CYBERNETIC OPERATIONS REDESIGN
+   ========================================================================== */
+
+/* 1. Global Futuristic Tokens & Typography Glow */
+:root {
+  --cyan-neon: #00f0ff;
+  --cyan-glow: rgba(0, 240, 255, 0.45);
+  --teal-neon: #10f0c0;
+  --teal-glow: rgba(16, 240, 192, 0.4);
+  --emerald-neon: #10b981;
+  --purple-neon: #a855f7;
+  --amber-neon: #f59e0b;
+  --hud-line: rgba(0, 240, 255, 0.18);
+  --hud-bg: rgba(10, 18, 36, 0.72);
+  --hud-surface: rgba(16, 26, 48, 0.85);
+  --hud-border-bright: rgba(0, 240, 255, 0.35);
+  --font-hud: 'SFMono-Regular', Consolas, Menlo, Monaco, 'Liberation Mono', monospace;
+}
+
+/* Ambient Canvas */
+.ambient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+/* Background Atmosphere Enhancement */
+body {
+  background: 
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(0, 240, 255, 0.1), transparent 60%),
+    radial-gradient(circle 500px at 85% 20%, rgba(14, 165, 233, 0.08), transparent),
+    radial-gradient(circle 600px at 15% 85%, rgba(16, 185, 129, 0.06), transparent),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+/* Subtle Technical Background Grid */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(0, 240, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 2. Cybernetic Navigation & Header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8, 14, 28, 0.82) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.15) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(0, 240, 255, 0.1) inset;
+}
+
+.brand-mark {
+  background: linear-gradient(135deg, #0284c7, #00f0ff) !important;
+  color: #050811 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.brand:hover .brand-mark {
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.8) !important;
+}
+
+/* 3. Futuristic HUD Kickers & Eyebrows */
+.hud-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-hud);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan-neon);
+  margin-bottom: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  background: rgba(0, 240, 255, 0.06);
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.15) inset;
+}
+
+.kicker-pulse {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan-neon);
+  box-shadow: 0 0 8px var(--cyan-neon);
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.4; }
+}
+
+/* Eyebrow status tag */
+.eyebrow {
+  font-family: var(--font-hud);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.1);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--emerald-neon);
+  box-shadow: 0 0 10px var(--emerald-neon);
+}
+
+/* Headings Metallic Neon Treatment */
+h1 span,
+h2 em {
+  background: linear-gradient(135deg, #ffffff 20%, #38bdf8 70%, #00f0ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.35));
+}
+
+/* 4. Cybernetic Operations Terminal (Dashboard) */
+.hero-dashboard {
+  border: 1px solid rgba(0, 240, 255, 0.3) !important;
+  border-radius: 12px !important;
+  background: rgba(8, 14, 28, 0.9) !important;
+  box-shadow: 
+    0 24px 60px -12px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(0, 240, 255, 0.12),
+    0 1px 0 rgba(0, 240, 255, 0.3) inset !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-dashboard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan-neon), transparent);
+  animation: scan-bar 6s linear infinite;
+  z-index: 5;
+}
+
+@keyframes scan-bar {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(420px); opacity: 0; }
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background: rgba(14, 23, 42, 0.85);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+  font-family: var(--font-hud);
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+
+.dash-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hud-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan-neon);
+  box-shadow: 0 0 10px var(--cyan-neon);
+}
+
+.dash-title {
+  color: var(--cyan-neon);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.dashboard-live {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f8fafc;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.live-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--emerald-neon);
+  box-shadow: 0 0 8px var(--emerald-neon);
+  animation: pulse-glow 1.5s infinite;
+}
+
+.dashboard-screen {
+  min-height: 360px !important;
+  margin: 0 !important;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.12), transparent 60%),
+    linear-gradient(180deg, #050811 0%, #080e1e 100%) !important;
+  border: none !important;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem;
+}
+
+/* Radar Scope Overlay */
+.radar-crosshair {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 50%, transparent 80px, rgba(0, 240, 255, 0.08) 81px, transparent 82px),
+    radial-gradient(circle at 50% 50%, transparent 160px, rgba(0, 240, 255, 0.08) 161px, transparent 162px),
+    linear-gradient(to right, transparent 49.5%, rgba(0, 240, 255, 0.15) 50%, transparent 50.5%),
+    linear-gradient(to bottom, transparent 49.5%, rgba(0, 240, 255, 0.15) 50%, transparent 50.5%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.radar-degree {
+  position: absolute;
+  font-family: var(--font-hud);
+  font-size: 0.62rem;
+  color: rgba(0, 240, 255, 0.5);
+  z-index: 2;
+}
+
+.deg-0 { top: 0.6rem; left: 50%; transform: translateX(-50%); }
+.deg-90 { top: 50%; right: 0.6rem; transform: translateY(-50%); }
+.deg-180 { bottom: 0.6rem; left: 50%; transform: translateX(-50%); }
+.deg-270 { top: 50%; left: 0.6rem; transform: translateY(-50%); }
+
+/* Animated Radar Targets */
+.radar-target {
+  position: absolute;
+  top: var(--ty);
+  left: var(--tx);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.target-box {
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--cyan-neon);
+  box-shadow: 0 0 8px var(--cyan-neon);
+  animation: target-pulse 2.5s infinite ease-in-out;
+}
+
+@keyframes target-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+  50% { transform: scale(1.3) rotate(45deg); opacity: 1; border-color: var(--teal-neon); }
+}
+
+.target-tag {
+  font-family: var(--font-hud);
+  font-size: 0.58rem;
+  color: var(--cyan-neon);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.1rem 0.35rem;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+/* Dynamic Waveform Spectrum Visualizer */
+.screen-spectrum {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 48px;
+  position: absolute;
+  bottom: 3.5rem;
+  left: 1.25rem;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.spectrum-bar {
+  width: 4px;
+  background: linear-gradient(180deg, var(--cyan-neon), var(--teal-neon));
+  border-radius: 1px;
+  box-shadow: 0 0 6px var(--cyan-neon);
+  animation: spectrum-osc 1.4s infinite ease-in-out alternate;
+  animation-delay: var(--d);
+  height: var(--h);
+}
+
+@keyframes spectrum-osc {
+  0% { height: 15%; opacity: 0.4; }
+  50% { height: var(--h); opacity: 1; }
+  100% { height: 95%; opacity: 0.9; }
+}
+
+/* Telemetry Matrix Readout */
+.telemetry-matrix {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 2;
+  background: rgba(5, 10, 22, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  font-family: var(--font-hud);
+  font-size: 0.68rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.telemetry-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.t-label {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.t-val {
+  color: #f1f5f9;
+  font-weight: 500;
+}
+
+.text-cyan { color: var(--cyan-neon) !important; text-shadow: 0 0 8px var(--cyan-glow); }
+.text-emerald { color: var(--emerald-neon) !important; text-shadow: 0 0 8px rgba(16, 185, 129, 0.5); }
+.text-purple { color: var(--purple-neon) !important; text-shadow: 0 0 8px rgba(168, 85, 247, 0.5); }
+.text-amber { color: var(--amber-neon) !important; text-shadow: 0 0 8px rgba(245, 158, 11, 0.5); }
+
+.screen-hero-text {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 3.5rem;
+  text-align: right;
+  z-index: 2;
+}
+
+.screen-hero-text strong {
+  position: static !important;
+  color: #ffffff !important;
+  font-family: var(--sans) !important;
+  font-size: clamp(2rem, 4.5vw, 3.2rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+  text-transform: uppercase;
+  line-height: 0.9 !important;
+  filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.4));
+}
+
+.screen-hero-text em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--cyan-neon), var(--teal-neon));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dashboard-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background: rgba(10, 16, 32, 0.85);
+  border-top: 1px solid rgba(0, 240, 255, 0.15) !important;
+  font-family: var(--font-hud);
+  font-size: 0.72rem;
+}
+
+.status-chip {
+  padding: 0.15rem 0.45rem;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  background: rgba(0, 240, 255, 0.08);
+  border-radius: 3px;
+  color: var(--cyan-neon);
+  margin-right: 0.4rem;
+  letter-spacing: 0.06em;
+}
+
+.channel-readout {
+  color: #94a3b8;
+  letter-spacing: 0.08em;
+}
+
+/* 5. Futuristic Credential Strip */
+.credential-strip {
+  border-block: 1px solid rgba(0, 240, 255, 0.2) !important;
+  background: rgba(8, 14, 28, 0.75) !important;
+  backdrop-filter: blur(12px) !important;
+  padding: 1.25rem 0;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.06) inset;
+}
+
+.credential-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.credential-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.credential-item:hover {
+  border-color: var(--cyan-neon);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(0, 240, 255, 0.15);
+}
+
+.credential-badge {
+  font-family: var(--font-hud);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--cyan-neon);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  white-space: nowrap;
+}
+
+.credential-text {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+}
+
+.credential-text strong {
+  color: #ffffff;
+}
+
+/* 6. Cybernetic Glass Cards with Corner Reticles */
+.glass-card,
+.pillar-card,
+.route-card,
+.skill-directory-card,
+.contact-form-card,
+.career-entry {
+  position: relative;
+  background: rgba(11, 18, 36, 0.8) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(0, 240, 255, 0.16) !important;
+  border-radius: 12px !important;
+  box-shadow: 
+    0 16px 36px -10px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(0, 240, 255, 0.05) !important;
+  transition: 
+    border-color 0.25s ease, 
+    transform 0.28s var(--ease-spring), 
+    box-shadow 0.25s ease !important;
+}
+
+/* HUD Corner targeting brackets */
+.glass-card::before,
+.pillar-card::before,
+.route-card::before,
+.skill-directory-card::before,
+.contact-form-card::before,
+.career-entry::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid var(--cyan-neon);
+  border-left: 2px solid var(--cyan-neon);
+  border-top-left-radius: 12px;
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.glass-card::after,
+.pillar-card::after,
+.route-card::after,
+.skill-directory-card::after,
+.contact-form-card::after,
+.career-entry::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid var(--cyan-neon);
+  border-right: 2px solid var(--cyan-neon);
+  border-bottom-right-radius: 12px;
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.glass-card:hover,
+.pillar-card:hover,
+.route-card:hover,
+.skill-directory-card:hover,
+.contact-form-card:hover,
+.career-entry:hover {
+  border-color: rgba(0, 240, 255, 0.45) !important;
+  transform: translateY(-4px) !important;
+  box-shadow: 
+    0 20px 48px -12px rgba(0, 0, 0, 0.7),
+    0 0 28px rgba(0, 240, 255, 0.18) !important;
+}
+
+.glass-card:hover::before,
+.pillar-card:hover::before,
+.route-card:hover::before,
+.skill-directory-card:hover::before,
+.contact-form-card:hover::before,
+.career-entry:hover::before,
+.glass-card:hover::after,
+.pillar-card:hover::after,
+.route-card:hover::after,
+.skill-directory-card:hover::after,
+.contact-form-card:hover::after,
+.career-entry:hover::after {
+  opacity: 1;
+}
+
+/* Card HUD Top Bar */
+.card-hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-hud);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.card-index {
+  color: var(--cyan-neon) !important;
+  font-weight: 700;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+}
+
+.card-status {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+}
+
+/* High-Tech Tool Tags */
+.card-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.5rem;
+}
+
+.tool-tag {
+  font-family: var(--font-hud);
+  font-size: 0.7rem;
+  color: #94a3b8;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.tool-tag:hover {
+  color: var(--cyan-neon);
+  border-color: rgba(0, 240, 255, 0.4);
+  background: rgba(0, 240, 255, 0.08);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+/* 7. Futuristic Metrics HUD Cards */
+.metrics-section {
+  position: relative;
+  background: 
+    radial-gradient(ellipse at center, rgba(0, 240, 255, 0.06), transparent 70%),
+    rgba(6, 12, 24, 0.5) !important;
+  border-block: 1px solid rgba(0, 240, 255, 0.18);
+  padding: 4.5rem 0;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.metric-card {
+  background: rgba(11, 18, 36, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.22);
+  border-radius: 12px;
+  padding: 1.75rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.metric-card:hover {
+  border-color: var(--cyan-neon);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(0, 240, 255, 0.2);
+}
+
+.metric-hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-hud);
+  font-size: 0.68rem;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+.metric-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.glow-num {
+  font-family: var(--sans);
+  font-size: clamp(2.75rem, 4vw, 3.8rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1;
+  color: #ffffff;
+  display: block;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 24px rgba(0, 240, 255, 0.4);
+}
+
+.metric-card h3 {
+  font-size: 1.05rem;
+  color: #f1f5f9;
+  margin: 0.4rem 0 0.5rem;
+}
+
+.metric-card p {
+  font-size: 0.86rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* 8. Dispatch Routing Cards */
+.routing-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.route-card {
+  padding: 2rem 1.75rem !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
+.route-hud-tag {
+  font-family: var(--font-hud);
+  font-size: 0.68rem;
+  color: var(--cyan-neon);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+}
+
+.route-card span {
+  font-family: var(--font-hud);
+  font-size: 0.74rem;
+  color: #64748b;
+  letter-spacing: 0.1em;
+}
+
+.route-card strong {
+  font-size: 1.35rem;
+  color: #ffffff;
+  margin: 0.4rem 0 0.5rem;
+  display: block;
+}
+
+.route-card small {
+  color: #94a3b8;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  display: block;
+}
+
+.route-arrow {
+  margin-top: 1.25rem;
+  font-size: 1.2rem;
+  color: var(--cyan-neon);
+  align-self: flex-end;
+  transition: transform 0.25s var(--ease-spring);
+}
+
+.route-card:hover .route-arrow {
+  transform: translate(4px, -4px);
+}
+
+/* 9. Cybernetic Button Styling */
+.button {
+  font-family: var(--font-hud) !important;
+  font-size: 0.86rem !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 6px !important;
+  font-weight: 700 !important;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.button-primary {
+  background: linear-gradient(135deg, #0284c7 0%, #00f0ff 100%) !important;
+  color: #030712 !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4), 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.button-primary:hover {
+  background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 100%) !important;
+  box-shadow: 0 0 32px rgba(0, 240, 255, 0.7), 0 6px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+.button-secondary {
+  background: rgba(14, 23, 42, 0.8) !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(0, 240, 255, 0.35) !important;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.1) inset !important;
+}
+
+.button-secondary:hover {
+  border-color: var(--cyan-neon) !important;
+  color: var(--cyan-neon) !important;
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.25) inset, 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* 10. Subpage: Career Flight Log Timeline */
+.career-list {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.career-list::before {
+  content: "";
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--cyan-neon), rgba(0, 240, 255, 0.2) 85%, transparent);
+}
+
+.career-entry {
+  margin-bottom: 2.5rem;
+  padding: 2rem !important;
+  position: relative;
+}
+
+.career-entry::before {
+  content: "";
+  position: absolute;
+  top: 2rem;
+  left: -1.45rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #050811;
+  border: 2px solid var(--cyan-neon);
+  box-shadow: 0 0 10px var(--cyan-neon);
+  z-index: 2;
+}
+
+.domain-chip {
+  font-family: var(--font-hud);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  background: rgba(0, 240, 255, 0.1);
+  color: var(--cyan-neon);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  margin-right: 0.5rem;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+/* 11. Subpage: Skills Cybernetic Matrix */
+.skills-directory {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-directory-card {
+  padding: 2rem !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.skill-telemetry-bar {
+  margin-top: 1.25rem;
+  height: 6px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.skill-telemetry-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal-neon), var(--cyan-neon));
+  box-shadow: 0 0 8px var(--cyan-neon);
+  border-radius: 3px;
+}
+
+/* 12. Subpage: Contact Encrypted Dispatch Terminal */
+.contact-form-card {
+  padding: 2.5rem 2rem !important;
+}
+
+.terminal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-hud);
+  font-size: 0.72rem;
+  color: var(--emerald-neon);
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1.25rem;
+}
+
+.contact-channel {
+  background: rgba(11, 18, 36, 0.8) !important;
+  border: 1px solid rgba(0, 240, 255, 0.15) !important;
+  border-radius: 8px !important;
+  padding: 1.25rem 1.5rem !important;
+  transition: all 0.25s ease !important;
+}
+
+.contact-channel:hover {
+  border-color: var(--cyan-neon) !important;
+  transform: translateX(4px) !important;
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.15) !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-screen {
+    min-height: 420px !important;
+  }
+  .telemetry-matrix {
+    position: static;
+    margin-bottom: 1rem;
+  }
+  .screen-hero-text {
+    position: static;
+    margin-top: 1rem;
+    text-align: left;
+  }
+  .screen-spectrum {
+    position: static;
+    margin-top: 1rem;
+  }
+  .career-list {
+    padding-left: 0;
+  }
+  .career-list::before,
+  .career-entry::before {
+    display: none;
+  }
+}
+
