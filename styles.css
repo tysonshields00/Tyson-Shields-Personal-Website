@@ -2379,6 +2379,26 @@ html[data-reduced-motion='true'] .reveal {
   letter-spacing: 0.08em;
 }
 
+.about-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.about-hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .about-hero-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .social-links {
   display: flex;
   gap: .55rem;
