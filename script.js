@@ -74,20 +74,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const getCleanPath = (pathname) => {
     let clean = pathname.split('/').pop().toLowerCase();
-    if (!clean || clean === '') clean = 'index.html';
+    if (!clean || clean === '' || clean === '/') clean = 'index.html';
     return clean;
   };
   const currentCleanPath = getCleanPath(window.location.pathname);
 
   navLinks?.querySelectorAll('a').forEach((link) => {
+    const rawHref = link.getAttribute('href') || '';
     const linkCleanPath = getCleanPath(new URL(link.href, window.location.href).pathname);
-    const isCurrent = linkCleanPath === currentCleanPath;
+    const isCurrent = linkCleanPath === currentCleanPath || rawHref === currentCleanPath;
     if (isCurrent) {
-      link.setAttribute('aria-current', 'page');
-      link.classList.add('is-active');
+      if (link.getAttribute('aria-current') !== 'page') link.setAttribute('aria-current', 'page');
+      if (!link.classList.contains('is-active')) link.classList.add('is-active');
     } else {
-      link.removeAttribute('aria-current');
-      link.classList.remove('is-active');
+      if (link.hasAttribute('aria-current')) link.removeAttribute('aria-current');
+      if (link.classList.contains('is-active')) link.classList.remove('is-active');
     }
   });
 

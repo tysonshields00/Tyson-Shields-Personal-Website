@@ -270,18 +270,19 @@ button:focus-visible, a:focus-visible {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: .48rem;
+  gap: .45rem;
   padding: .44rem .85rem;
   border-radius: 999px;
   border: 1px solid transparent;
   color: var(--muted);
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-  transition: color .24s var(--ease-decel),
-    background .24s var(--ease-decel),
-    border-color .24s var(--ease-decel),
-    box-shadow .28s var(--ease-decel),
-    transform .25s var(--ease-spring);
+  line-height: 1;
+  transition: color .2s var(--ease-decel),
+    background .2s var(--ease-decel),
+    border-color .2s var(--ease-decel),
+    box-shadow .2s var(--ease-decel),
+    transform .2s var(--ease-spring);
 }
 
 .nav-links > a:not([aria-current]):not(.is-active):hover {
@@ -294,7 +295,7 @@ button:focus-visible, a:focus-visible {
 .nav-links > a[aria-current],
 .nav-links > a.is-active {
   color: var(--text);
-  font-weight: 700;
+  font-weight: 600;
   background: color-mix(in srgb, var(--accent-soft) 70%, var(--surface-raised));
   border: 1px solid color-mix(in srgb, var(--accent) 65%, var(--line-strong));
   box-shadow: 0 0 18px -2px var(--accent-soft),
@@ -306,8 +307,8 @@ button:focus-visible, a:focus-visible {
 .nav-links > a.is-active::before {
   content: '';
   display: inline-block;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 8px var(--accent), 0 0 14px var(--accent);
