@@ -72,24 +72,66 @@ document.addEventListener('DOMContentLoaded', () => {
     menu?.setAttribute('aria-expanded', 'false');
   };
 
-  const getCleanPath = (pathname) => {
-    let clean = pathname.split('/').pop().toLowerCase();
-    if (!clean || clean === '' || clean === '/') clean = 'index.html';
-    return clean;
+  const normalizeFilename = (pathStr) => {
+    if (!pathStr) return 'index.html';
+    const segments = pathStr.split(/[/\\]+/);
+    let last = segments.pop() || '';
+    last = last.split(/[?#]/)[0].toLowerCase().trim();
+    if (!last || last === '' || last === '/') return 'index.html';
+    if (!last.includes('.')) return `${last}.html`;
+    return last;
   };
-  const currentCleanPath = getCleanPath(window.location.pathname);
 
-  navLinks?.querySelectorAll('a').forEach((link) => {
+  const currentFile = normalizeFilename(window.location.pathname);
+  const navAnchors = navLinks ? Array.from(navLinks.querySelectorAll('a')) : [];
+  let currentActiveFound = false;
+
+  navAnchors.forEach((link) => {
     const rawHref = link.getAttribute('href') || '';
-    const linkCleanPath = getCleanPath(new URL(link.href, window.location.href).pathname);
-    const isCurrent = linkCleanPath === currentCleanPath || rawHref === currentCleanPath;
-    if (isCurrent) {
-      if (link.getAttribute('aria-current') !== 'page') link.setAttribute('aria-current', 'page');
-      if (!link.classList.contains('is-active')) link.classList.add('is-active');
-    } else {
-      if (link.hasAttribute('aria-current')) link.removeAttribute('aria-current');
-      if (link.classList.contains('is-active')) link.classList.remove('is-active');
+    let linkFile = '';
+    try {
+      linkFile = normalizeFilename(new URL(link.href, window.location.href).pathname);
+    } catch (e) {
+      linkFile = normalizeFilename(rawHref);
     }
+    const isMatch = linkFile === currentFile || normalizeFilename(rawHref) === currentFile;
+    const hasStaticCurrent = link.getAttribute('aria-current') === 'page';
+
+    if (isMatch || hasStaticCurrent) {
+      currentActiveFound = true;
+      link.setAttribute('aria-current', 'page');
+      link.classList.add('is-active');
+    }
+  });
+
+  if (currentActiveFound) {
+    navAnchors.forEach((link) => {
+      const rawHref = link.getAttribute('href') || '';
+      let linkFile = '';
+      try {
+        linkFile = normalizeFilename(new URL(link.href, window.location.href).pathname);
+      } catch (e) {
+        linkFile = normalizeFilename(rawHref);
+      }
+      const isMatch = linkFile === currentFile || normalizeFilename(rawHref) === currentFile;
+      const hasStaticCurrent = link.getAttribute('aria-current') === 'page';
+      if (!isMatch && !hasStaticCurrent) {
+        link.removeAttribute('aria-current');
+        link.classList.remove('is-active');
+      }
+    });
+  }
+
+  // Ensure clicked link lights up immediately when switching tabs
+  navAnchors.forEach((link) => {
+    link.addEventListener('click', () => {
+      navAnchors.forEach((other) => {
+        other.removeAttribute('aria-current');
+        other.classList.remove('is-active');
+      });
+      link.setAttribute('aria-current', 'page');
+      link.classList.add('is-active');
+    });
   });
 
   document.querySelectorAll('a[target="_blank"]').forEach((link) => {
