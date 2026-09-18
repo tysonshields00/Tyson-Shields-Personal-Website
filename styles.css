@@ -59,6 +59,25 @@
   --section-space: var(--space-2xl);
 }
 
+html[data-theme='reading'] {
+  color-scheme: light;
+  --bg: #f5edd6;
+  --surface: #eadebe;
+  --surface-raised: #e0d1aa;
+  --surface-overlay: linear-gradient(180deg, rgba(120, 90, 40, .05), rgba(120, 90, 40, 0) 48%);
+  --text: #2d241c;
+  --muted: #6e5b4c;
+  --line: rgba(100, 75, 45, .16);
+  --line-strong: rgba(100, 75, 45, .28);
+  --accent: #b45309;
+  --accent-hover: #d97706;
+  --accent-soft: rgba(180, 83, 9, .15);
+  --header-bg: rgba(245, 237, 214, .88);
+  --warm: #b45309;
+  --shadow: 0 20px 50px rgba(70, 50, 20, .08), 0 0 1px rgba(70, 50, 20, .06);
+  --shadow-soft: 0 1px 2px rgba(70, 50, 20, .04), 0 14px 40px rgba(70, 50, 20, .06);
+}
+
 html[data-theme='slate'] {
   --bg: #151b20;
   --surface: #1c242b;
@@ -1224,12 +1243,14 @@ h1 em, h2 span {
 
 .drawer-backdrop {
   position: fixed;
-  z-index: 19;
+  z-index: 99;
   inset: 0;
-  background: rgba(0, 0, 0, .55);
+  background: rgba(0, 0, 0, .2);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity .32s var(--ease-decel);
+  transition: opacity .25s var(--ease-decel);
 }
 
 .drawer-backdrop.is-visible {
@@ -1239,43 +1260,82 @@ h1 em, h2 span {
 
 .settings-drawer {
   position: fixed;
-  z-index: 20;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(430px, 100%);
-  padding: 2rem;
+  z-index: 100;
+  top: 76px;
+  right: max(1rem, calc((100vw - var(--max-width)) / 2 + 1.5rem));
+  width: min(350px, calc(100vw - 2rem));
+  max-height: calc(90vh - 80px);
+  padding: 1.25rem 1.5rem;
   overflow-y: auto;
   background: var(--surface);
-  box-shadow: -24px 0 80px rgba(0, 0, 0, .25);
-  transform: translateX(100%);
-  transition: transform .48s var(--ease-decel);
+  border: 1px solid var(--line-strong);
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .45), 0 0 1px var(--line-strong);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-10px) scale(.98);
+  transition: opacity .28s var(--ease-decel), transform .28s var(--ease-decel), visibility .28s;
 }
 
 .settings-drawer.is-open {
-  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
 }
 
 .drawer-header {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
-  padding-bottom: 2rem;
+  padding-bottom: .75rem;
   border-bottom: 1px solid var(--line);
 }
 
 .drawer-header h2 {
-  margin: .7rem 0 0;
-  font-size: 2.2rem;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.drawer-header .section-kicker {
+  font-size: .7rem;
+  margin-bottom: 2px;
 }
 
 .drawer-close {
-  font-size: 1.6rem;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  line-height: 1;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.drawer-close:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .setting-group {
-  padding: 1.5rem 0;
+  padding: .85rem 0;
   border-bottom: 1px solid var(--line);
+}
+
+@media (max-width: 760px) {
+  .settings-drawer {
+    top: 70px;
+    right: 1rem;
+    left: 1rem;
+    width: auto;
+    padding: 1.25rem;
+  }
 }
 
 .choice-grid {
@@ -1691,7 +1751,8 @@ html[data-reduced-motion='true'] *::after {
 .palette-result.is-visited::after { content: 'recent'; color: var(--accent); font: var(--text-xs) var(--mono); text-transform: uppercase; }
 .error-page { background-image: linear-gradient(rgba(14, 165, 233, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, .06) 1px, transparent 1px); background-size: 32px 32px; }
 .brand-mark { width: 34px; height: 34px; }
-.settings-drawer { width: min(100%, 430px); will-change: transform; }
+.command-trigger { display: none !important; }
+.settings-drawer { will-change: transform, opacity; }
 .project-art, .orbit-ring, .orbit-core, .grid-chart, .frame-subject, .frame-sun, .terminal-lines, .tide-line, .tide-bars, .studio-lights, .studio-floor, .screen-grid, .screen-orbit, .console-graphic, .signal-line, .signal-point { pointer-events: none; }
 .career-date { position: sticky; top: 1rem; align-self: start; }
 @media (max-width: 760px) { .career-date { position: static; } }

@@ -25,19 +25,17 @@ window.addEventListener('error', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
   const storageKey = 'tyson-shields-preferences-v2';
-  const defaults = { theme: 'navy', accent: 'blue', density: 'spacious', reducedMotion: false };
+  const defaults = { theme: 'dark', accent: 'blue', density: 'spacious', reducedMotion: false };
   const valid = {
-    theme: ['navy', 'slate', 'obsidian', 'matrix', 'amber', 'light'],
+    theme: ['dark', 'navy', 'light', 'reading'],
     accent: ['blue', 'teal', 'emerald', 'amber', 'purple', 'white'],
     density: ['spacious', 'compact'],
   };
   const themeColors = {
-    navy: '#070c18',
-    slate: '#0e1217',
-    obsidian: '#020408',
-    matrix: '#030a06',
-    amber: '#0a0703',
-    light: '#f5f7fa'
+    dark: '#0a0f1d',
+    navy: '#0a0f1d',
+    light: '#f5f7fa',
+    reading: '#f5edd6'
   };
 
   // Detect data saver

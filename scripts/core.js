@@ -25,19 +25,17 @@ window.addEventListener('error', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
   const storageKey = 'tyson-shields-preferences-v2';
-  const defaults = { theme: 'navy', accent: 'blue', density: 'spacious', reducedMotion: false };
+  const defaults = { theme: 'dark', accent: 'blue', density: 'spacious', reducedMotion: false };
   const valid = {
-    theme: ['navy', 'slate', 'obsidian', 'matrix', 'amber', 'light'],
+    theme: ['dark', 'navy', 'light', 'reading'],
     accent: ['blue', 'teal', 'emerald', 'amber', 'purple', 'white'],
     density: ['spacious', 'compact'],
   };
   const themeColors = {
-    navy: '#070c18',
-    slate: '#0e1217',
-    obsidian: '#020408',
-    matrix: '#030a06',
-    amber: '#0a0703',
-    light: '#f5f7fa'
+    dark: '#0a0f1d',
+    navy: '#0a0f1d',
+    light: '#f5f7fa',
+    reading: '#f5edd6'
   };
 
   // Detect data saver
@@ -194,15 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
-  });
-
-  if (navLinks && !navLinks.querySelector('.command-trigger')) {
-    navLinks.insertAdjacentHTML(
-      'beforeend',
-      '<button class="icon-button command-trigger" type="button" aria-label="Open command palette">⌘K</button>'
-    );
-  }
-
   const loadPreferences = () => {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey));
@@ -258,13 +247,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  applyPreferences();
+
   const setDrawer = (isOpen) => {
-    drawer?.classList.toggle('is-open', isOpen);
-    backdrop?.classList.toggle('is-visible', isOpen);
-    drawer?.setAttribute('aria-hidden', String(!isOpen));
-    settingsTrigger?.setAttribute('aria-expanded', String(isOpen));
-    document.body.classList.toggle('drawer-open', isOpen);
-    if (isOpen) {
+    const isCurrentlyOpen = drawer?.classList.contains('is-open');
+    const newState = isOpen !== undefined ? isOpen : !isCurrentlyOpen;
+    drawer?.classList.toggle('is-open', newState);
+    backdrop?.classList.toggle('is-visible', newState);
+    drawer?.setAttribute('aria-hidden', String(!newState));
+    settingsTrigger?.setAttribute('aria-expanded', String(newState));
+    if (newState) {
       drawerReturnFocus = document.activeElement;
       drawer?.querySelector('.drawer-close')?.focus();
     } else {
@@ -273,7 +265,11 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   if (drawer && backdrop) {
-    settingsTrigger?.addEventListener('click', () => { closeMobileNav(); setDrawer(true); });
+    settingsTrigger?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeMobileNav();
+      setDrawer();
+    });
     drawer.querySelector('.drawer-close')?.addEventListener('click', () => setDrawer(false));
     backdrop.addEventListener('click', () => setDrawer(false));
     document.querySelectorAll('[data-setting]').forEach((control) => {
@@ -300,91 +296,6 @@ document.addEventListener('DOMContentLoaded', () => {
     closeMobileNav();
   }));
 
-  const commandItems = [
-    ['Home', 'index.html', 'Main command center'],
-    ['About', 'about.html', 'Story, honors, and philosophy'],
-    ['Career', 'career.html', 'Verified professional history'],
-    ['Skills', 'skills.html', 'Technical domains and applications'],
-    ['Contact', 'contact.html', 'Start a conversation'],
-    ['Resume', 'Tyson-Shields-Resume.html', 'Downloadable career summary']
-  ];
-  const paletteMarkup = [
-    '<div class="palette-backdrop" data-close-palette></div>',
-    '<dialog class="command-palette" aria-labelledby="palette-title">',
-    '<div class="palette-header">',
-    '<h2 id="palette-title">Navigate</h2>',
-    '<button class="icon-button palette-close" type="button" aria-label="Close command palette">×</button>',
-    '</div>',
-    '<label class="sr-only" for="palette-search">Search pages</label>',
-    '<div class="palette-search-wrap"><input id="palette-search" class="palette-search" type="search" placeholder="Search pages..." autocomplete="off" spellcheck="false"><button class="palette-clear" type="button" aria-label="Clear search">×</button></div>',
-    '<div class="palette-results" role="listbox" aria-live="polite" aria-atomic="true"></div>',
-    '<p class="palette-hint"><kbd>↑</kbd> <kbd>↓</kbd> to move · <kbd>↵</kbd> to open · <kbd>Esc</kbd> to close</p>',
-    '</dialog>',
-  ].join('');
-  document.body.insertAdjacentHTML('beforeend', paletteMarkup);
-  const palette = document.querySelector('.command-palette');
-  const paletteBackdrop = document.querySelector('.palette-backdrop');
-  const paletteSearch = document.querySelector('.palette-search');
-  const paletteResults = document.querySelector('.palette-results');
-  let paletteIndex = 0;
-
-  const renderPalette = (query = '') => {
-    const filtered = commandItems.filter(
-      ([name, path, description]) => `${name} ${path} ${description}`.toLowerCase().includes(query.toLowerCase())
-    );
-    paletteResults.innerHTML = filtered
-      .map(
-        ([name, path, description], index) =>
-          `<a class="palette-result${index === 0 ? ' is-active' : ''}${localStorage.getItem('tyson-last-page') === path ? ' is-visited' : ''}" role="option" href="${path}"` +
-          ` data-palette-index="${index}"><strong>${name}</strong><span>${description}</span><b>↗</b></a>`
-      )
-      .join('') || '<p class="palette-empty">No matching pages.</p>';
-    paletteIndex = 0;
-  };
-  const setPalette = (isOpen) => {
-    if (isOpen) {
-      if (drawer?.classList.contains('is-open')) setDrawer(false);
-      paletteReturnFocus = document.activeElement;
-      if (!palette.open) palette.showModal();
-      requestAnimationFrame(() => paletteBackdrop.classList.add('is-visible'));
-      paletteSearch.value = '';
-      renderPalette();
-      requestAnimationFrame(() => paletteSearch.focus({ preventScroll: true }));
-    } else {
-      paletteBackdrop.classList.remove('is-visible');
-      if (palette.open) palette.close();
-      paletteSearch.value = '';
-      renderPalette();
-      paletteReturnFocus?.focus();
-    }
-  };
-  const commandTrigger = document.querySelector('.command-trigger');
-  commandTrigger?.addEventListener('click', () => { closeMobileNav(); setPalette(true); });
-  document.querySelector('.palette-close')?.addEventListener('click', () => setPalette(false));
-  paletteBackdrop?.addEventListener('click', () => setPalette(false));
-  paletteSearch?.addEventListener('input', () => { clearTimeout(paletteDebounce); paletteDebounce = setTimeout(() => renderPalette(paletteSearch.value), 120); });
-  paletteSearch?.addEventListener('keydown', (event) => {
-    const results = [...paletteResults.querySelectorAll('.palette-result')];
-    if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && results.length) {
-      event.preventDefault();
-      paletteIndex = (paletteIndex + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length;
-      results.forEach((result, index) => result.classList.toggle('is-active', index === paletteIndex));
-      results[paletteIndex]?.scrollIntoView({ block: 'nearest' });
-    }
-    if (event.key === 'Enter' && results[paletteIndex]) {
-      event.preventDefault();
-      localStorage.setItem('tyson-last-page', results[paletteIndex].getAttribute('href'));
-      window.location.href = results[paletteIndex].href;
-    }
-    if (event.key === 'Escape') setPalette(false);
-  });
-  document.querySelector('.palette-clear')?.addEventListener('click', () => { paletteSearch.value = ''; renderPalette(); paletteSearch.focus(); });
-  palette?.addEventListener('close', () => {
-    paletteBackdrop.classList.remove('is-visible');
-    paletteSearch.value = '';
-    renderPalette();
-  });
-
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Tab' && drawer?.classList.contains('is-open')) {
       const focusable = [...drawer.querySelectorAll('button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])')].filter((item) => !item.hasAttribute('disabled'));
@@ -396,18 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     if (event.key === 'Escape') {
-      if (palette?.open) { setPalette(false); return; }
       if (drawer?.classList.contains('is-open')) { setDrawer(false); return; }
       closeMobileNav();
-    }
-    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-      event.preventDefault();
-      closeMobileNav();
-      setPalette(true);
-    }
-    if (event.key === '/' && document.activeElement !== paletteSearch && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
-      event.preventDefault();
-      setPalette(true);
     }
   });
 
