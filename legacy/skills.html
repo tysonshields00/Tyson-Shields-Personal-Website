@@ -59,15 +59,19 @@
   
   <main id="main-content">
     <section class="page-hero section-shell">
-      <div class="hud-kicker"><span class="kicker-pulse"></span>03 // CYBERNETIC TOOLKIT &amp; DOMAINS</div>
+      <div class="hud-kicker"><span class="kicker-pulse"></span>03 // CYBERNETIC TOOLKIT &amp; CREDENTIALS</div>
       <h1>A toolkit built<br><em>for real conditions.</em></h1>
-      <p class="lede">Core competencies organized by engineering domain, grounded in the practical applications, telemetry, and automated workflows required for high-stakes production.</p>
+      <p class="lede">Core competencies organized by engineering domain, grounded in practical applications, automated pipelines, and verified regulatory credentials.</p>
       
       <!-- Skills Capabilities Statistics Strip -->
       <div class="skills-stats-strip" aria-label="Skills Capabilities Summary">
         <div class="skills-stat-card">
           <span class="skills-stat-val">8 DOMAINS</span>
           <span class="skills-stat-label">Core Competency Modules</span>
+        </div>
+        <div class="skills-stat-card">
+          <span class="skills-stat-val">26 TOTAL</span>
+          <span class="skills-stat-label">Licenses &amp; Coursework</span>
         </div>
         <div class="skills-stat-card">
           <span class="skills-stat-val">100%</span>
@@ -78,49 +82,60 @@
           <span class="skills-stat-label">ETL Turnaround Reduction</span>
         </div>
         <div class="skills-stat-card">
-          <span class="skills-stat-val">0.0s</span>
-          <span class="skills-stat-label">Live Broadcast Downtime</span>
-        </div>
-        <div class="skills-stat-card">
           <span class="skills-stat-val">ACTIVE</span>
           <span class="skills-stat-label">NE Health &amp; Life License</span>
         </div>
       </div>
 
-      <!-- Domain Quick-Filter Navigation -->
-      <nav class="skills-filter-bar" aria-label="Filter skills by engineering domain">
-        <button type="button" class="skills-filter-btn is-active" data-filter="all">
-          <span>// ALL MODULES</span> <span class="btn-count">(9)</span>
+      <!-- Primary Tab Navigation: Competencies vs. Certifications -->
+      <div class="skills-primary-tabs" role="tablist" aria-label="Skills and Certifications Navigation">
+        <button type="button" class="skills-primary-tab is-active" role="tab" id="tab-competencies" aria-selected="true" aria-controls="panel-competencies" data-tab="competencies">
+          <span class="tab-icon">⚡</span>
+          <span>// TECHNICAL COMPETENCIES</span>
+          <span class="tab-count">8 Domains</span>
         </button>
-        <button type="button" class="skills-filter-btn" data-filter="certifications">
-          <span>// CERTIFICATIONS &amp; CREDENTIALS</span> <span class="btn-count">(26)</span>
+        <button type="button" class="skills-primary-tab" role="tab" id="tab-certifications" aria-selected="false" aria-controls="panel-certifications" data-tab="certifications">
+          <span class="tab-icon">🛡️</span>
+          <span>// CERTIFICATIONS &amp; LICENSES</span>
+          <span class="tab-count">26 Credentials</span>
         </button>
-        <button type="button" class="skills-filter-btn" data-filter="data-analytics">
-          <span>// DATA &amp; ANALYTICS</span> <span class="btn-count">(1)</span>
-        </button>
-        <button type="button" class="skills-filter-btn" data-filter="infra-homelab">
-          <span>// INFRASTRUCTURE &amp; HOMELAB</span> <span class="btn-count">(1)</span>
-        </button>
-        <button type="button" class="skills-filter-btn" data-filter="mesh-networking">
-          <span>// SECURE MESH &amp; REMOTE</span> <span class="btn-count">(1)</span>
-        </button>
-        <button type="button" class="skills-filter-btn" data-filter="ai-llms">
-          <span>// LOCAL AI &amp; LLMS</span> <span class="btn-count">(1)</span>
-        </button>
-        <button type="button" class="skills-filter-btn" data-filter="software-devops">
-          <span>// SOFTWARE &amp; DEVOPS</span> <span class="btn-count">(2)</span>
-        </button>
-        <button type="button" class="skills-filter-btn" data-filter="broadcast-dsp">
-          <span>// BROADCAST &amp; DSP</span> <span class="btn-count">(1)</span>
-        </button>
-        <button type="button" class="skills-filter-btn" data-filter="enterprise-hris">
-          <span>// ENTERPRISE &amp; HRIS</span> <span class="btn-count">(1)</span>
-        </button>
-      </nav>
+      </div>
     </section>
 
-    <!-- Skills Directory List -->
-    <section class="section-shell skills-directory" id="skills-catalog">
+    <!-- TAB PANEL 1: Core Technical Competencies -->
+    <div id="panel-competencies" class="skills-tab-panel" role="tabpanel" aria-labelledby="tab-competencies">
+      <div class="section-shell" style="padding-top: 0; padding-bottom: 0;">
+        <!-- Domain Quick-Filter Navigation -->
+        <nav class="skills-filter-bar" aria-label="Filter skills by engineering domain">
+          <button type="button" class="skills-filter-btn is-active" data-filter="all">
+            <span>// ALL MODULES</span> <span class="btn-count">(8)</span>
+          </button>
+          <button type="button" class="skills-filter-btn" data-filter="data-analytics">
+            <span>// DATA &amp; ANALYTICS</span> <span class="btn-count">(1)</span>
+          </button>
+          <button type="button" class="skills-filter-btn" data-filter="infra-homelab">
+            <span>// INFRASTRUCTURE &amp; HOMELAB</span> <span class="btn-count">(1)</span>
+          </button>
+          <button type="button" class="skills-filter-btn" data-filter="mesh-networking">
+            <span>// SECURE MESH &amp; REMOTE</span> <span class="btn-count">(1)</span>
+          </button>
+          <button type="button" class="skills-filter-btn" data-filter="ai-llms">
+            <span>// LOCAL AI &amp; LLMS</span> <span class="btn-count">(1)</span>
+          </button>
+          <button type="button" class="skills-filter-btn" data-filter="software-devops">
+            <span>// SOFTWARE &amp; DEVOPS</span> <span class="btn-count">(2)</span>
+          </button>
+          <button type="button" class="skills-filter-btn" data-filter="broadcast-dsp">
+            <span>// BROADCAST &amp; DSP</span> <span class="btn-count">(1)</span>
+          </button>
+          <button type="button" class="skills-filter-btn" data-filter="enterprise-hris">
+            <span>// ENTERPRISE &amp; HRIS</span> <span class="btn-count">(1)</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Skills Directory List -->
+      <section class="section-shell skills-directory" id="skills-catalog">
       
       <!-- Module 01: Data Engineering & Analytics -->
       <article class="skill-directory-card" data-category="data-analytics" id="data-pipelines">
@@ -436,428 +451,455 @@
         </div>
       </article>
 
-      <!-- Module 09: Verified Certifications & Regulatory Licenses -->
-      <article class="skill-directory-card" data-category="certifications" id="certifications">
-        <div>
-          <div class="hud-kicker" style="margin-bottom:0.75rem;"><span class="kicker-pulse"></span>MODULE 09 // CREDENTIALS &amp; LICENSES</div>
-          <h2 class="skill-module-title">Verified authority &amp;<br><em>continuous mastery.</em></h2>
+      </section>
+
+      <!-- Tab Switch Quick Banner in Competencies Panel -->
+      <div class="section-shell" style="padding-top: 0;">
+        <div class="tab-switch-banner">
+          <div>
+            <div class="hud-kicker" style="margin-bottom:0.35rem;"><span class="kicker-pulse"></span>VERIFIED STATUTORY LICENSES &amp; EDUCATION</div>
+            <h3 style="color:var(--text); font-size:1.15rem; font-weight:700; margin:0 0 0.35rem;">Looking for verified state licenses and professional coursework?</h3>
+            <p style="color:var(--muted); font-size:0.88rem; margin:0;">Nebraska Insurance Producer License #21707104, National Safety Council CPR/AED, and 24+ verified coursework credentials.</p>
+          </div>
+          <button type="button" class="tab-switch-btn" id="btn-goto-certifications">
+            View Certifications &amp; Licenses Tab →
+          </button>
         </div>
-        <div>
-          <p class="skill-module-mission">
+      </div>
+    </div>
+
+    <!-- TAB PANEL 2: Verified Certifications & Regulatory Licenses -->
+    <div id="panel-certifications" class="skills-tab-panel" role="tabpanel" aria-labelledby="tab-certifications" hidden>
+      <section class="section-shell" id="certifications" style="padding-top: var(--space-md);">
+        <div class="cert-tab-hero">
+          <div class="hud-kicker"><span class="kicker-pulse"></span>VERIFIED CREDENTIALS &amp; REGULATORY LICENSES</div>
+          <h2 class="cert-tab-heading">Verified authority &amp; <em>continuous mastery.</em></h2>
+          <p class="cert-tab-lede">
             Active statutory licensing through the State of Nebraska Department of Insurance (#21707104), emergency workplace safety certification, and 24+ verified professional tracks spanning business analysis, actuarial plan modeling, Python automation, and cloud IT infrastructure.
           </p>
+        </div>
 
-          <!-- Formal State & Safety Licenses -->
-          <div class="license-grid" style="margin-top: 1.5rem; margin-bottom: 2rem;">
-            <article class="license-card">
-              <div class="license-hud-top">
-                <span class="license-badge"><span class="license-badge-dot"></span>Active State License</span>
-                <span class="text-cyan font-mono">NE_DOI // 21707104</span>
+        <!-- Formal State & Safety Licenses -->
+        <div class="license-grid" style="margin-top: 1.5rem; margin-bottom: 2rem;">
+          <article class="license-card">
+            <div class="license-hud-top">
+              <span class="license-badge"><span class="license-badge-dot"></span>Active State License</span>
+              <span class="text-cyan font-mono">NE_DOI // 21707104</span>
+            </div>
+            <h3 class="license-title">Insurance Producer (Accident and Health or Sickness, Life)</h3>
+            <p class="license-issuer">State of Nebraska Department of Insurance</p>
+            <div class="license-meta-grid">
+              <div class="license-meta-item">
+                <span>Status</span>
+                <strong class="text-emerald">Active / Good Standing</strong>
               </div>
-              <h3 class="license-title">Insurance Producer (Accident and Health or Sickness, Life)</h3>
-              <p class="license-issuer">State of Nebraska Department of Insurance</p>
-              <div class="license-meta-grid">
-                <div class="license-meta-item">
-                  <span>Status</span>
-                  <strong class="text-emerald">Active / Good Standing</strong>
-                </div>
-                <div class="license-meta-item">
-                  <span>National Producer #</span>
-                  <strong>21707104</strong>
-                </div>
-                <div class="license-meta-item">
-                  <span>Effective Date</span>
-                  <strong>Aug 2025</strong>
-                </div>
-                <div class="license-meta-item">
-                  <span>Expiration Date</span>
-                  <strong>Mar 2028</strong>
-                </div>
+              <div class="license-meta-item">
+                <span>National Producer #</span>
+                <strong>21707104</strong>
               </div>
-              <p class="license-desc">Active regulatory authority to advise, negotiate, and solicit Accident, Health, Sickness, and Life insurance policies in Nebraska. Fiduciary and statutory compliance for corporate employee benefits.</p>
-              <div class="license-action-bar">
-                <span class="font-mono text-xs text-muted">Authorized Lines: Health, Life, Sickness</span>
-                <a class="license-verify-link" href="https://doi.nebraska.gov/" target="_blank" rel="noopener noreferrer">
-                  Verify with NE DOI <span>↗</span>
-                </a>
+              <div class="license-meta-item">
+                <span>Effective Date</span>
+                <strong>Aug 2025</strong>
               </div>
-            </article>
+              <div class="license-meta-item">
+                <span>Expiration Date</span>
+                <strong>Mar 2028</strong>
+              </div>
+            </div>
+            <p class="license-desc">Active regulatory authority to advise, negotiate, and solicit Accident, Health, Sickness, and Life insurance policies in Nebraska. Fiduciary and statutory compliance for corporate employee benefits.</p>
+            <div class="license-action-bar">
+              <span class="font-mono text-xs text-muted">Authorized Lines: Health, Life, Sickness</span>
+              <a class="license-verify-link" href="https://doi.nebraska.gov/" target="_blank" rel="noopener noreferrer">
+                Verify with NE DOI <span>↗</span>
+              </a>
+            </div>
+          </article>
 
-            <article class="license-card license-card--safety">
-              <div class="license-hud-top">
-                <span class="license-badge license-badge--safety"><span class="license-badge-dot"></span>Certified Safety Credential</span>
-                <span class="text-cyan font-mono">NSC // 568275385A7EAF</span>
+          <article class="license-card license-card--safety">
+            <div class="license-hud-top">
+              <span class="license-badge license-badge--safety"><span class="license-badge-dot"></span>Certified Safety Credential</span>
+              <span class="text-cyan font-mono">NSC // 568275385A7EAF</span>
+            </div>
+            <h3 class="license-title">Adult First Aid / CPR / AED</h3>
+            <p class="license-issuer">National Safety Council</p>
+            <div class="license-meta-grid">
+              <div class="license-meta-item">
+                <span>Status</span>
+                <strong class="text-cyan">Certified / Active</strong>
               </div>
-              <h3 class="license-title">Adult First Aid / CPR / AED</h3>
-              <p class="license-issuer">National Safety Council</p>
-              <div class="license-meta-grid">
-                <div class="license-meta-item">
-                  <span>Status</span>
-                  <strong class="text-cyan">Certified / Active</strong>
-                </div>
-                <div class="license-meta-item">
-                  <span>Credential ID</span>
-                  <strong>568275385A7EAF</strong>
-                </div>
-                <div class="license-meta-item">
-                  <span>Effective Date</span>
-                  <strong>Jun 2026</strong>
-                </div>
-                <div class="license-meta-item">
-                  <span>Expiration Date</span>
-                  <strong>Jun 2028</strong>
-                </div>
+              <div class="license-meta-item">
+                <span>Credential ID</span>
+                <strong>568275385A7EAF</strong>
               </div>
-              <p class="license-desc">Comprehensive emergency response certification covering adult CPR, AED deployment, and workplace emergency medical intervention to ensure corporate environment preparedness.</p>
-              <div class="license-action-bar">
-                <span class="font-mono text-xs text-muted">Standard: OSHA / ECC Compliant</span>
-                <a class="license-verify-link" href="https://www.nsc.org/" target="_blank" rel="noopener noreferrer">
-                  Verify with NSC <span>↗</span>
-                </a>
+              <div class="license-meta-item">
+                <span>Effective Date</span>
+                <strong>Jun 2026</strong>
               </div>
-            </article>
+              <div class="license-meta-item">
+                <span>Expiration Date</span>
+                <strong>Jun 2028</strong>
+              </div>
+            </div>
+            <p class="license-desc">Comprehensive emergency response certification covering adult CPR, AED deployment, and workplace emergency medical intervention to ensure corporate environment preparedness.</p>
+            <div class="license-action-bar">
+              <span class="font-mono text-xs text-muted">Standard: OSHA / ECC Compliant</span>
+              <a class="license-verify-link" href="https://www.nsc.org/" target="_blank" rel="noopener noreferrer">
+                Verify with NSC <span>↗</span>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Featured Capstone Specialization Card -->
+        <div class="cert-capstone-card" style="margin-bottom: 2rem;">
+          <div>
+            <span class="capstone-badge">Featured Specialization Track</span>
+            <h3 class="capstone-title">Career Essentials in Business Analysis by Microsoft and LinkedIn</h3>
+            <p class="capstone-meta">Issued by Microsoft &amp; LinkedIn · Apr 2026 · Comprehensive Capstone</p>
+            <p class="capstone-desc">Comprehensive professional track covering stakeholder requirement elicitation, process modeling, enterprise data architecture, and strategic alignment between business operations and technical systems.</p>
           </div>
-
-          <!-- Featured Capstone Specialization Card -->
-          <div class="cert-capstone-card" style="margin-bottom: 2rem;">
-            <div>
-              <span class="capstone-badge">Featured Specialization Track</span>
-              <h3 class="capstone-title">Career Essentials in Business Analysis by Microsoft and LinkedIn</h3>
-              <p class="capstone-meta">Issued by Microsoft &amp; LinkedIn · Apr 2026 · Comprehensive Capstone</p>
-              <p class="capstone-desc">Comprehensive professional track covering stakeholder requirement elicitation, process modeling, enterprise data architecture, and strategic alignment between business operations and technical systems.</p>
-            </div>
-            <div style="flex-shrink:0;">
-              <span class="tool-tag text-emerald font-mono" style="font-size:0.8rem; padding:0.4rem 0.8rem;">✓ Verified Track</span>
-            </div>
-          </div>
-
-          <!-- Interactive Controls Bar: Category Pills + Search -->
-          <div class="cert-controls-bar">
-            <div class="cert-filter-pills" role="toolbar" aria-label="Filter credentials by domain">
-              <button class="cert-filter-btn is-active" type="button" data-filter-category="all" aria-pressed="true">
-                All Coursework <span class="cert-filter-count">24</span>
-              </button>
-              <button class="cert-filter-btn" type="button" data-filter-category="business-analysis" aria-pressed="false">
-                Business Analysis <span class="cert-filter-count">8</span>
-              </button>
-              <button class="cert-filter-btn" type="button" data-filter-category="data-analytics" aria-pressed="false">
-                Data Analytics <span class="cert-filter-count">6</span>
-              </button>
-              <button class="cert-filter-btn" type="button" data-filter-category="python-systems" aria-pressed="false">
-                Python &amp; Systems <span class="cert-filter-count">4</span>
-              </button>
-              <button class="cert-filter-btn" type="button" data-filter-category="seo-marketing" aria-pressed="false">
-                SEO &amp; Marketing <span class="cert-filter-count">6</span>
-              </button>
-            </div>
-            <div class="cert-search-wrapper">
-              <span class="cert-search-icon" aria-hidden="true">🔍</span>
-              <input type="text" id="credential-search-input" class="cert-search-input" placeholder="Search credentials..." aria-label="Search certifications and coursework">
-            </div>
-          </div>
-
-          <!-- Coursework Cards Grid (24 items) -->
-          <div class="coursework-grid" id="coursework-grid">
-            <!-- Business Analysis Items -->
-            <article class="coursework-card" data-category="business-analysis">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Introduction to Business Analysis</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="business-analysis">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Business Analysis: Essential Tools and Techniques</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="business-analysis">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Business Analysis Foundations: Business Process Modeling</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="business-analysis">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Business Benefits Realization Foundations</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="business-analysis">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">The Role of Business Analysis in Data Analytics</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="business-analysis">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Generative AI for Business Analysts</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="business-analysis">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Google Project Management Certificate (Foundations)</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> Coursera</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="business-analysis">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Project Initiation: Starting a Successful Project</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> Coursera</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <!-- Data Analytics Items -->
-            <article class="coursework-card" data-category="data-analytics">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Excel: Advanced Formulas and Functions</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="data-analytics">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Learning Data Analytics: 1 Foundations</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="data-analytics">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Learning Data Analytics: 2 Extending the Basics</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="data-analytics">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">SQL Essential Training</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="data-analytics">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Data Visualization for Data Analysts and Analytics</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="data-analytics">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Managing Data with Microsoft 365</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <!-- Python & Systems Items -->
-            <article class="coursework-card" data-category="python-systems">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-python">Python &amp; Systems</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Python Essential Training</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🐍</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="python-systems">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-python">Python &amp; Systems</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Python Object-Oriented Programming</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🐍</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="python-systems">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-python">Python &amp; Systems</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Level Up: Python</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">🐍</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="python-systems">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-python">Python &amp; Systems</span>
-                <span class="coursework-date">Jul 2026</span>
-              </div>
-              <h4 class="coursework-title">Networking and Administration Fundamentals</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">⚡</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <!-- SEO & Marketing Items -->
-            <article class="coursework-card" data-category="seo-marketing">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">SEO Foundations</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="seo-marketing">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Technical SEO</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="seo-marketing">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Marketing Strategy: SEO Content Writing</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="seo-marketing">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Learning YouTube SEO</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="seo-marketing">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
-                <span class="coursework-date">Apr 2026</span>
-              </div>
-              <h4 class="coursework-title">Using AI as Your SEO Assistant</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <article class="coursework-card" data-category="seo-marketing">
-              <div class="coursework-card-top">
-                <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
-                <span class="coursework-date">Jul 2026</span>
-              </div>
-              <h4 class="coursework-title">Develop Your SEO Skills</h4>
-              <div class="coursework-card-bottom">
-                <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
-                <span>Verified</span>
-              </div>
-            </article>
-
-            <div id="cert-empty-state" class="cert-empty-state" hidden>
-              <p>No credentials found matching your filter or search criteria.</p>
-            </div>
+          <div style="flex-shrink:0;">
+            <span class="tool-tag text-emerald font-mono" style="font-size:0.8rem; padding:0.4rem 0.8rem;">✓ Verified Track</span>
           </div>
         </div>
-      </article>
 
-    </section>
+        <!-- Interactive Controls Bar: Category Pills + Search -->
+        <div class="cert-controls-bar">
+          <div class="cert-filter-pills" role="toolbar" aria-label="Filter credentials by domain">
+            <button class="cert-filter-btn is-active" type="button" data-filter-category="all" aria-pressed="true">
+              All Coursework <span class="cert-filter-count">24</span>
+            </button>
+            <button class="cert-filter-btn" type="button" data-filter-category="business-analysis" aria-pressed="false">
+              Business Analysis <span class="cert-filter-count">8</span>
+            </button>
+            <button class="cert-filter-btn" type="button" data-filter-category="data-analytics" aria-pressed="false">
+              Data Analytics <span class="cert-filter-count">6</span>
+            </button>
+            <button class="cert-filter-btn" type="button" data-filter-category="python-systems" aria-pressed="false">
+              Python &amp; Systems <span class="cert-filter-count">4</span>
+            </button>
+            <button class="cert-filter-btn" type="button" data-filter-category="seo-marketing" aria-pressed="false">
+              SEO &amp; Marketing <span class="cert-filter-count">6</span>
+            </button>
+          </div>
+          <div class="cert-search-wrapper">
+            <span class="cert-search-icon" aria-hidden="true">🔍</span>
+            <input type="text" id="credential-search-input" class="cert-search-input" placeholder="Search credentials..." aria-label="Search certifications and coursework">
+          </div>
+        </div>
+
+        <!-- Coursework Cards Grid (24 items) -->
+        <div class="coursework-grid" id="coursework-grid">
+          <!-- Business Analysis Items -->
+          <article class="coursework-card" data-category="business-analysis">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Introduction to Business Analysis</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="business-analysis">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Business Analysis: Essential Tools and Techniques</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="business-analysis">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Business Analysis Foundations: Business Process Modeling</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="business-analysis">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Business Benefits Realization Foundations</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="business-analysis">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">The Role of Business Analysis in Data Analytics</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="business-analysis">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Generative AI for Business Analysts</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="business-analysis">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Google Project Management Certificate (Foundations)</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> Coursera</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="business-analysis">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-ba">Business Analysis</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Project Initiation: Starting a Successful Project</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🏛️</span> Coursera</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <!-- Data Analytics Items -->
+          <article class="coursework-card" data-category="data-analytics">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Excel: Advanced Formulas and Functions</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="data-analytics">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Learning Data Analytics: 1 Foundations</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="data-analytics">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Learning Data Analytics: 2 Extending the Basics</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="data-analytics">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">SQL Essential Training</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="data-analytics">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Data Visualization for Data Analysts and Analytics</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="data-analytics">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-data">Data Analytics</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Managing Data with Microsoft 365</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📊</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <!-- Python & Systems Items -->
+          <article class="coursework-card" data-category="python-systems">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-python">Python &amp; Systems</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Python Essential Training</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🐍</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="python-systems">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-python">Python &amp; Systems</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Python Object-Oriented Programming</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🐍</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="python-systems">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-python">Python &amp; Systems</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Level Up: Python</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">🐍</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="python-systems">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-python">Python &amp; Systems</span>
+              <span class="coursework-date">Jul 2026</span>
+            </div>
+            <h4 class="coursework-title">Networking and Administration Fundamentals</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">⚡</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <!-- SEO & Marketing Items -->
+          <article class="coursework-card" data-category="seo-marketing">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">SEO Foundations</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="seo-marketing">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Technical SEO</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="seo-marketing">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Marketing Strategy: SEO Content Writing</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="seo-marketing">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Learning YouTube SEO</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="seo-marketing">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
+              <span class="coursework-date">Apr 2026</span>
+            </div>
+            <h4 class="coursework-title">Using AI as Your SEO Assistant</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <article class="coursework-card" data-category="seo-marketing">
+            <div class="coursework-card-top">
+              <span class="coursework-category-badge cat-badge-seo">SEO &amp; Marketing</span>
+              <span class="coursework-date">Jul 2026</span>
+            </div>
+            <h4 class="coursework-title">Develop Your SEO Skills</h4>
+            <div class="coursework-card-bottom">
+              <span class="coursework-issuer"><span class="coursework-issuer-icon">📈</span> LinkedIn Learning</span>
+              <span>Verified</span>
+            </div>
+          </article>
+
+          <div id="cert-empty-state" class="cert-empty-state" hidden>
+            <p>No credentials found matching your filter or search criteria.</p>
+          </div>
+        </div>
+
+        <!-- Return to Competencies Button Banner -->
+        <div class="tab-switch-banner" style="margin-top: var(--space-2xl);">
+          <div>
+            <div class="hud-kicker" style="margin-bottom:0.35rem;"><span class="kicker-pulse"></span>EXPLORE ENGINEERING WORKFLOWS</div>
+            <h3 style="color:var(--text); font-size:1.15rem; font-weight:700; margin:0 0 0.35rem;">Want to see applied technical systems in production?</h3>
+            <p style="color:var(--muted); font-size:0.88rem; margin:0;">Explore Python ETL pipelines, Proxmox homelab clusters, WireGuard meshes, and local LLM agents.</p>
+          </div>
+          <button type="button" class="tab-switch-btn" id="btn-goto-competencies">
+            ← Return to Technical Competencies
+          </button>
+        </div>
+      </section>
+    </div>
 
     <!-- Operational Philosophy Quote -->
     <section class="section-shell quote-section">
@@ -912,9 +954,64 @@
     </div>
   </aside>
 
-  <!-- Skills Filter Controller Script -->
+  <!-- Skills & Certifications Dual Tab Controller Script -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // 1. Primary Dual Tab Switching
+    const primaryTabs = document.querySelectorAll('.skills-primary-tab');
+    const panelCompetencies = document.getElementById('panel-competencies');
+    const panelCertifications = document.getElementById('panel-certifications');
+    const btnGotoCerts = document.getElementById('btn-goto-certifications');
+    const btnGotoCompetencies = document.getElementById('btn-goto-competencies');
+
+    const switchPrimaryTab = (targetTab, updateHash = true, scrollTarget = null) => {
+      primaryTabs.forEach((tab) => {
+        const isSelected = tab.dataset.tab === targetTab;
+        tab.classList.toggle('is-active', isSelected);
+        tab.setAttribute('aria-selected', String(isSelected));
+      });
+
+      if (targetTab === 'certifications') {
+        panelCompetencies.hidden = true;
+        panelCertifications.hidden = false;
+        if (updateHash && window.location.hash !== '#certifications') {
+          history.replaceState(null, '', '#certifications');
+        }
+      } else {
+        panelCompetencies.hidden = false;
+        panelCertifications.hidden = true;
+        if (updateHash && window.location.hash === '#certifications') {
+          history.replaceState(null, '', '#competencies');
+        }
+      }
+
+      if (scrollTarget) {
+        const el = document.getElementById(scrollTarget);
+        if (el) {
+          setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 60);
+        }
+      }
+    };
+
+    primaryTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        switchPrimaryTab(tab.dataset.tab);
+      });
+    });
+
+    if (btnGotoCerts) {
+      btnGotoCerts.addEventListener('click', () => {
+        switchPrimaryTab('certifications', true, 'certifications');
+      });
+    }
+
+    if (btnGotoCompetencies) {
+      btnGotoCompetencies.addEventListener('click', () => {
+        switchPrimaryTab('competencies', true, 'skills-catalog');
+      });
+    }
+
+    // 2. Competencies Domain Filtering (Tab 1)
     const filterButtons = document.querySelectorAll('.skills-filter-btn');
     const skillCards = document.querySelectorAll('.skill-directory-card');
 
@@ -943,7 +1040,7 @@
       });
     });
 
-    // Certifications & Credentials Coursework Filtering & Search
+    // 3. Certifications Coursework Filtering & Search (Tab 2)
     const certFilterBtns = document.querySelectorAll('.cert-filter-btn');
     const certCards = document.querySelectorAll('.coursework-card');
     const certSearch = document.getElementById('credential-search-input');
@@ -992,14 +1089,19 @@
       });
     }
 
-    // Deep-link check for #certifications hash
-    if (window.location.hash === '#certifications') {
-      activateFilter('certifications');
-      const certCard = document.getElementById('certifications');
-      if (certCard) {
-        setTimeout(() => certCard.scrollIntoView({ behavior: 'smooth' }), 100);
+    // 4. Hash deep-linking handler
+    const handleInitialHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#certifications' || hash === '#licenses' || hash === '#coursework') {
+        switchPrimaryTab('certifications', false, 'certifications');
+      } else if (hash) {
+        const targetId = hash.replace('#', '');
+        switchPrimaryTab('competencies', false, targetId);
       }
-    }
+    };
+
+    handleInitialHash();
+    window.addEventListener('hashchange', handleInitialHash);
   });
   </script>
 </body>
