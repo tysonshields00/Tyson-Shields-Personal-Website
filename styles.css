@@ -2347,10 +2347,10 @@ html[data-reduced-motion='true'] .reveal {
   align-items: center;
   margin-bottom: 0.85rem;
   padding-inline: 0.2rem;
-  font-family: var(--mono);
-  font-size: 0.68rem;
+  font-family: var(--sans);
+  font-size: 0.72rem;
   color: var(--muted);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
 }
 
 .portrait-status {
@@ -2440,8 +2440,8 @@ html[data-reduced-motion='true'] .reveal {
   align-items: center;
   margin-top: 0.85rem;
   padding-inline: 0.2rem;
-  font-family: var(--mono);
-  font-size: 0.65rem;
+  font-family: var(--sans);
+  font-size: 0.72rem;
 }
 
 .portrait-tags {
@@ -2451,7 +2451,8 @@ html[data-reduced-motion='true'] .reveal {
 
 .portrait-id {
   color: var(--muted);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
+  font-weight: 500;
 }
 
 .about-hero-grid {
@@ -2476,26 +2477,40 @@ html[data-reduced-motion='true'] .reveal {
 
 .social-links {
   display: flex;
-  gap: .55rem;
+  align-items: center;
+  gap: .65rem;
   margin-top: 1.6rem;
+  flex-wrap: wrap;
 }
 
 .social-links a {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .45rem .85rem;
   border: 1px solid var(--line);
-  border-radius: 50%;
+  border-radius: 8px;
   color: var(--muted);
-  font-family: var(--mono);
-  font-size: .68rem;
-  font-weight: 700;
+  font-family: var(--sans);
+  font-size: .8rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: var(--surface);
+  transition: all .2s ease;
+}
+
+.social-links a svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  flex-shrink: 0;
 }
 
 .social-links a:hover {
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--text);
+  background: var(--accent-soft);
+  transform: translateY(-1px);
 }
 
 .hero-dashboard {
