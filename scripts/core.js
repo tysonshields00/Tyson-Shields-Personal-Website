@@ -192,19 +192,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
+  });
+
   const loadPreferences = () => {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey));
-      return { ...defaults, ...saved };
+      let theme = saved?.theme;
+      if (theme === 'navy') theme = 'dark';
+      if (theme !== 'dark' && theme !== 'light') {
+        theme = defaults.theme;
+      }
+      return { ...defaults, ...saved, theme };
     } catch (error) {
       return { ...defaults };
     }
   };
 
   let preferences = loadPreferences();
-  Object.keys(valid).forEach((key) => {
-    if (!valid[key].includes(preferences[key])) preferences[key] = defaults[key];
-  });
+  if (preferences.theme !== 'dark' && preferences.theme !== 'light') {
+    preferences.theme = 'dark';
+  }
   preferences.reducedMotion = Boolean(preferences.reducedMotion);
 
   const savePreferences = () => {
@@ -217,25 +224,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updatePreferenceDom = () => {
     root.dataset.theme = preferences.theme;
-    root.dataset.accent = preferences.accent;
-    root.dataset.density = preferences.density;
+    root.dataset.accent = 'blue';
+    root.dataset.density = 'spacious';
     root.dataset.reducedMotion = preferences.reducedMotion;
 
     if (themeColorMeta) {
       themeColorMeta.setAttribute('content', themeColors[preferences.theme] || '#0a0f1d');
     }
 
-    document.querySelectorAll('[data-setting]').forEach((control) => {
-      const setting = control.dataset.setting;
-      const selected = setting === 'motion'
-        ? preferences.reducedMotion
-        : preferences[setting] === control.dataset.value;
+    document.querySelectorAll('[data-setting="theme"]').forEach((control) => {
+      const selected = preferences.theme === control.dataset.value;
       control.classList.toggle('is-selected', selected);
-      if (control.matches('.toggle')) {
-        control.classList.toggle('is-on', preferences.reducedMotion);
-        control.setAttribute('aria-checked', String(preferences.reducedMotion));
-      }
-      if (control.dataset.setting === 'theme') control.setAttribute('aria-expanded', String(selected));
+      control.setAttribute('aria-pressed', String(selected));
     });
   };
 
@@ -255,7 +255,9 @@ document.addEventListener('DOMContentLoaded', () => {
     drawer?.classList.toggle('is-open', newState);
     backdrop?.classList.toggle('is-visible', newState);
     drawer?.setAttribute('aria-hidden', String(!newState));
-    settingsTrigger?.setAttribute('aria-expanded', String(newState));
+    document.querySelectorAll('.settings-trigger').forEach((trigger) => {
+      trigger.setAttribute('aria-expanded', String(newState));
+    });
     if (newState) {
       drawerReturnFocus = document.activeElement;
       drawer?.querySelector('.drawer-close')?.focus();
@@ -265,26 +267,38 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   if (drawer && backdrop) {
-    settingsTrigger?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      closeMobileNav();
-      setDrawer();
-    });
-    drawer.querySelector('.drawer-close')?.addEventListener('click', () => setDrawer(false));
-    backdrop.addEventListener('click', () => setDrawer(false));
-    document.querySelectorAll('[data-setting]').forEach((control) => {
-      control.addEventListener('click', () => {
-        if (control.dataset.setting === 'motion') preferences.reducedMotion = !preferences.reducedMotion;
-        else preferences[control.dataset.setting] = control.dataset.value;
-        applyPreferences();
-        savePreferences();
+    document.querySelectorAll('.settings-trigger').forEach((trigger) => {
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeMobileNav();
+        setDrawer();
       });
     });
 
-    document.querySelector('[data-reset]')?.addEventListener('click', () => {
-      preferences = { ...defaults };
-      applyPreferences();
-      savePreferences();
+    drawer.querySelector('.drawer-close')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setDrawer(false);
+    });
+
+    backdrop.addEventListener('click', () => setDrawer(false));
+
+    document.addEventListener('click', (event) => {
+      if (drawer?.classList.contains('is-open')) {
+        if (!drawer.contains(event.target) && !event.target.closest('.settings-trigger')) {
+          setDrawer(false);
+        }
+      }
+    });
+
+    document.querySelectorAll('[data-setting="theme"]').forEach((control) => {
+      control.addEventListener('click', () => {
+        const val = control.dataset.value;
+        if (val === 'dark' || val === 'light') {
+          preferences.theme = val;
+          applyPreferences();
+          savePreferences();
+        }
+      });
     });
   }
 
@@ -485,7 +499,10 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.clearRect(0, 0, width, height);
 
       const activeAccent = root.dataset.accent || 'blue';
-      const palette = accentPalettes[activeAccent] || accentPalettes.blue;
+      const isLight = root.dataset.theme === 'light';
+      const palette = isLight
+        ? ['rgba(2, 132, 199, ', 'rgba(14, 165, 233, ', 'rgba(56, 189, 248, ']
+        : (accentPalettes[activeAccent] || accentPalettes.blue);
 
       // Draw particle connections
       for (let i = 0; i < particles.length; i++) {

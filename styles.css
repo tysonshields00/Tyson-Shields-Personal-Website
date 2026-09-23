@@ -1370,10 +1370,24 @@ h1 em, h2 span {
 
 .theme-grid button:hover,
 .theme-grid button.is-selected {
-  border-color: var(--cyan-neon);
+  border-color: var(--accent);
   color: var(--text);
   background: var(--accent-soft);
-  box-shadow: 0 0 14px var(--cyan-glow);
+  box-shadow: 0 0 14px var(--accent-soft);
+}
+
+html[data-theme='light'] .theme-grid button {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.14);
+  color: #334155;
+}
+
+html[data-theme='light'] .theme-grid button:hover,
+html[data-theme='light'] .theme-grid button.is-selected {
+  border-color: #0284c7;
+  color: #0369a1;
+  background: rgba(2, 132, 199, 0.08);
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.15);
 }
 
 .theme-dot {
@@ -4154,14 +4168,19 @@ kbd,
 }
 
 /* 10. Faint neon tube glow on --accent text in dark mode */
+[data-theme="dark"] .dashboard-screen em,
 [data-theme="navy"] .dashboard-screen em,
 [data-theme="slate"] .dashboard-screen em,
+[data-theme="dark"] .card-index,
 [data-theme="navy"] .card-index,
 [data-theme="slate"] .card-index,
+[data-theme="dark"] h1 span,
 [data-theme="navy"] h1 span,
 [data-theme="slate"] h1 span,
+[data-theme="dark"] h2 em,
 [data-theme="navy"] h2 em,
 [data-theme="slate"] h2 em,
+[data-theme="dark"] .brand-mark,
 [data-theme="navy"] .brand-mark,
 [data-theme="slate"] .brand-mark {
   text-shadow: 0 0 10px rgba(14, 165, 233, 0.45);
@@ -4389,6 +4408,7 @@ form select:focus-visible {
 }
 
 /* Theme: Dark Navy (Default) */
+html[data-theme='dark'],
 html[data-theme='navy'] {
   --bg: #070c18;
   --surface: #0e172a;
