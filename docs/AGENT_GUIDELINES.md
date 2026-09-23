@@ -44,10 +44,23 @@ Tyson-Shields-Personal-Website/
 │   └── (Missing centralized types, lib helpers, app routes, layout modules)
 ```
 
-### After (Modular Clean Architecture)
+### After (Clean Root & Modular Hierarchy)
 ```text
 Tyson-Shields-Personal-Website/
+├── docs/                             <-- Architecture guides & AI agent instructions
+│   ├── AGENT_GUIDELINES.md           <-- Comprehensive manual for AI models & developers
+│   └── ARCHITECTURE.md               <-- High-level system architecture overview
+├── legacy/                           <-- Preserved self-contained static HTML site
+│   ├── _includes/                    <-- Reusable partials (header, footer, drawer)
+│   ├── _layouts/                     <-- Base HTML layouts
+│   ├── .eleventy.js                  <-- Eleventy SSG configuration
+│   ├── 404.html, about.html...       <-- Static HTML pages
+│   ├── fonts/ & scripts/             <-- Local static assets
+│   └── styles.css & styles.min.css   <-- Legacy stylesheets
 ├── public/                           <-- Static assets, favicons, OG images, PDFs
+│   ├── css/                          <-- Compiled production styles (styles.min.css)
+│   ├── fonts/                        <-- Modern WOFF2 typography (Outfit)
+│   ├── scripts/                      <-- Modular browser scripts (core, home, contact)
 │   ├── android-chrome-*.png
 │   ├── apple-touch-icon.png
 │   ├── favicon.ico
@@ -92,16 +105,18 @@ Tyson-Shields-Personal-Website/
 │   ├── lib/                          <-- Utilities & schema generators
 │   │   ├── metadata.ts               <-- Structured JSON-LD metadata builders
 │   │   └── utils.ts                  <-- Tailwind merge (cn), formatting, clipboard
+│   ├── styles/                       <-- Source stylesheet (styles.css, styles.min.css)
 │   └── types/                        <-- Shared TypeScript domain contracts
 │       ├── articles.ts
 │       ├── credentials.ts
 │       ├── experience.ts
 │       ├── socials.ts
 │       └── index.ts
+├── .gitignore                        <-- Git ignore rules
+├── package.json                      <-- Build and development scripts
 ├── tailwind.config.ts                <-- Shared styling tokens & color palettes
 ├── tsconfig.json                     <-- Strict TS compiler with @/* path aliases
-├── AGENT_GUIDELINES.md               <-- This reference document
-└── package.json                      <-- Build and development scripts
+└── vercel.json                       <-- Vercel deployment rules
 ```
 
 ---
@@ -231,12 +246,12 @@ Before committing or pushing any code to production:
 1. **Verify Static CSS Generation:**
    ```bash
    npm run build
-   # Expected output: styles.min.css compiled via esbuild with zero errors
+   # Expected output: public/css/styles.min.css compiled via esbuild with zero errors
    ```
 2. **Verify Eleventy SSG:**
    ```bash
    npm run build:ssg
-   # Confirms that all static root pages compile cleanly
+   # Confirms that all legacy static pages compile cleanly from legacy/.eleventy.js
    ```
 3. **Verify Static File Synchronization:**
    - When modifying assets, ensure both root and `public/` stay synchronized.

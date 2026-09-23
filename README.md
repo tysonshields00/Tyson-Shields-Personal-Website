@@ -10,21 +10,14 @@ The professional portfolio and technical platform of **Tyson Shields**—Busines
 
 ---
 
-## 🏛 Architectural Architecture: Dual-Engine Design
+## 🏛 Clean Root & Modular Architecture
 
-This repository is engineered with a **dual architectural design** to maximize deployment flexibility, delivery speed, and developer ergonomic modularity:
+The repository enforces a clean root structure where all loose files are organized into dedicated directories:
 
-1. **Production Static Root (Zero-JS-Dependent SSG):**
-   - High-speed semantic HTML5 pages (`index.html`, `career.html`, `about.html`, `skills.html`, `contact.html`).
-   - Automated CSS pipeline generating minified `styles.min.css` (124.6 KB) via `esbuild`.
-   - Component templating via Eleventy (`_includes/`, `_layouts/`).
-   - Modular browser scripts (`scripts/core.js`, `scripts/home.js`, `scripts/contact.js`, `scripts/404.js`).
-
-2. **Next.js 14+ App Router & TypeScript Engine (`src/`):**
-   - Modern React component hierarchy organized into `src/app/`, `src/components/` (`ui/`, `sections/`, `layout/`), `src/data/`, `src/lib/`, and `src/types/`.
-   - Strict TypeScript type safety (`strict: true`) with absolute path aliases (`@/*` -> `./src/*`).
-   - Tailwind CSS design system with custom cyan/emerald/slate palettes and responsive typography.
-   - Clean separation of concerns: data records reside exclusively in `src/data/`, isolated from UI templates.
+* **`src/`** contains the Next.js 14+ App Router, atomic UI components, centralized data sources, metadata builders, and domain contracts.
+* **`public/`** houses all static assets: fonts, browser scripts, production stylesheets, icons, favicons, manifests, and the resume PDF.
+* **`legacy/`** stores the self-contained static HTML pages, Eleventy templates (`_includes/`, `_layouts/`), and historical static build configuration.
+* **`docs/`** hosts comprehensive architectural documentation and AI agent engineering guidelines.
 
 ---
 
@@ -32,13 +25,27 @@ This repository is engineered with a **dual architectural design** to maximize d
 
 ```text
 Tyson-Shields-Personal-Website/
-├── public/                           # Static assets, favicons, OG cards, PDF resume
-│   ├── android-chrome-*.png
-│   ├── favicon.ico
-│   ├── headshot.jpg
-│   ├── og-image.png
-│   ├── site.webmanifest
-│   └── Tyson-Shields-Resume.pdf
+├── docs/                             # Architecture guides & AI agent instructions
+│   ├── AGENT_GUIDELINES.md           # Comprehensive manual for AI models & developers
+│   └── ARCHITECTURE.md               # High-level system architecture overview
+├── legacy/                           # Preserved self-contained static HTML site
+│   ├── _includes/                    # Reusable partials (header, footer, drawer)
+│   ├── _layouts/                     # Base HTML layouts
+│   ├── .eleventy.js                  # Eleventy SSG configuration
+│   ├── 404.html, about.html...       # Static HTML pages
+│   ├── fonts/ & scripts/             # Local static assets
+│   └── styles.css & styles.min.css   # Legacy stylesheets
+├── public/                           # Public static assets & CDN distribution
+│   ├── css/                          # Compiled minified stylesheets (styles.min.css)
+│   ├── fonts/                        # Modern WOFF2 typography (Outfit)
+│   ├── scripts/                      # Modular browser scripts (core, home, contact, 404)
+│   ├── android-chrome-*.png          # PWA icons
+│   ├── favicon.ico & favicon-*.png   # Multi-resolution favicons
+│   ├── headshot.jpg & og-image.png   # Portrait & Open Graph social cards
+│   ├── site.webmanifest, robots.txt  # Manifest & crawler directives
+│   ├── sitemap.xml                   # Search engine index sitemap
+│   ├── Tyson-Shields-Resume.pdf      # Downloadable resume document
+│   └── _headers & _redirects         # Cloudflare/Netlify routing & security headers
 ├── src/                              # Next.js App Router & Component Engine
 │   ├── app/                          # App Router pages and global layouts
 │   │   ├── globals.css               # Global Tailwind CSS directives & root variables
@@ -61,20 +68,18 @@ Tyson-Shields-Personal-Website/
 │   ├── lib/                          # Utility functions & metadata helpers
 │   │   ├── metadata.ts               # Structured Schema.org JSON-LD builders
 │   │   └── utils.ts                  # Class merge (cn), clipboard, date formatters
+│   ├── styles/                       # Source stylesheet (styles.css, styles.min.css)
 │   └── types/                        # Strict domain contracts & TypeScript interfaces
 │       ├── articles.ts
 │       ├── credentials.ts
 │       ├── experience.ts
 │       ├── socials.ts
 │       └── index.ts
-├── scripts/                          # Modular browser JavaScript (core, home, contact, 404)
-├── fonts/                            # Optimized WOFF2 font payloads
-├── styles.css                        # Cybernetic source stylesheet
-├── styles.min.css                    # Minified production stylesheet (esbuild)
+├── .gitignore                        # Git exclusion rules
+├── package.json                      # Build scripts and project dependencies
 ├── tailwind.config.ts                # Tailwind design tokens & font configuration
 ├── tsconfig.json                     # Strict TypeScript configuration with @/* aliases
-├── AGENT_GUIDELINES.md               # Guidelines for future AI models & engineers
-└── package.json                      # Build scripts and project dependencies
+└── vercel.json                       # Deployment & header rules
 ```
 
 ---
@@ -94,37 +99,42 @@ Tyson-Shields-Personal-Website/
 ```sh
 npm run build
 ```
-Compiles and minifies `styles.css` into `styles.min.css` using `esbuild`.
+Compiles and minifies `src/styles/styles.css` into `public/css/styles.min.css` using `esbuild`.
 
-### 2. Static Site Generator Build (Eleventy)
+### 2. Static Site Generator Build (Legacy Eleventy)
 ```sh
 npm run build:ssg
 ```
-Minifies stylesheets and compiles semantic HTML templates via `@11ty/eleventy`.
+Compiles legacy HTML templates via `@11ty/eleventy` using `legacy/.eleventy.js`.
 
-### 3. Local Live-Reload Dev Server
+### 3. Local Live-Reload Dev Server (Legacy Site)
 ```sh
 npm run dev
 ```
-Starts the local Eleventy development server with hot-reload.
+Starts the local Eleventy development server with hot-reload for `legacy/`.
 
 ### 4. Static HTTP Preview
 ```sh
 npm run preview
-# or: python -m http.server 8000
+# Preview public assets at http://localhost:8000
 ```
-Launches a lightweight static HTTP server at `http://localhost:8000`.
+
+### 5. Legacy Site HTTP Preview
+```sh
+npm run preview:legacy
+# Preview legacy static site at http://localhost:8000
+```
 
 ---
 
 ## 📖 Contributing & AI Agent Instructions
 
-All engineers and automated AI coding assistants **must adhere** to the architectural specifications and content workflows detailed in **[`AGENT_GUIDELINES.md`](AGENT_GUIDELINES.md)**.
+All engineers and automated AI coding assistants **must adhere** to the architectural specifications and content workflows detailed in **[`docs/AGENT_GUIDELINES.md`](docs/AGENT_GUIDELINES.md)**.
 
 ### Content Update Rules:
 * **Never modify presentation markup** to add credentials, articles, or experience.
 * **Update data layers** in `src/data/` using the strongly typed contracts defined in `src/types/`.
-* **Maintain asset parity** between root and `public/`.
+* **Maintain asset parity** within `public/`.
 * **Run `npm run build`** before any commit to ensure zero CSS or compilation regressions.
 
 ---
