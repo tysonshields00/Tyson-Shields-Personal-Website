@@ -8,7 +8,7 @@ console.log(
    ██║      ██║   ███████║╚██████╔╝██║ ╚████║
    ╚═╝      ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 Tyson Shields — Data Analytics, Systems & Media Production
-Lincoln, Nebraska · https://github.com/tysonshields
+Lincoln, Nebraska · https://github.com/tysonshields00
 `,
   'color: #0ea5e9; font-weight: bold; font-family: monospace; font-size: 11px;'
 );
