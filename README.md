@@ -76,10 +76,16 @@ Tyson-Shields-Personal-Website/
 │       ├── socials.ts
 │       └── index.ts
 ├── .gitignore                        # Git exclusion rules
+├── index.html                        # Root redirector → legacy/index.html
+├── about.html                        # Root redirector → legacy/about.html
+├── career.html                       # Root redirector → legacy/career.html
+├── skills.html                       # Root redirector → legacy/skills.html
+├── contact.html                      # Root redirector → legacy/contact.html
 ├── package.json                      # Build scripts and project dependencies
+├── README.md                         # This file
 ├── tailwind.config.ts                # Tailwind design tokens & font configuration
 ├── tsconfig.json                     # Strict TypeScript configuration with @/* aliases
-└── vercel.json                       # Deployment & header rules
+└── vercel.json                       # Deployment, rewrites & security headers
 ```
 
 ---

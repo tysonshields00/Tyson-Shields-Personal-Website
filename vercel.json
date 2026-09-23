@@ -20,8 +20,15 @@
       ]
     }
   ],
+  "rewrites": [
+    { "source": "/", "destination": "/legacy/index.html" },
+    { "source": "/about", "destination": "/legacy/about.html" },
+    { "source": "/career", "destination": "/legacy/career.html" },
+    { "source": "/skills", "destination": "/legacy/skills.html" },
+    { "source": "/contact", "destination": "/legacy/contact.html" }
+  ],
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/(.*)", "status": 404, "dest": "/404.html" }
+    { "src": "/(.*)", "status": 404, "dest": "/legacy/404.html" }
   ]
 }
