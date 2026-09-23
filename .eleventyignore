@@ -1,0 +1,7 @@
+node_modules/
+src/
+public/
+docs/
+_site/
+.git/
+README.md

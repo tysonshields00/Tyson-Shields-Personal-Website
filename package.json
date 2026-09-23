@@ -3,13 +3,11 @@
   "version": "2.0.0",
   "description": "Personal website for Tyson Shields: data analytics, systems engineering, and employee benefits.",
   "scripts": {
-    "build": "npx esbuild src/styles/styles.css --minify --outfile=public/css/styles.min.css",
-    "build:legacy": "npx esbuild legacy/styles.css --minify --outfile=legacy/styles.min.css",
-    "build:ssg": "npx esbuild legacy/styles.css --minify --outfile=legacy/styles.min.css && npx @11ty/eleventy --config=legacy/.eleventy.js",
-    "minify:css": "npx esbuild src/styles/styles.css --minify --outfile=public/css/styles.min.css",
-    "dev": "npx @11ty/eleventy --config=legacy/.eleventy.js --serve",
-    "preview": "python -m http.server 8000 --directory public",
-    "preview:legacy": "python -m http.server 8000 --directory legacy"
+    "build": "npx esbuild styles.css --minify --outfile=styles.min.css",
+    "build:ssg": "npx esbuild styles.css --minify --outfile=styles.min.css && npx @11ty/eleventy",
+    "minify:css": "npx esbuild styles.css --minify --outfile=styles.min.css",
+    "dev": "npx @11ty/eleventy --serve",
+    "preview": "python -m http.server 8000"
   },
   "keywords": [
     "portfolio",
