@@ -618,4 +618,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   initRadarGame();
+
+  // Certifications & Credentials Interactive Filtering & Search
+  const initCertificationsFilter = () => {
+    const certFilterBtns = document.querySelectorAll('.cert-filter-btn');
+    const certCards = document.querySelectorAll('.coursework-card');
+    const certSearch = document.getElementById('credential-search-input');
+    const certCounter = document.getElementById('cert-counter');
+    const certEmptyState = document.getElementById('cert-empty-state');
+
+    if (!certFilterBtns.length || !certCards.length) return;
+
+    let currentCategory = 'all';
+    let currentSearchTerm = '';
+
+    const applyCertFilters = () => {
+      let visibleCount = 0;
+      certCards.forEach((card) => {
+        const cat = card.dataset.category || '';
+        const text = (card.textContent || '').toLowerCase();
+        const matchesCategory = currentCategory === 'all' || cat === currentCategory;
+        const matchesSearch = !currentSearchTerm || text.includes(currentSearchTerm);
+
+        if (matchesCategory && matchesSearch) {
+          card.classList.remove('is-hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('is-hidden');
+        }
+      });
+
+      if (certCounter) {
+        certCounter.textContent = String(visibleCount);
+      }
+      if (certEmptyState) {
+        certEmptyState.hidden = visibleCount > 0;
+      }
+    };
+
+    certFilterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        certFilterBtns.forEach((b) => {
+          const isActive = b === btn;
+          b.classList.toggle('is-active', isActive);
+          b.setAttribute('aria-pressed', String(isActive));
+        });
+        currentCategory = btn.dataset.filterCategory || 'all';
+        applyCertFilters();
+      });
+    });
+
+    if (certSearch) {
+      certSearch.addEventListener('input', (e) => {
+        currentSearchTerm = e.target.value.trim().toLowerCase();
+        applyCertFilters();
+      });
+    }
+  };
+
+  initCertificationsFilter();
 });
+
