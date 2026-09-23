@@ -7388,5 +7388,10 @@ html[data-theme='light'] .credential-chip {
   text-decoration: underline;
 }
 
+/* Skills Directory Filter Rule */
+.skill-directory-card.is-filtered-out {
+  display: none !important;
+}
+
 
 
