@@ -2,12 +2,8 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import {
-  credentialsData,
-  CREDENTIAL_CATEGORIES,
-  Credential,
-  CredentialCategory,
-} from '../data/credentials';
+import { credentialsData, CREDENTIAL_CATEGORIES } from '@/data/credentials';
+import { Credential, CredentialCategory } from '@/types/credentials';
 
 export const Certifications: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');

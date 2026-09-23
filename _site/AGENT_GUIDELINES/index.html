@@ -1,0 +1,237 @@
+<h1>AGENT &amp; DEVELOPER ARCHITECTURAL GUIDELINES</h1>
+<blockquote>
+<p><strong>Target Audience:</strong> Future AI Agents (Antigravity, Claude, ChatGPT, Cursor) and Software Engineers contributing to <code>tysonshields.com</code>.
+<strong>Last Updated:</strong> September 2026
+<strong>Version:</strong> 2.0.0
+<strong>System Architecture:</strong> Dual Static-Site Generator (Eleventy / esbuild) &amp; Modular Next.js 14+ App Router (TypeScript &amp; Tailwind CSS).</p>
+</blockquote>
+<hr>
+<h2>1. Executive Codebase Overview</h2>
+<p>This repository powers <strong>tysonshields.com</strong>, the professional portfolio of <strong>Tyson Shields</strong>—Business Analyst specializing in Employee Benefits, licensed Life &amp; Health Insurance Producer (State of Nebraska #21707104), and systems technologist.</p>
+<p>The codebase is engineered with a <strong>dual architectural structure</strong>:</p>
+<ol>
+<li><strong>Production Static Delivery (Root):</strong> High-speed, zero-JS-dependent static pages (<code>index.html</code>, <code>career.html</code>, <code>about.html</code>, <code>skills.html</code>, <code>contact.html</code>) served with minified CSS (<code>styles.min.css</code>) and vanilla progressive enhancement (<code>scripts/core.js</code>).</li>
+<li><strong>Modular Next.js / TypeScript App Engine (<code>src/</code>):</strong> Strongly typed, component-driven architecture using React, Next.js App Router (<code>src/app/</code>), atomic design tokens, centralized data layers (<code>src/data/</code>), domain models (<code>src/types/</code>), and path aliases (<code>@/*</code>).</li>
+</ol>
+<hr>
+<h2>2. Directory Reorganization Blueprint</h2>
+<h3>Before (Accumulated Legacy State)</h3>
+<pre><code class="language-text">Tyson-Shields-Personal-Website/
+├── .eleventy.js
+├── package.json
+├── styles.css
+├── styles.min.css
+├── script.js                         &lt;-- Monolithic, scattered logic
+├── index.html, career.html, ...      &lt;-- Hardcoded content, outdated links
+├── src/
+│   ├── components/
+│   │   ├── Certifications.tsx        &lt;-- Scattered in root of components/
+│   │   ├── ArticlesSection.tsx       &lt;-- Relative imports: '../data/articles'
+│   │   ├── ExperienceTimeline.tsx    &lt;-- Loose types
+│   │   ├── SocialLinks.tsx           &lt;-- Relative imports: '../data/socials'
+│   │   └── ui/
+│   │       └── Badge.tsx
+│   ├── data/
+│   │   ├── credentials.ts
+│   │   ├── articles.ts
+│   │   ├── experience.ts
+│   │   └── socials.ts
+│   └── (Missing centralized types, lib helpers, app routes, layout modules)
+</code></pre>
+<h3>After (Modular Clean Architecture)</h3>
+<pre><code class="language-text">Tyson-Shields-Personal-Website/
+├── public/                           &lt;-- Static assets, favicons, OG images, PDFs
+│   ├── android-chrome-*.png
+│   ├── apple-touch-icon.png
+│   ├── favicon.ico
+│   ├── headshot.jpg
+│   ├── og-image.png
+│   ├── site.webmanifest
+│   └── Tyson-Shields-Resume.pdf
+├── src/
+│   ├── app/                          &lt;-- Next.js 14+ App Router
+│   │   ├── globals.css               &lt;-- Tailwind directives &amp; design tokens
+│   │   ├── layout.tsx                &lt;-- Root layout, metadata, JSON-LD injection
+│   │   ├── page.tsx                  &lt;-- Modular Home page
+│   │   ├── about/page.tsx            &lt;-- Dedicated About route
+│   │   ├── career/page.tsx           &lt;-- Dedicated Career route
+│   │   ├── skills/page.tsx           &lt;-- Technical Competencies route
+│   │   └── contact/page.tsx          &lt;-- Direct Comms &amp; Relays route
+│   ├── components/
+│   │   ├── index.ts                  &lt;-- Root barrel export
+│   │   ├── ui/                       &lt;-- Atomic, reusable UI primitives
+│   │   │   ├── Badge.tsx
+│   │   │   ├── Button.tsx
+│   │   │   ├── Card.tsx
+│   │   │   ├── SearchInput.tsx
+│   │   │   └── index.ts
+│   │   ├── sections/                 &lt;-- Composable domain sections
+│   │   │   ├── HeroSection.tsx
+│   │   │   ├── TelemetrySection.tsx
+│   │   │   ├── CertificationsSection.tsx
+│   │   │   ├── ArticlesSection.tsx
+│   │   │   ├── ExperienceSection.tsx
+│   │   │   └── index.ts
+│   │   └── layout/                   &lt;-- Global navigation and structure
+│   │       ├── Header.tsx
+│   │       ├── Footer.tsx
+│   │       ├── Navigation.tsx
+│   │       └── index.ts
+│   ├── data/                         &lt;-- Single source of truth for all records
+│   │   ├── articles.ts               &lt;-- Published opinion columns &amp; news
+│   │   ├── credentials.ts            &lt;-- Licenses &amp; professional certifications
+│   │   ├── experience.ts             &lt;-- Career timeline &amp; operational highlights
+│   │   └── socials.ts                &lt;-- Canonical profiles &amp; contact relays
+│   ├── lib/                          &lt;-- Utilities &amp; schema generators
+│   │   ├── metadata.ts               &lt;-- Structured JSON-LD metadata builders
+│   │   └── utils.ts                  &lt;-- Tailwind merge (cn), formatting, clipboard
+│   └── types/                        &lt;-- Shared TypeScript domain contracts
+│       ├── articles.ts
+│       ├── credentials.ts
+│       ├── experience.ts
+│       ├── socials.ts
+│       └── index.ts
+├── tailwind.config.ts                &lt;-- Shared styling tokens &amp; color palettes
+├── tsconfig.json                     &lt;-- Strict TS compiler with @/* path aliases
+├── AGENT_GUIDELINES.md               &lt;-- This reference document
+└── package.json                      &lt;-- Build and development scripts
+</code></pre>
+<hr>
+<h2>3. Path Aliases &amp; Import Conventions</h2>
+<p>The project enforces TypeScript path aliases configured in <code>tsconfig.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;paths&quot;: {
+      &quot;@/*&quot;: [&quot;./src/*&quot;]
+    }
+  }
+}
+</code></pre>
+<h3>Import Rules:</h3>
+<ul>
+<li><strong>ALWAYS</strong> use <code>@/components/ui</code>, <code>@/components/sections</code>, or <code>@/components/layout</code> instead of relative traversal (<code>../../components/...</code>).</li>
+<li><strong>ALWAYS</strong> import shared types from <code>@/types</code> or <code>@/types/&lt;domain&gt;</code>.</li>
+<li><strong>ALWAYS</strong> import centralized datasets from <code>@/data/&lt;domain&gt;</code>.</li>
+<li><strong>ALWAYS</strong> import utility functions (<code>cn</code>, formatting) from <code>@/lib/utils</code>.</li>
+<li><strong>NEVER</strong> use wildcard relative paths like <code>../../data/experience</code>.</li>
+</ul>
+<hr>
+<h2>4. How to Add New Content Without Modifying Component Templates</h2>
+<p>Content is strictly separated from presentation logic. Whenever new career milestones, credentials, or articles are published, update only the corresponding data file in <code>src/data/</code>.</p>
+<h3>4.1 Adding a New Credential</h3>
+<p>Edit <code>src/data/credentials.ts</code>:</p>
+<pre><code class="language-typescript">import { Credential } from '@/types/credentials';
+
+// Append to credentialsData array:
+{
+  id: 'unique-slug',
+  title: 'Advanced Stop-Loss Underwriting Certification',
+  issuer: 'International Foundation of Employee Benefit Plans (IFEBP)',
+  category: 'Business &amp; Management', // 'Licenses' | 'Business &amp; Management' | 'IT, Cloud &amp; Systems' | 'Data &amp; Technical Tools'
+  issueDate: 'Oct 2026',
+  expirationDate: 'Oct 2029',        // Optional
+  credentialId: 'ABC-12345678',       // Optional
+  verificationUrl: 'https://...',     // Optional
+  skills: ['Stop-Loss Modeling', 'Underwriting Analytics'],
+}
+</code></pre>
+<h3>4.2 Adding a New Published Article</h3>
+<p>Edit <code>src/data/articles.ts</code>:</p>
+<pre><code class="language-typescript">import { Article } from '@/types/articles';
+
+// Append to ARTICLES_DATA array:
+{
+  id: 'article-unique-id',
+  title: 'Analyzing High-Cost Claim Volatility in Higher Ed Risk Pools',
+  url: 'https://www.dailynebraskan.com/...',
+  category: 'Higher Ed &amp; Policy', // 'Campus Life' | 'Higher Ed &amp; Policy' | 'Culture &amp; Society' | 'Work &amp; Academics'
+  summary: 'In-depth analysis of university healthcare risk pools and stop-loss aggregation.',
+  readingTime: '5 min read',
+  publishedDate: '2023-11-20',
+  formattedDate: 'Nov 20, 2023',
+}
+</code></pre>
+<h3>4.3 Adding an Experience Entry</h3>
+<p>Edit <code>src/data/experience.ts</code>:</p>
+<pre><code class="language-typescript">import { ExperienceItem } from '@/types/experience';
+
+// Append to EXPERIENCE_DATA array:
+{
+  id: 'role-id',
+  role: 'Senior Employee Benefits Analyst',
+  organization: 'Acme Benefits Consulting',
+  location: 'Omaha, NE',
+  term: '2026 - Present',
+  category: 'enterprise', // 'enterprise' | 'data-it' | 'editorial' | 'broadcast'
+  pillar: 'Group Benefits &amp; Underwriting',
+  description: 'Leading actuarial plan reviews and automated renewal RFP benchmarking.',
+  highlights: [
+    'Engineered self-funded stop-loss pricing models covering $20M+ annualized premium.',
+    'Automated carrier census reconciliation reducing turnaround from 5 days to 2 hours.',
+  ],
+  skills: ['Self-Funded Stop-Loss', 'EDI 834', 'Power BI', 'Excel Modeling'],
+  highlight: true,
+}
+</code></pre>
+<h3>4.4 Updating Social Media / Contact Links</h3>
+<p>Edit <code>src/data/socials.ts</code>:</p>
+<ul>
+<li>Verified accounts are centralized in <code>SOCIAL_LINKS</code> and <code>CONTACT_CONFIG</code>.</li>
+<li>Updating <code>CONTACT_CONFIG.email</code> automatically propagates to all copy buttons, mailto anchors, footer credits, and SEO JSON-LD schemas.</li>
+</ul>
+<hr>
+<h2>5. Coding &amp; Styling Standards</h2>
+<h3>TypeScript Strictness</h3>
+<ul>
+<li><code>strict: true</code> is enforced in <code>tsconfig.json</code>.</li>
+<li><strong>Zero Tolerance for <code>any</code>:</strong> Never declare <code>: any</code> or cast with <code>as any</code>. Use proper interfaces or generic types.</li>
+<li>All props interfaces must be exported from their component file (e.g., <code>export interface ButtonProps</code>).</li>
+</ul>
+<h3>Tailwind CSS Conventions</h3>
+<ul>
+<li>Color Palette:
+<ul>
+<li>Background: <code>bg-slate-950</code></li>
+<li>Elevated surfaces: <code>bg-slate-900/60</code> with <code>backdrop-blur-md</code> and <code>border border-slate-800</code></li>
+<li>Accents: <code>text-cyan-400</code>, <code>border-cyan-500/30</code>, <code>bg-cyan-500/10</code></li>
+<li>Secondary accents: <code>text-sky-300</code>, <code>text-emerald-400</code></li>
+</ul>
+</li>
+<li>Typography:
+<ul>
+<li>Sans-serif: <code>Inter</code></li>
+<li>Monospace (telemetry, badges, flight logs): <code>JetBrains Mono</code> or <code>font-mono</code></li>
+<li>Editorial headings / italics: <code>Newsreader</code> or <code>font-serif</code></li>
+</ul>
+</li>
+<li>Transitions:
+<ul>
+<li>Interactive elements must include smooth transitions: <code>transition-all duration-200</code></li>
+<li>Micro-interactions: hover lift <code>hover:-translate-y-0.5 active:translate-y-0</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2>6. Build &amp; Verification Checklist</h2>
+<p>Before committing or pushing any code to production:</p>
+<ol>
+<li><strong>Verify Static CSS Generation:</strong><pre><code class="language-bash">npm run build
+# Expected output: styles.min.css compiled via esbuild with zero errors
+</code></pre>
+</li>
+<li><strong>Verify Eleventy SSG:</strong><pre><code class="language-bash">npm run build:ssg
+# Confirms that all static root pages compile cleanly
+</code></pre>
+</li>
+<li><strong>Verify Static File Synchronization:</strong>
+<ul>
+<li>When modifying assets, ensure both root and <code>public/</code> stay synchronized.</li>
+<li>Any external links must use <code>@tysonshields00</code> for GitHub and <code>@tshields2000</code> for Instagram.</li>
+</ul>
+</li>
+<li><strong>Browser Console Verification:</strong>
+<ul>
+<li>Load pages on local dev server and ensure zero JavaScript console errors or warnings.</li>
+</ul>
+</li>
+</ol>

@@ -1,0 +1,46 @@
+<h1>Tyson Shields Personal Website</h1>
+<p>A modern, high-performance personal portfolio built with semantic HTML5, cybernetic CSS, and vanilla JavaScript. Optimized for accessibility (WCAG AA), fast mobile load times, crisp typography, and direct deployability to Cloudflare Pages, Netlify, or Vercel.</p>
+<h2>Architecture &amp; Improvements</h2>
+<ul>
+<li><strong>Modern Fonts &amp; Optimization</strong>: TrueType fonts converted to modern WOFF2 (<code>outfit-400-latin.woff2</code> and <code>outfit-700-latin.woff2</code>), reducing font payload by &gt;85% (from 288 KB to ~37 KB). Preloaded in document head with <code>font-display: swap</code>.</li>
+<li><strong>Modular Scripts</strong>: JavaScript separated into shared <code>scripts/core.js</code> (theme management, drawer, command palette, ambient canvas, link prefetch) and page-specific scripts (<code>scripts/home.js</code>, <code>scripts/contact.js</code>, <code>scripts/404.js</code>), all loaded with <code>defer</code>.</li>
+<li><strong>Minified Stylesheet</strong>: Automated minification produces <code>styles.min.css</code> using <code>esbuild</code>.</li>
+<li><strong>Component-Based Templating</strong>: Reusable components (<code>_includes/header.html</code>, <code>_includes/footer.html</code>, <code>_includes/settings-drawer.html</code>, <code>_layouts/base.html</code>) powered by Eleventy (11ty) while preserving zero-dependency static production output.</li>
+<li><strong>Accessibility &amp; Semantics</strong>:
+<ul>
+<li>Skip links to <code>#main-content</code> on every page.</li>
+<li>Interactive touch targets span at least 44x44 px.</li>
+<li>High-contrast text ratios conforming to WCAG AA (&gt;= 4.5:1).</li>
+<li>Semantic <code>&lt;time datetime=&quot;...&quot;&gt;</code> tags on <code>career.html</code>.</li>
+<li>Structured <code>&lt;ul&gt;</code> proficiency lists on <code>skills.html</code>.</li>
+</ul>
+</li>
+<li><strong>Downloadable PDF Resume &amp; Print Rules</strong>: Clean <code>Tyson-Shields-Resume.pdf</code> generated with headless Edge and print stylesheet rules (<code>@media print</code>) hiding navigation, buttons, and footers for black-on-white resume printing.</li>
+<li><strong>Complete Favicon Bundle &amp; Open Graph</strong>: Standard 32x32, 16x16, Apple touch icons, legacy <code>favicon.ico</code>, updated <code>site.webmanifest</code>, and 1200x630 <code>og-image.png</code> preview cards.</li>
+<li><strong>SEO &amp; Search Indexing</strong>: Unique titles, tailored meta descriptions, canonical URLs, updated <code>sitemap.xml</code>, and crawler configuration in <code>robots.txt</code> blocking non-public directories.</li>
+<li><strong>Security Headers &amp; 404 Handling</strong>: <code>_headers</code>, <code>_redirects</code>, and <code>vercel.json</code> enforce Content-Security-Policy, HSTS, X-Frame-Options, X-Content-Type-Options, and proper HTTP 404 status codes.</li>
+<li><strong>Contact Form Validation</strong>: Pattern validation, required attributes, real-time feedback, and invisible honeypot field for bot spam prevention.</li>
+</ul>
+<h2>Local Development</h2>
+<h3>Preview Static Site</h3>
+<pre><code class="language-sh">npm run preview
+# or: python -m http.server 8000
+</code></pre>
+<p>Open <code>http://localhost:8000</code>.</p>
+<h3>Build Commands</h3>
+<pre><code class="language-sh"># Minify stylesheet
+npm run build
+
+# Build with Eleventy SSG
+npm run build:ssg
+
+# Start local Eleventy live-reload dev server
+npm run dev
+</code></pre>
+<h2>Deployment</h2>
+<h3>Cloudflare Pages</h3>
+<ul>
+<li><strong>Build command</strong>: <code>npm run build</code> (or leave empty to deploy pre-built static root)</li>
+<li><strong>Output directory</strong>: <code>.</code> (or <code>_site</code> if using Eleventy SSG)</li>
+<li>Security headers and 404 redirects are automatically picked up from <code>_headers</code> and <code>_redirects</code>.</li>
+</ul>

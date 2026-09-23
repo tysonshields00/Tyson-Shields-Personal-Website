@@ -1,25 +1,6 @@
-// src/data/articles.ts
+import { Article, ArticleCategory } from '@/types/articles';
 
-export type ArticleCategory =
-  | 'Higher Education'
-  | 'Campus Culture'
-  | 'Athletics & Facilities'
-  | 'Local Community'
-  | 'Governance & Policy'
-  | 'Workforce & Labor'
-  | 'Technology & Learning';
-
-export interface Article {
-  id: string;
-  title: string;
-  publication: string;
-  date: string;
-  term: string;
-  category: ArticleCategory;
-  url: string;
-  summary: string;
-  featured?: boolean;
-}
+export type { Article, ArticleCategory };
 
 export const ARTICLES_DATA: Article[] = [
   {

@@ -2,7 +2,8 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { ARTICLES_DATA, Article, ArticleCategory } from '../data/articles';
+import { ARTICLES_DATA } from '@/data/articles';
+import { Article, ArticleCategory } from '@/types/articles';
 
 interface ArticlesSectionProps {
   initialArticles?: Article[];

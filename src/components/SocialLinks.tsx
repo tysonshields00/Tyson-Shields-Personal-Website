@@ -2,7 +2,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { SOCIAL_LINKS, SocialLink, CONTACT_CONFIG } from '../data/socials';
+import { SOCIAL_LINKS, CONTACT_CONFIG } from '@/data/socials';
+import { SocialLink } from '@/types/socials';
 
 interface SocialLinksProps {
   variant?: 'pills' | 'icons' | 'cards';

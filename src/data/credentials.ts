@@ -1,24 +1,6 @@
-// src/data/credentials.ts
+import { Credential, CredentialCategory } from '@/types/credentials';
 
-export type CredentialCategory =
-  | 'Licenses'
-  | 'Business Analysis'
-  | 'Data Analytics'
-  | 'Python & Systems'
-  | 'SEO & Marketing';
-
-export interface Credential {
-  id: string;
-  title: string;
-  issuer: string;
-  issueDate: string;
-  expiryDate?: string;
-  credentialId?: string;
-  category: CredentialCategory;
-  featured?: boolean;
-  verificationUrl?: string;
-  description?: string;
-}
+export type { Credential, CredentialCategory };
 
 export const CREDENTIAL_CATEGORIES: CredentialCategory[] = [
   'Licenses',

@@ -2,7 +2,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { EXPERIENCE_DATA, ExperienceItem } from '../data/experience';
+import { EXPERIENCE_DATA } from '@/data/experience';
+import { ExperienceItem } from '@/types/experience';
 
 export const ExperienceTimeline: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<string>('all');

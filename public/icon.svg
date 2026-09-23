@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <style>
+    :root {
+      --bg: #0a0f1d;
+      --accent: #0ea5e9;
+      --dot: #f8fafc;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc;
+        --accent: #0284c7;
+        --dot: #0f172a;
+      }
+    }
+  </style>
+  <rect width="128" height="128" rx="24" fill="var(--bg)"/>
+  <path d="M27 38h74M27 64h74M27 90h44" stroke="var(--accent)" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="92" cy="90" r="9" fill="var(--dot)"/>
+</svg>

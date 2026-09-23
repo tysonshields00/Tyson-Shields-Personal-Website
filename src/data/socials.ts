@@ -1,38 +1,11 @@
-// src/data/socials.ts
+import {
+  SocialPlatform,
+  SocialLink,
+  ContactLocation,
+  ContactConfig,
+} from '@/types/socials';
 
-export type SocialPlatform =
-  | 'website'
-  | 'email'
-  | 'github'
-  | 'linkedin'
-  | 'instagram';
-
-export interface SocialLink {
-  id: string;
-  platform: SocialPlatform;
-  label: string;
-  href: string;
-  handle: string;
-  icon: 'globe' | 'mail' | 'github' | 'linkedin' | 'instagram';
-  category: 'primary' | 'social' | 'code';
-  rel?: string;
-  description?: string;
-  isExternal: boolean;
-}
-
-export interface ContactConfig {
-  name: string;
-  title: string;
-  email: string;
-  website: string;
-  location: {
-    city: string;
-    state: string;
-    country: string;
-    formatted: string;
-  };
-  socials: SocialLink[];
-}
+export type { SocialPlatform, SocialLink, ContactLocation, ContactConfig };
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {

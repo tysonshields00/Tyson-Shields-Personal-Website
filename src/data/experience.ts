@@ -1,27 +1,10 @@
-// src/data/experience.ts
+import {
+  ExperienceItem,
+  ExperienceCategory,
+  ExperiencePillar,
+} from '@/types/experience';
 
-export interface ExperienceItem {
-  id: string;
-  role: string;
-  organization: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-  termDescription?: string;
-  category: 'enterprise' | 'data-it' | 'broadcast' | 'leadership' | 'editorial';
-  statusBadge: string;
-  overview: string;
-  pillars: {
-    title: string;
-    items: string[];
-  }[];
-  impact: string;
-  tools: string[];
-  relatedLink?: {
-    text: string;
-    url: string;
-  };
-}
+export type { ExperienceItem, ExperienceCategory, ExperiencePillar };
 
 export const EXPERIENCE_DATA: ExperienceItem[] = [
   {
