@@ -13,7 +13,7 @@ export interface NavItem {
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Overview', href: '/' },
   { label: 'Experience', href: '/career' },
-  { label: 'Credentials', href: '/#certifications' },
+  { label: 'Credentials', href: '/skills#certifications' },
   { label: 'Published Work', href: '/#articles' },
   { label: 'Competencies', href: '/skills' },
   { label: 'About', href: '/about' },
