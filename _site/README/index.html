@@ -1,46 +1,120 @@
-<h1>Tyson Shields Personal Website</h1>
-<p>A modern, high-performance personal portfolio built with semantic HTML5, cybernetic CSS, and vanilla JavaScript. Optimized for accessibility (WCAG AA), fast mobile load times, crisp typography, and direct deployability to Cloudflare Pages, Netlify, or Vercel.</p>
-<h2>Architecture &amp; Improvements</h2>
+<h1>Tyson Shields Portfolio &amp; Technical Systems</h1>
+<p><a href="package.json"><img src="https://img.shields.io/badge/version-2.0.0-cyan.svg" alt="Version"></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+<a href="tsconfig.json"><img src="https://img.shields.io/badge/TypeScript-5.x-3178C6.svg" alt="TypeScript"></a>
+<a href="src/app"><img src="https://img.shields.io/badge/Next.js-14+-black.svg" alt="Next.js"></a>
+<a href="tailwind.config.ts"><img src="https://img.shields.io/badge/TailwindCSS-3.x-38B2AC.svg" alt="Tailwind CSS"></a></p>
+<p>The professional portfolio and technical platform of <strong>Tyson Shields</strong>—Business Analyst specializing in <strong>Employee Benefits</strong>, licensed Life &amp; Health Insurance Producer (State of Nebraska #21707104), and systems engineer.</p>
+<hr>
+<h2>🏛 Architectural Architecture: Dual-Engine Design</h2>
+<p>This repository is engineered with a <strong>dual architectural design</strong> to maximize deployment flexibility, delivery speed, and developer ergonomic modularity:</p>
+<ol>
+<li>
+<p><strong>Production Static Root (Zero-JS-Dependent SSG):</strong></p>
 <ul>
-<li><strong>Modern Fonts &amp; Optimization</strong>: TrueType fonts converted to modern WOFF2 (<code>outfit-400-latin.woff2</code> and <code>outfit-700-latin.woff2</code>), reducing font payload by &gt;85% (from 288 KB to ~37 KB). Preloaded in document head with <code>font-display: swap</code>.</li>
-<li><strong>Modular Scripts</strong>: JavaScript separated into shared <code>scripts/core.js</code> (theme management, drawer, command palette, ambient canvas, link prefetch) and page-specific scripts (<code>scripts/home.js</code>, <code>scripts/contact.js</code>, <code>scripts/404.js</code>), all loaded with <code>defer</code>.</li>
-<li><strong>Minified Stylesheet</strong>: Automated minification produces <code>styles.min.css</code> using <code>esbuild</code>.</li>
-<li><strong>Component-Based Templating</strong>: Reusable components (<code>_includes/header.html</code>, <code>_includes/footer.html</code>, <code>_includes/settings-drawer.html</code>, <code>_layouts/base.html</code>) powered by Eleventy (11ty) while preserving zero-dependency static production output.</li>
-<li><strong>Accessibility &amp; Semantics</strong>:
-<ul>
-<li>Skip links to <code>#main-content</code> on every page.</li>
-<li>Interactive touch targets span at least 44x44 px.</li>
-<li>High-contrast text ratios conforming to WCAG AA (&gt;= 4.5:1).</li>
-<li>Semantic <code>&lt;time datetime=&quot;...&quot;&gt;</code> tags on <code>career.html</code>.</li>
-<li>Structured <code>&lt;ul&gt;</code> proficiency lists on <code>skills.html</code>.</li>
+<li>High-speed semantic HTML5 pages (<code>index.html</code>, <code>career.html</code>, <code>about.html</code>, <code>skills.html</code>, <code>contact.html</code>).</li>
+<li>Automated CSS pipeline generating minified <code>styles.min.css</code> (124.6 KB) via <code>esbuild</code>.</li>
+<li>Component templating via Eleventy (<code>_includes/</code>, <code>_layouts/</code>).</li>
+<li>Modular browser scripts (<code>scripts/core.js</code>, <code>scripts/home.js</code>, <code>scripts/contact.js</code>, <code>scripts/404.js</code>).</li>
 </ul>
 </li>
-<li><strong>Downloadable PDF Resume &amp; Print Rules</strong>: Clean <code>Tyson-Shields-Resume.pdf</code> generated with headless Edge and print stylesheet rules (<code>@media print</code>) hiding navigation, buttons, and footers for black-on-white resume printing.</li>
-<li><strong>Complete Favicon Bundle &amp; Open Graph</strong>: Standard 32x32, 16x16, Apple touch icons, legacy <code>favicon.ico</code>, updated <code>site.webmanifest</code>, and 1200x630 <code>og-image.png</code> preview cards.</li>
-<li><strong>SEO &amp; Search Indexing</strong>: Unique titles, tailored meta descriptions, canonical URLs, updated <code>sitemap.xml</code>, and crawler configuration in <code>robots.txt</code> blocking non-public directories.</li>
-<li><strong>Security Headers &amp; 404 Handling</strong>: <code>_headers</code>, <code>_redirects</code>, and <code>vercel.json</code> enforce Content-Security-Policy, HSTS, X-Frame-Options, X-Content-Type-Options, and proper HTTP 404 status codes.</li>
-<li><strong>Contact Form Validation</strong>: Pattern validation, required attributes, real-time feedback, and invisible honeypot field for bot spam prevention.</li>
+<li>
+<p><strong>Next.js 14+ App Router &amp; TypeScript Engine (<code>src/</code>):</strong></p>
+<ul>
+<li>Modern React component hierarchy organized into <code>src/app/</code>, <code>src/components/</code> (<code>ui/</code>, <code>sections/</code>, <code>layout/</code>), <code>src/data/</code>, <code>src/lib/</code>, and <code>src/types/</code>.</li>
+<li>Strict TypeScript type safety (<code>strict: true</code>) with absolute path aliases (<code>@/*</code> -&gt; <code>./src/*</code>).</li>
+<li>Tailwind CSS design system with custom cyan/emerald/slate palettes and responsive typography.</li>
+<li>Clean separation of concerns: data records reside exclusively in <code>src/data/</code>, isolated from UI templates.</li>
 </ul>
-<h2>Local Development</h2>
-<h3>Preview Static Site</h3>
+</li>
+</ol>
+<hr>
+<h2>📂 Directory Layout</h2>
+<pre><code class="language-text">Tyson-Shields-Personal-Website/
+├── public/                           # Static assets, favicons, OG cards, PDF resume
+│   ├── android-chrome-*.png
+│   ├── favicon.ico
+│   ├── headshot.jpg
+│   ├── og-image.png
+│   ├── site.webmanifest
+│   └── Tyson-Shields-Resume.pdf
+├── src/                              # Next.js App Router &amp; Component Engine
+│   ├── app/                          # App Router pages and global layouts
+│   │   ├── globals.css               # Global Tailwind CSS directives &amp; root variables
+│   │   ├── layout.tsx                # Global RootLayout with JSON-LD schema
+│   │   ├── page.tsx                  # Modular overview home page
+│   │   ├── about/page.tsx            # Executive dossier &amp; narrative
+│   │   ├── career/page.tsx           # Operational chronology &amp; flight log
+│   │   ├── skills/page.tsx           # Technical competencies &amp; skill matrix
+│   │   └── contact/page.tsx          # Direct comms relay &amp; verified channels
+│   ├── components/                   # Component design system
+│   │   ├── index.ts                  # Component barrel export
+│   │   ├── ui/                       # Atomic UI primitives (Badge, Button, Card, SearchInput)
+│   │   ├── sections/                 # Composable domain sections (Hero, Telemetry, Certifications, etc.)
+│   │   └── layout/                   # Structural layout (Header, Footer, Navigation)
+│   ├── data/                         # Centralized Single Source of Truth
+│   │   ├── articles.ts               # Published opinion columns (The Daily Nebraskan)
+│   │   ├── credentials.ts            # State licenses &amp; professional certifications
+│   │   ├── experience.ts             # Career milestones &amp; operational deliverables
+│   │   └── socials.ts                # Verified accounts, relays &amp; contact coordinates
+│   ├── lib/                          # Utility functions &amp; metadata helpers
+│   │   ├── metadata.ts               # Structured Schema.org JSON-LD builders
+│   │   └── utils.ts                  # Class merge (cn), clipboard, date formatters
+│   └── types/                        # Strict domain contracts &amp; TypeScript interfaces
+│       ├── articles.ts
+│       ├── credentials.ts
+│       ├── experience.ts
+│       ├── socials.ts
+│       └── index.ts
+├── scripts/                          # Modular browser JavaScript (core, home, contact, 404)
+├── fonts/                            # Optimized WOFF2 font payloads
+├── styles.css                        # Cybernetic source stylesheet
+├── styles.min.css                    # Minified production stylesheet (esbuild)
+├── tailwind.config.ts                # Tailwind design tokens &amp; font configuration
+├── tsconfig.json                     # Strict TypeScript configuration with @/* aliases
+├── AGENT_GUIDELINES.md               # Guidelines for future AI models &amp; engineers
+└── package.json                      # Build scripts and project dependencies
+</code></pre>
+<hr>
+<h2>⚡ Core Domain Specializations</h2>
+<ul>
+<li><strong>Employee Benefits &amp; Plan Modeling:</strong> Self-funded stop-loss corridors, level-funded aggregate tiers, fully insured rate renewals, deductible modeling, and contribution strategies.</li>
+<li><strong>Census Data Engineering &amp; Systems:</strong> EDI 834 benefit enrollment feeds, high-volume census normalization, carrier billing reconciliation, and data parity audits.</li>
+<li><strong>Process Automation:</strong> Transforming carrier RFP intake matrices into board-ready executive renewal presentations, compressing cycle times by 40%.</li>
+<li><strong>Broadcast &amp; Live Media Systems:</strong> Video routing, Dante audio networking, SMPTE 2110 IP video infrastructure, and media transmission.</li>
+</ul>
+<hr>
+<h2>🛠 Local Development &amp; Commands</h2>
+<h3>1. Build Production CSS</h3>
+<pre><code class="language-sh">npm run build
+</code></pre>
+<p>Compiles and minifies <code>styles.css</code> into <code>styles.min.css</code> using <code>esbuild</code>.</p>
+<h3>2. Static Site Generator Build (Eleventy)</h3>
+<pre><code class="language-sh">npm run build:ssg
+</code></pre>
+<p>Minifies stylesheets and compiles semantic HTML templates via <code>@11ty/eleventy</code>.</p>
+<h3>3. Local Live-Reload Dev Server</h3>
+<pre><code class="language-sh">npm run dev
+</code></pre>
+<p>Starts the local Eleventy development server with hot-reload.</p>
+<h3>4. Static HTTP Preview</h3>
 <pre><code class="language-sh">npm run preview
 # or: python -m http.server 8000
 </code></pre>
-<p>Open <code>http://localhost:8000</code>.</p>
-<h3>Build Commands</h3>
-<pre><code class="language-sh"># Minify stylesheet
-npm run build
-
-# Build with Eleventy SSG
-npm run build:ssg
-
-# Start local Eleventy live-reload dev server
-npm run dev
-</code></pre>
-<h2>Deployment</h2>
-<h3>Cloudflare Pages</h3>
+<p>Launches a lightweight static HTTP server at <code>http://localhost:8000</code>.</p>
+<hr>
+<h2>📖 Contributing &amp; AI Agent Instructions</h2>
+<p>All engineers and automated AI coding assistants <strong>must adhere</strong> to the architectural specifications and content workflows detailed in <strong><a href="AGENT_GUIDELINES.md"><code>AGENT_GUIDELINES.md</code></a></strong>.</p>
+<h3>Content Update Rules:</h3>
 <ul>
-<li><strong>Build command</strong>: <code>npm run build</code> (or leave empty to deploy pre-built static root)</li>
-<li><strong>Output directory</strong>: <code>.</code> (or <code>_site</code> if using Eleventy SSG)</li>
-<li>Security headers and 404 redirects are automatically picked up from <code>_headers</code> and <code>_redirects</code>.</li>
+<li><strong>Never modify presentation markup</strong> to add credentials, articles, or experience.</li>
+<li><strong>Update data layers</strong> in <code>src/data/</code> using the strongly typed contracts defined in <code>src/types/</code>.</li>
+<li><strong>Maintain asset parity</strong> between root and <code>public/</code>.</li>
+<li><strong>Run <code>npm run build</code></strong> before any commit to ensure zero CSS or compilation regressions.</li>
+</ul>
+<hr>
+<h2>📄 License &amp; Credits</h2>
+<ul>
+<li>Designed and engineered by <strong>Tyson Shields</strong>.</li>
+<li>Code licensed under the <a href="LICENSE">MIT License</a>.</li>
 </ul>
