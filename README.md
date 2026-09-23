@@ -10,14 +10,16 @@ The professional portfolio and technical platform of **Tyson Shields**—Busines
 
 ---
 
-## 🏛 Clean Root & Modular Architecture
+## 🏛 System Architecture & Clean Layout
 
-The repository enforces a clean root structure where all loose files are organized into dedicated directories:
+The repository is structured so that the production portfolio is served directly from root, with full support for Eleventy static site generation and Next.js modern components:
 
-* **`src/`** contains the Next.js 14+ App Router, atomic UI components, centralized data sources, metadata builders, and domain contracts.
-* **`public/`** houses all static assets: fonts, browser scripts, production stylesheets, icons, favicons, manifests, and the resume PDF.
-* **`legacy/`** stores the self-contained static HTML pages, Eleventy templates (`_includes/`, `_layouts/`), and historical static build configuration.
-* **`docs/`** hosts comprehensive architectural documentation and AI agent engineering guidelines.
+* **`index.html`, `about.html`, `career.html`, `skills.html`, `contact.html`** serve as the primary site pages directly from the root domain (`tysonshields.com`).
+* **`styles.css` & `styles.min.css`** provide zero-framework, hardware-accelerated cybernetic CSS styling.
+* **`scripts/` & `fonts/`** house client-side interactions, ambient particle engines, and local Outfit typography.
+* **`_includes/` & `_layouts/`** contain Eleventy partials and layout definitions for static compilation.
+* **`src/`** contains the parallel Next.js App Router, React components, and TypeScript data layers (`src/data/`).
+* **`docs/`** hosts architectural documentation and engineering guidelines.
 
 ---
 
@@ -28,64 +30,36 @@ Tyson-Shields-Personal-Website/
 ├── docs/                             # Architecture guides & AI agent instructions
 │   ├── AGENT_GUIDELINES.md           # Comprehensive manual for AI models & developers
 │   └── ARCHITECTURE.md               # High-level system architecture overview
-├── legacy/                           # Preserved self-contained static HTML site
-│   ├── _includes/                    # Reusable partials (header, footer, drawer)
-│   ├── _layouts/                     # Base HTML layouts
-│   ├── .eleventy.js                  # Eleventy SSG configuration
-│   ├── 404.html, about.html...       # Static HTML pages
-│   ├── fonts/ & scripts/             # Local static assets
-│   └── styles.css & styles.min.css   # Legacy stylesheets
-├── public/                           # Public static assets & CDN distribution
-│   ├── css/                          # Compiled minified stylesheets (styles.min.css)
-│   ├── fonts/                        # Modern WOFF2 typography (Outfit)
-│   ├── scripts/                      # Modular browser scripts (core, home, contact, 404)
-│   ├── android-chrome-*.png          # PWA icons
-│   ├── favicon.ico & favicon-*.png   # Multi-resolution favicons
-│   ├── headshot.jpg & og-image.png   # Portrait & Open Graph social cards
-│   ├── site.webmanifest, robots.txt  # Manifest & crawler directives
-│   ├── sitemap.xml                   # Search engine index sitemap
-│   ├── Tyson-Shields-Resume.pdf      # Downloadable resume document
-│   └── _headers & _redirects         # Cloudflare/Netlify routing & security headers
+├── _includes/                        # Reusable partials (header, footer, drawer)
+├── _layouts/                         # Base HTML layouts
+├── fonts/                            # Modern WOFF2 typography (Outfit)
+├── scripts/                          # Modular browser scripts (core, home, contact, 404)
 ├── src/                              # Next.js App Router & Component Engine
 │   ├── app/                          # App Router pages and global layouts
-│   │   ├── globals.css               # Global Tailwind CSS directives & root variables
-│   │   ├── layout.tsx                # Global RootLayout with JSON-LD schema
-│   │   ├── page.tsx                  # Modular overview home page
-│   │   ├── about/page.tsx            # Executive dossier & narrative
-│   │   ├── career/page.tsx           # Operational chronology & flight log
-│   │   ├── skills/page.tsx           # Technical competencies & skill matrix
-│   │   └── contact/page.tsx          # Direct comms relay & verified channels
-│   ├── components/                   # Component design system
-│   │   ├── index.ts                  # Component barrel export
-│   │   ├── ui/                       # Atomic UI primitives (Badge, Button, Card, SearchInput)
-│   │   ├── sections/                 # Composable domain sections (Hero, Telemetry, Certifications, etc.)
-│   │   └── layout/                   # Structural layout (Header, Footer, Navigation)
-│   ├── data/                         # Centralized Single Source of Truth
-│   │   ├── articles.ts               # Published opinion columns (The Daily Nebraskan)
-│   │   ├── credentials.ts            # State licenses & professional certifications
-│   │   ├── experience.ts             # Career milestones & operational deliverables
-│   │   └── socials.ts                # Verified accounts, relays & contact coordinates
+│   ├── components/                   # Component design system (UI primitives, sections)
+│   ├── data/                         # Centralized Single Source of Truth (socials, certs, articles)
 │   ├── lib/                          # Utility functions & metadata helpers
-│   │   ├── metadata.ts               # Structured Schema.org JSON-LD builders
-│   │   └── utils.ts                  # Class merge (cn), clipboard, date formatters
-│   ├── styles/                       # Source stylesheet (styles.css, styles.min.css)
+│   ├── styles/                       # Source styles
 │   └── types/                        # Strict domain contracts & TypeScript interfaces
-│       ├── articles.ts
-│       ├── credentials.ts
-│       ├── experience.ts
-│       ├── socials.ts
-│       └── index.ts
+├── .eleventy.js                      # Eleventy SSG configuration
+├── .eleventyignore                   # Eleventy build exclusions
 ├── .gitignore                        # Git exclusion rules
-├── index.html                        # Root redirector → legacy/index.html
-├── about.html                        # Root redirector → legacy/about.html
-├── career.html                       # Root redirector → legacy/career.html
-├── skills.html                       # Root redirector → legacy/skills.html
-├── contact.html                      # Root redirector → legacy/contact.html
+├── 404.html                          # Not Found page
+├── about.html                        # About / Executive Dossier
+├── career.html                       # Career Chronology & Published Articles
+├── contact.html                      # Comms Relay & Direct Contact
+├── index.html                        # Production Homepage (tysonshields.com)
+├── skills.html                       # Technical Skills Matrix & Certifications
+├── Tyson-Shields-Resume.html         # Web-viewable resume
+├── Tyson-Shields-Resume.pdf          # Downloadable PDF resume
+├── styles.css & styles.min.css       # Core stylesheets
+├── favicon.ico & favicon-*.png       # Multi-resolution favicons
+├── headshot.jpg & og-image.png       # Headshot & social preview cards
 ├── package.json                      # Build scripts and project dependencies
 ├── README.md                         # This file
 ├── tailwind.config.ts                # Tailwind design tokens & font configuration
 ├── tsconfig.json                     # Strict TypeScript configuration with @/* aliases
-└── vercel.json                       # Deployment, rewrites & security headers
+└── vercel.json                       # Deployment routing, clean URLs & security headers
 ```
 
 ---
