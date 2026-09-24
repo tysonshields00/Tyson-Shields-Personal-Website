@@ -3222,14 +3222,15 @@ html[data-reduced-motion='true'] .reveal {
    ========================================================================== */
 .career-stats-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 1rem;
   margin-top: 2rem;
   margin-bottom: 2.5rem;
 }
 
 .career-stat-card {
-  padding: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  min-width: 0;
   border: 1px solid var(--hud-border, rgba(255, 255, 255, 0.1));
   border-radius: var(--radius-sm);
   background: var(--surface);
@@ -3247,10 +3248,11 @@ html[data-reduced-motion='true'] .reveal {
 
 .career-stat-val {
   font-family: var(--serif);
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
   font-weight: 700;
   color: var(--accent);
   line-height: 1;
+  white-space: nowrap;
 }
 
 .career-stat-label {
@@ -3259,6 +3261,9 @@ html[data-reduced-motion='true'] .reveal {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .career-filter-bar {
@@ -3554,14 +3559,15 @@ html[data-theme='light'] .career-filter-btn.is-active {
    ========================================================================== */
 .skills-stats-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 1rem;
   margin-top: 2rem;
   margin-bottom: 2.5rem;
 }
 
 .skills-stat-card {
-  padding: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  min-width: 0;
   border: 1px solid var(--hud-border, rgba(255, 255, 255, 0.1));
   border-radius: var(--radius-sm);
   background: var(--surface);
@@ -3579,10 +3585,11 @@ html[data-theme='light'] .career-filter-btn.is-active {
 
 .skills-stat-val {
   font-family: var(--serif);
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
   font-weight: 700;
   color: var(--accent);
   line-height: 1;
+  white-space: nowrap;
 }
 
 .skills-stat-label {
@@ -3591,6 +3598,9 @@ html[data-theme='light'] .career-filter-btn.is-active {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .skills-filter-bar {

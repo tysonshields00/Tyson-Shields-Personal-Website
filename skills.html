@@ -117,23 +117,6 @@
 
     <!-- TAB PANEL 1: Core Technical Competencies -->
     <div id="panel-competencies" class="skills-tab-panel" role="tabpanel" aria-labelledby="tab-competencies">
-      <div class="section-shell" style="padding-top: 0; padding-bottom: 0;">
-        <!-- Domain Quick-Filter Navigation -->
-        <nav class="skills-filter-bar" aria-label="Filter skills by core competency pillar">
-          <button type="button" class="skills-filter-btn is-active" data-filter="all">
-            <span>All Pillars</span> <span class="btn-count">(3)</span>
-          </button>
-          <button type="button" class="skills-filter-btn" data-filter="plan-modeling">
-            <span>Plan Modeling &amp; Benefits</span> <span class="btn-count">(1)</span>
-          </button>
-          <button type="button" class="skills-filter-btn" data-filter="data-automation">
-            <span>Data Engineering &amp; Automation</span> <span class="btn-count">(1)</span>
-          </button>
-          <button type="button" class="skills-filter-btn" data-filter="systems-infra">
-            <span>Systems Infrastructure</span> <span class="btn-count">(1)</span>
-          </button>
-        </nav>
-      </div>
 
       <!-- Skills Directory List -->
       <section class="section-shell skills-directory" id="skills-catalog">
@@ -786,34 +769,6 @@
       });
     }
 
-    // 2. Competencies Domain Filtering (Tab 1)
-    const filterButtons = document.querySelectorAll('.skills-filter-btn');
-    const skillCards = document.querySelectorAll('.skill-directory-card');
-
-    const activateFilter = (filter) => {
-      filterButtons.forEach((b) => {
-        b.classList.toggle('is-active', b.dataset.filter === filter);
-      });
-
-      skillCards.forEach((card) => {
-        if (filter === 'all') {
-          card.classList.remove('is-filtered-out');
-        } else {
-          const categories = card.dataset.category ? card.dataset.category.split(' ') : [];
-          if (categories.includes(filter)) {
-            card.classList.remove('is-filtered-out');
-          } else {
-            card.classList.add('is-filtered-out');
-          }
-        }
-      });
-    };
-
-    filterButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        activateFilter(btn.dataset.filter);
-      });
-    });
 
     // 3. Certifications Coursework Filtering & Search (Tab 2)
     const certFilterBtns = document.querySelectorAll('.cert-filter-btn');
