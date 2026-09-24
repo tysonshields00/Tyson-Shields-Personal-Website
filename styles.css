@@ -3772,21 +3772,7 @@ html[data-theme='light'] .skills-filter-btn.is-active {
   }
 }
 
-.quote-section {
-  padding-block: var(--section-space);
-  border-top: 1px solid var(--line);
-}
-
-.quote-section blockquote {
-  max-width: 900px;
-  margin: 0;
-  color: var(--text);
-  font-family: var(--serif);
-  font-size: clamp(1.8rem, 3.5vw, 3.5rem);
-  font-style: italic;
-  line-height: 1.32;
-  padding: 0.25rem 0;
-}
+/* Quote Section removed per user request */
 
 /* ==========================================================================
    CONTACT PAGE & COLLABORATION DIRECTIVES
@@ -4739,14 +4725,8 @@ html[data-theme='light'] body::before {
   height: 6px;
   border-radius: 50%;
   background: var(--cyan-neon);
-  box-shadow: 0 0 8px var(--cyan-neon);
-  animation: pulse-glow 2s infinite ease-in-out;
+  opacity: 0.85;
   flex-shrink: 0;
-}
-
-@keyframes pulse-glow {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.4; }
 }
 
 /* Eyebrow status tag */

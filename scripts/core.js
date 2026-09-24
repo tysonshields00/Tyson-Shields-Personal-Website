@@ -1,16 +1,7 @@
 // Developer console greetings
 console.log(
-  `%c
-████████╗██╗   ██╗███████╗ ██████╗ ███╗   ██╗
-╚══██╔══╝╚██╗ ██╔╝██╔════╝██╔═══██╗████╗  ██║
-   ██║    ╚████╔╝ ███████╗██║   ██║██╔██╗ ██║
-   ██║     ╚██╔╝  ╚════██║██║   ██║██║╚██╗██║
-   ██║      ██║   ███████║╚██████╔╝██║ ╚████║
-   ╚═╝      ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
-Tyson Shields — Data Analytics, Systems & Media Production
-Lincoln, Nebraska · https://github.com/tysonshields00
-`,
-  'color: #0ea5e9; font-weight: bold; font-family: monospace; font-size: 11px;'
+  '%cTyson Shields — Employee Benefits Business Analyst · Lincoln, NE',
+  'color: #0ea5e9; font-weight: 600; font-family: system-ui, sans-serif; font-size: 12px;'
 );
 
 // Global unhandled error handler to briefly flash status dot red
@@ -504,47 +495,14 @@ document.addEventListener('DOMContentLoaded', () => {
         ? ['rgba(2, 132, 199, ', 'rgba(14, 165, 233, ', 'rgba(56, 189, 248, ']
         : (accentPalettes[activeAccent] || accentPalettes.blue);
 
-      // Draw particle connections
+      // Draw particle node
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 115) {
-            const alpha = (1 - dist / 115) * 0.16;
-            ctx.strokeStyle = `${palette[0]}${alpha})`;
-            ctx.lineWidth = 0.75;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-        }
-
-        // Connect to cursor
-        const mdx = p1.x - mouse.x;
-        const mdy = p1.y - mouse.y;
-        const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (mdist < 140) {
-          const malpha = (1 - mdist / 140) * 0.35;
-          ctx.strokeStyle = `${palette[0]}${malpha})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.stroke();
-
-          p1.x += mdx * 0.005;
-          p1.y += mdy * 0.005;
-        }
-
-        // Draw particle node
-        ctx.fillStyle = `${palette[p1.colorIndex]}${p1.baseAlpha})`;
+        ctx.fillStyle = `${palette[p1.colorIndex]}${p1.baseAlpha * 0.4})`;
         ctx.beginPath();
-        ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
+        ctx.arc(p1.x, p1.y, p1.radius * 0.8, 0, Math.PI * 2);
         ctx.fill();
+      }
 
         // Drift physics
         p1.x += p1.vx;
