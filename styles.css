@@ -2438,6 +2438,8 @@ html[data-reduced-motion='true'] .reveal {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: 0.85rem;
   padding-inline: 0.2rem;
   font-family: var(--sans);
@@ -2446,13 +2448,16 @@ html[data-reduced-motion='true'] .reveal {
 
 .portrait-tags {
   display: flex;
-  gap: 0.4rem;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
 }
 
 .portrait-id {
   color: var(--muted);
   letter-spacing: 0.04em;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .about-hero-grid {
@@ -5481,13 +5486,16 @@ h2 em {
 }
 
 .status-chip {
-  padding: 0.15rem 0.45rem;
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0.2rem 0.5rem;
   border: 1px solid var(--hud-border-bright);
   background: rgba(0, 240, 255, 0.08);
-  border-radius: 3px;
+  border-radius: 4px;
   color: var(--cyan-neon);
-  margin-right: 0.4rem;
-  letter-spacing: 0.06em;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  font-weight: 600;
 }
 
 .channel-readout {
@@ -6765,10 +6773,12 @@ html[data-theme='light'] .credential-chip {
 
 .license-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 820px;
+  margin-inline: auto;
   gap: var(--space-lg);
   margin-top: var(--space-xl);
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-xl);
 }
 
 .license-card {

@@ -54,18 +54,6 @@ export const SOCIAL_LINKS: SocialLink[] = [
     isExternal: true,
     description: 'Open-source code repositories, web projects, and automation scripts.',
   },
-  {
-    id: 'instagram',
-    platform: 'instagram',
-    label: 'Instagram',
-    href: 'https://www.instagram.com/tshields2000/?hl=en',
-    handle: '@tshields2000',
-    icon: 'instagram',
-    category: 'social',
-    rel: 'noopener noreferrer me',
-    isExternal: true,
-    description: 'Personal updates, photography, and collegiate life.',
-  },
 ];
 
 export const CONTACT_CONFIG: ContactConfig = {
@@ -107,7 +95,6 @@ export const getPersonJsonLd = () => ({
   sameAs: [
     'https://www.linkedin.com/in/tysonshields/',
     'https://github.com/tysonshields00',
-    'https://www.instagram.com/tshields2000/?hl=en',
   ],
   contactPoint: {
     '@type': 'ContactPoint',

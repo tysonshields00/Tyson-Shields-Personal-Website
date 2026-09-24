@@ -29,7 +29,6 @@ export function generatePersonSchema() {
     sameAs: [
       'https://www.linkedin.com/in/tysonshields/',
       'https://github.com/tysonshields00',
-      'https://www.instagram.com/tshields2000/?hl=en',
     ],
     contactPoint: {
       '@type': 'ContactPoint',
