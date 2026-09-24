@@ -398,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
           card.style.setProperty('--y', `${e.clientY - r.top}px`);
           raf = 0;
         });
-      });
+      }, { passive: true });
     });
   };
 
@@ -416,26 +416,31 @@ document.addEventListener('DOMContentLoaded', () => {
           btn.style.setProperty('--my', `${(y * 5).toFixed(2)}px`);
           raf = 0;
         });
-      });
+      }, { passive: true });
       btn.addEventListener('mouseleave', () => {
         btn.style.setProperty('--mx', '0px');
         btn.style.setProperty('--my', '0px');
-      });
+      }, { passive: true });
     });
   };
 
   const initAmbientCanvas = () => {
     const canvas = document.getElementById('ambient-canvas');
     if (!canvas || !('getContext' in canvas)) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
+    let resizeRaf = 0;
     const onResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      if (resizeRaf) return;
+      resizeRaf = requestAnimationFrame(() => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        resizeRaf = 0;
+      });
     };
     window.addEventListener('resize', onResize, { passive: true });
 
@@ -460,51 +465,45 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const particleCount = Math.min(Math.floor((width * height) / 32000), 48);
+    const particleCount = Math.min(Math.floor((width * height) / 38000), 32);
     const particles = [];
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        radius: Math.random() * 1.8 + 1,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        radius: Math.random() * 1.6 + 1,
         colorIndex: i % 3,
-        baseAlpha: Math.random() * 0.4 + 0.3,
+        baseAlpha: Math.random() * 0.35 + 0.25,
       });
     }
 
-    let mouse = { x: -1000, y: -1000 };
-    window.addEventListener('pointermove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    }, { passive: true });
-
-    window.addEventListener('pointerleave', () => {
-      mouse.x = -1000;
-      mouse.y = -1000;
-    }, { passive: true });
-
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-
+    let activePalette = accentPalettes.blue;
+    const updatePalette = () => {
       const activeAccent = root.dataset.accent || 'blue';
       const isLight = root.dataset.theme === 'light';
-      const palette = isLight
+      activePalette = isLight
         ? ['rgba(2, 132, 199, ', 'rgba(14, 165, 233, ', 'rgba(56, 189, 248, ']
         : (accentPalettes[activeAccent] || accentPalettes.blue);
+    };
+    updatePalette();
 
-      // Draw particle node
+    let isTabVisible = !document.hidden;
+    let animId = 0;
+
+    const render = () => {
+      if (!isTabVisible) return;
+      ctx.clearRect(0, 0, width, height);
+
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
-        ctx.fillStyle = `${palette[p1.colorIndex]}${p1.baseAlpha * 0.4})`;
+        ctx.fillStyle = `${activePalette[p1.colorIndex]}${p1.baseAlpha * 0.4})`;
         ctx.beginPath();
         ctx.arc(p1.x, p1.y, p1.radius * 0.8, 0, Math.PI * 2);
         ctx.fill();
-      }
 
-        // Drift physics
         p1.x += p1.vx;
         p1.y += p1.vy;
 
@@ -514,8 +513,21 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (p1.y > height) p1.y = 0;
       }
 
-      requestAnimationFrame(render);
+      animId = requestAnimationFrame(render);
     };
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        isTabVisible = false;
+        if (animId) cancelAnimationFrame(animId);
+      } else {
+        if (!isTabVisible) {
+          isTabVisible = true;
+          render();
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility, { passive: true });
 
     render();
   };
