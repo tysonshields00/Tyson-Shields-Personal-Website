@@ -10,7 +10,9 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("styles.min.css");
   eleventyConfig.addPassthroughCopy("chat.css");
 
-  // SEO & PWA manifests
+  // SEO, Redirects, Headers & PWA manifests
+  eleventyConfig.addPassthroughCopy("_headers");
+  eleventyConfig.addPassthroughCopy("_redirects");
   eleventyConfig.addPassthroughCopy("robots.txt");
   eleventyConfig.addPassthroughCopy("sitemap.xml");
   eleventyConfig.addPassthroughCopy("site.webmanifest");

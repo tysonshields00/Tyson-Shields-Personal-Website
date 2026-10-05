@@ -1,0 +1,5 @@
+# Cloudflare Pages Edge Redirects
+/chat           https://dashboard.tysonshields.com  302
+/chat.html      https://dashboard.tysonshields.com  302
+/legacy/*       /:splat                             301
+/legacy         /                                   301
