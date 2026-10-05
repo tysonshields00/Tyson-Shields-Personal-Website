@@ -55,11 +55,28 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  const isDashboardHost = (req.headers.host || '').toLowerCase().startsWith('dashboard.');
+
+  // Handle subdomain root rewrite (dashboard.tysonshields.com / dashboard.localhost)
+  if (isDashboardHost && (url.pathname === '/' || url.pathname === '')) {
+    const dashFile = path.join(__dirname, '..', 'dashboard.html');
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    return fs.createReadStream(dashFile).pipe(res);
+  }
+
+  // Handle /dashboard or /chat path requests
+  if (url.pathname === '/dashboard' || url.pathname === '/chat') {
+    const dashFile = path.join(__dirname, '..', 'dashboard.html');
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    return fs.createReadStream(dashFile).pipe(res);
+  }
+
   // Serve static files from root
   let filePath = path.join(__dirname, '..', url.pathname === '/' ? 'index.html' : url.pathname);
   if (!fs.existsSync(filePath) && fs.existsSync(filePath + '.html')) {
     filePath = filePath + '.html';
   }
+
 
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
     const ext = path.extname(filePath).toLowerCase();
@@ -73,6 +90,10 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`\nChat Dev Server running at http://localhost:${PORT}/chat.html`);
+  console.log(`\nChat Dev Server running at:`);
+  console.log(`- Dashboard Root: http://localhost:${PORT}/dashboard`);
+  console.log(`- Subdomain Host: http://dashboard.localhost:${PORT}`);
+  console.log(`- Production Subdomain: https://dashboard.tysonshields.com`);
   console.log(`API Key loaded: ${process.env.GEMINI_API_KEY ? 'Yes (Hidden)' : 'No'}\n`);
 });
+

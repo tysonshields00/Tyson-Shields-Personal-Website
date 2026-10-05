@@ -20,12 +20,42 @@
       ]
     }
   ],
-  "redirects": [
-    { "source": "/legacy/(.*)", "destination": "/$1", "permanent": true },
-    { "source": "/legacy", "destination": "/", "permanent": true }
-  ],
   "routes": [
+    {
+      "src": "^/(chat|chat\\.html)$",
+      "has": [
+        { "type": "host", "value": "tysonshields.com" }
+      ],
+      "status": 307,
+      "headers": { "Location": "https://dashboard.tysonshields.com/" }
+    },
+    {
+      "src": "^/(chat|chat\\.html)$",
+      "has": [
+        { "type": "host", "value": "www.tysonshields.com" }
+      ],
+      "status": 307,
+      "headers": { "Location": "https://dashboard.tysonshields.com/" }
+    },
+    {
+      "src": "^/$",
+      "has": [
+        { "type": "host", "value": "dashboard.tysonshields.com" }
+      ],
+      "dest": "/chat.html"
+    },
+    {
+      "src": "^/legacy/(.*)$",
+      "status": 301,
+      "headers": { "Location": "/$1" }
+    },
+    {
+      "src": "^/legacy$",
+      "status": 301,
+      "headers": { "Location": "/" }
+    },
     { "handle": "filesystem" },
     { "src": "/(.*)", "status": 404, "dest": "/404.html" }
   ]
 }
+

@@ -4,6 +4,8 @@ Disallow: /dev/
 Disallow: /development/
 Disallow: /chat
 Disallow: /chat.html
+Disallow: /dashboard
+Disallow: /dashboard.html
 Disallow: /api/
 
 Sitemap: https://tysonshields.com/sitemap.xml
