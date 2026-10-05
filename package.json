@@ -7,6 +7,7 @@
     "build:ssg": "npx esbuild styles.css --minify --outfile=styles.min.css && npx @11ty/eleventy",
     "minify:css": "npx esbuild styles.css --minify --outfile=styles.min.css",
     "dev": "npx @11ty/eleventy --serve",
+    "dev:chat": "node api/server.js",
     "preview": "python -m http.server 8000"
   },
   "keywords": [

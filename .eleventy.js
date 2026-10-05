@@ -8,6 +8,7 @@ module.exports = function (eleventyConfig) {
   // Stylesheets
   eleventyConfig.addPassthroughCopy("styles.css");
   eleventyConfig.addPassthroughCopy("styles.min.css");
+  eleventyConfig.addPassthroughCopy("chat.css");
 
   // SEO & PWA manifests
   eleventyConfig.addPassthroughCopy("robots.txt");

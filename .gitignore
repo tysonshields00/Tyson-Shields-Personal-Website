@@ -24,6 +24,9 @@ pnpm-debug.log*
 # Environment variables
 .env*.local
 .env
+scripts/chat-config.js
+chat-config.js
+
 
 # Editor & OS files
 .DS_Store

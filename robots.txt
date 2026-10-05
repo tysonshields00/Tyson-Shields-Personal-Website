@@ -2,5 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /dev/
 Disallow: /development/
+Disallow: /chat
+Disallow: /chat.html
+Disallow: /api/
 
 Sitemap: https://tysonshields.com/sitemap.xml
