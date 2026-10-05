@@ -22,27 +22,9 @@
   ],
   "routes": [
     {
-      "src": "^/(chat|chat\\.html)$",
-      "has": [
-        { "type": "host", "value": "tysonshields.com" }
-      ],
+      "src": "^/(chat|chat\\.html|dashboard|dashboard\\.html)$",
       "status": 307,
       "headers": { "Location": "https://dashboard.tysonshields.com/" }
-    },
-    {
-      "src": "^/(chat|chat\\.html)$",
-      "has": [
-        { "type": "host", "value": "www.tysonshields.com" }
-      ],
-      "status": 307,
-      "headers": { "Location": "https://dashboard.tysonshields.com/" }
-    },
-    {
-      "src": "^/$",
-      "has": [
-        { "type": "host", "value": "dashboard.tysonshields.com" }
-      ],
-      "dest": "/chat.html"
     },
     {
       "src": "^/legacy/(.*)$",
