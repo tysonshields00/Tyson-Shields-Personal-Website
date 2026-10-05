@@ -1,19 +1,21 @@
-# Tyson Shields Portfolio & Technical Systems
+# Tyson Shields Portfolio & Professional Systems
 
 [![Version](https://img.shields.io/badge/version-2.0.0-cyan.svg)](package.json)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages_Deployed-F38020.svg?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com)
 [![Eleventy](https://img.shields.io/badge/Eleventy-3.x-222.svg?logo=eleventy&logoColor=white)](.eleventy.js)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg?logo=typescript&logoColor=white)](tsconfig.json)
-[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.x-38B2AC.svg?logo=tailwindcss&logoColor=white)](tailwind.config.ts)
+[![esbuild](https://img.shields.io/badge/esbuild-0.25-FFCF00.svg?logo=esbuild&logoColor=black)](package.json)
+[![HTML5](https://img.shields.io/badge/HTML5-Semantic_Zero--JS-E34F26.svg?logo=html5&logoColor=white)](index.html)
 
 The professional portfolio and technical platform of **Tyson Shields**—Business Analyst specializing in **Employee Benefits**, licensed Life & Health Insurance Producer (State of Nebraska #21707104), and systems engineer.
+
+Production target: **[tysonshields.com](https://tysonshields.com)**.
 
 ---
 
 ## 🏛 System Architecture
 
-The repository employs a **dual architectural structure** designed for maximum performance, rock-solid stability, and forward-looking component modularity:
+The site is engineered for maximum performance, rock-solid stability, zero runtime JavaScript dependency, and instant global edge delivery:
 
 ```mermaid
 graph TD
@@ -24,24 +26,14 @@ graph TD
         CF -->|/dashboard or /chat| Redir[Cloudflare Pages Edge 302 Redirect]
         CF -->|Static Assets| EdgeAssets[fonts/, scripts/, styles.min.css, images]
     end
-    
-    subgraph Modular Next.js 14+ Component Engine src/
-        Comp[src/components/<br/>Atomic UI Primitives & Sections]
-        Data[src/data/<br/>Single Source of Truth datasets]
-        Types[src/types/<br/>Strict TypeScript Domain Contracts]
-        App[src/app/<br/>Modern App Router Routes & Layouts]
-        Comp --- Data
-        Data --- Types
-        App --- Comp
-    end
 
     Redir -->|302 Redirect| WorkerApp[dashboard.tysonshields.com<br/>Cloudflare Worker AI Workspace]
     RootStatic -->|Instant Zero-JS Rendering| User
     EdgeAssets -->|Immutable CDN Cache| User
 ```
 
-1. **Production Static Delivery (Root):** High-speed, zero-dependency static pages (`index.html`, `about.html`, `career.html`, `skills.html`, `contact.html`, `Tyson-Shields-Resume.html`, `Tyson-Shields-Resume.pdf`) compiled with esbuild (`styles.min.css`), local Outfit typography, and vanilla progressive enhancement (`scripts/core.js`). Deployed globally via Cloudflare Pages.
-2. **Modular Next.js / TypeScript App Engine (`src/`):** Strongly typed, component-driven application layer utilizing the Next.js 14+ App Router (`src/app/`), atomic design tokens, centralized single-source-of-truth data arrays (`src/data/`), domain models (`src/types/`), and path aliases (`@/*`).
+- **Production Static Delivery (Root):** High-speed, zero-dependency static pages (`index.html`, `about.html`, `career.html`, `skills.html`, `contact.html`, `Tyson-Shields-Resume.html`, `Tyson-Shields-Resume.pdf`) compiled with esbuild (`styles.min.css`), local Outfit typography, and vanilla progressive enhancement (`scripts/core.js`). Deployed globally via Cloudflare Pages.
+- **Eleventy SSG Integration (`.eleventy.js`):** Built-in Eleventy 3.x templating engine supporting modular partials (`_includes/`) and base layouts (`_layouts/`) for compile-time generation.
 
 ---
 
@@ -49,12 +41,12 @@ graph TD
 
 ```text
 Tyson-Shields-Personal-Website/
-├── docs/                             # Architecture blueprints & AI agent instructions
-│   ├── AGENT_GUIDELINES.md           # Comprehensive manual for AI models & developers
+├── docs/                             # Architecture blueprints & operational guidelines
+│   ├── AGENT_GUIDELINES.md           # Engineering guidelines for developers & AI agents
 │   └── ARCHITECTURE.md               # High-level system architecture overview
 ├── _includes/                        # Eleventy reusable partials (header, footer, drawer)
 ├── _layouts/                         # Base HTML layouts for static generation
-├── fonts/                            # Modern WOFF2 typography (Outfit)
+├── fonts/                            # Modern WOFF2 typography (Outfit Latin 400 & 700)
 ├── scripts/                          # Client-side scripts and Cloudflare CLI tooling
 │   ├── core.js                       # Shared UI preferences, theme engine, navigation
 │   ├── home.js                       # Interactive homepage particle effects & timeline
@@ -62,16 +54,9 @@ Tyson-Shields-Personal-Website/
 │   ├── 404.js                        # Dynamic route recovery & suggestion engine
 │   ├── cf-status.js                  # Cloudflare zone, DNS, and Pages health verifier
 │   └── cf-purge.js                   # Instant worldwide edge cache invalidator
-├── src/                              # Next.js App Router & Component Engine
-│   ├── app/                          # Next.js pages, layouts, and global CSS
-│   ├── components/                   # Component design system (ui, sections, layout)
-│   ├── data/                         # Centralized Single Source of Truth datasets
-│   ├── lib/                          # Utility functions & Schema.org JSON-LD builders
-│   ├── styles/                       # Source stylesheet definitions
-│   └── types/                        # Strict domain contracts & TypeScript interfaces
 ├── .eleventy.js                      # Eleventy SSG configuration and passthrough rules
 ├── .eleventyignore                   # Exclusions for Eleventy static build
-├── .gitignore                        # Git ignore rules
+├── .gitignore                        # Git exclusion rules
 ├── _headers                          # Cloudflare Pages edge HTTP security and caching headers
 ├── _redirects                        # Cloudflare Pages edge 302/301 routing rules
 ├── 404.html                          # Not Found page
@@ -85,13 +70,11 @@ Tyson-Shields-Personal-Website/
 ├── styles.css                        # Source cybernetic CSS stylesheet
 ├── styles.min.css                    # Minified production stylesheet (compiled by esbuild)
 ├── favicon.ico & favicon-*.png       # Multi-resolution favicons
-├── headshot.jpg & og-image.png       # Headshot & social preview cards
+├── tyson-shields-headshot.jpg        # High-resolution executive headshot
+├── og-image.png                      # Social preview OpenGraph card
 ├── site.webmanifest                  # Progressive Web App manifest
 ├── sitemap.xml & robots.txt          # SEO crawlers and index directives
-├── package.json                      # Build scripts and project dependencies
-├── tailwind.config.ts                # Tailwind design tokens & font configuration
-├── tsconfig.json                     # Strict TypeScript configuration with @/* aliases
-└── vercel.json                       # Deployment routing, clean URLs & security headers
+└── package.json                      # Build scripts and project dependencies
 ```
 
 ---
@@ -107,7 +90,7 @@ Tyson-Shields-Personal-Website/
 
 ## 🛠 Local Development & Operational Commands
 
-All development tasks are automated through npm scripts:
+All development tasks are automated through npm scripts in [`package.json`](file:///c:/Users/tyson/Documents/GitHub/Tyson-Shields-Personal-Website/package.json):
 
 ### 1. Minify Production CSS
 ```bash
@@ -165,10 +148,10 @@ For full details on edge caching, security headers, and DNS topology, see **[`CL
 All engineers and automated AI coding assistants **must adhere** to the architectural specifications and content workflows detailed in **[`docs/AGENT_GUIDELINES.md`](docs/AGENT_GUIDELINES.md)**.
 
 ### Content Update Rules:
-1. **Never modify presentation markup directly** to add credentials, articles, or experience.
-2. **Update data layers** in `src/data/` (`credentials.ts`, `articles.ts`, `experience.ts`, `socials.ts`) using the strongly typed contracts defined in `src/types/`.
-3. **Always run `npm run build`** after editing `styles.css` to regenerate `styles.min.css`.
-4. **Preserve SEO JSON-LD schema** integrity across all page headers.
+1. **Maintain Semantic Markup**: Keep narrative copy and layout in semantic HTML5 elements.
+2. **Recompile CSS**: Always run `npm run build` after editing `styles.css` to regenerate `styles.min.css`.
+3. **Preserve SEO JSON-LD schema**: Ensure structured schema data in page headers remains valid and synchronized.
+4. **Test Before Commit**: Run `npm run build:ssg` to ensure zero compilation or templating regressions.
 
 ---
 
