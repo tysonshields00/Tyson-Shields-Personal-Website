@@ -1,36 +1,46 @@
 # Cloudflare Pages Edge Performance & Security Headers
+# Domain: tysonshields.com
 
-# Fonts - 1 Year Immutable Cache
+# Fonts - 1 Year Immutable Edge Cache
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
+  Cloudflare-CDN-Cache-Control: max-age=31536000
+  CDN-Cache-Control: max-age=31536000
   Access-Control-Allow-Origin: *
 
-# Stylesheets & JavaScript
+# Minified Stylesheets & Scripts - Edge & Browser Cache
 /styles.min.css
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cloudflare-CDN-Cache-Control: max-age=604800
   X-Content-Type-Options: nosniff
 
 /scripts/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cloudflare-CDN-Cache-Control: max-age=604800
   X-Content-Type-Options: nosniff
 
-# Images & Media
+# Images & Media - 30-Day Immutable Edge Cache
 /*.png
   Cache-Control: public, max-age=2592000, immutable
+  Cloudflare-CDN-Cache-Control: max-age=2592000
 
 /*.jpg
   Cache-Control: public, max-age=2592000, immutable
+  Cloudflare-CDN-Cache-Control: max-age=2592000
 
 /*.svg
   Cache-Control: public, max-age=2592000, immutable
+  Cloudflare-CDN-Cache-Control: max-age=2592000
 
 /*.ico
   Cache-Control: public, max-age=2592000, immutable
+  Cloudflare-CDN-Cache-Control: max-age=2592000
 
 /Tyson-Shields-Resume.pdf
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cloudflare-CDN-Cache-Control: max-age=604800
 
-# Global Security Headers
+# Global Security Headers across all routes
 /*
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff

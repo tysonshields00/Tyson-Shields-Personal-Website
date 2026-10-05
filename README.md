@@ -99,11 +99,25 @@ npm run preview
 # Preview public assets at http://localhost:8000
 ```
 
-### 5. Legacy Site HTTP Preview
+### 5. Cloudflare Edge Status & Cache Purge
 ```sh
-npm run preview:legacy
-# Preview legacy static site at http://localhost:8000
+npm run cf:status   # Check real-time Cloudflare zone, DNS, and Pages health
+npm run cf:purge    # Instant global edge cache purge across all 300+ PoPs
 ```
+
+See **[`CLOUDFLARE.md`](CLOUDFLARE.md)** for complete edge architecture, DNS records, headers, and deployment details.
+
+---
+
+## ☁️ Cloudflare Edge & Ecosystem Integration
+
+- **Production URL:** `https://tysonshields.com` (Cloudflare Pages)
+- **AI Workspace:** `https://dashboard.tysonshields.com` (Cloudflare Worker `dashboard` with Zero Trust Access)
+- **Edge Security & Routing:**
+  - `_redirects` forwards `/dashboard` and `/chat` to `https://dashboard.tysonshields.com`.
+  - `_headers` enforces HTTP/3, TLS 1.3 0-RTT, and immutable Cloudflare CDN caching for fonts/images.
+  - Auto-minification active at the Cloudflare edge for HTML, CSS, and JS.
+
 
 ---
 
