@@ -7,7 +7,7 @@
     "build:ssg": "npx esbuild styles.css --minify --outfile=styles.min.css && npx @11ty/eleventy",
     "minify:css": "npx esbuild styles.css --minify --outfile=styles.min.css",
     "dev": "npx @11ty/eleventy --serve",
-    "preview": "python -m http.server 8000",
+    "preview": "node preview.js",
     "cf:status": "node scripts/cf-status.js",
     "cf:purge": "node scripts/cf-purge.js"
   },

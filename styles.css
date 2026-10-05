@@ -147,6 +147,26 @@ html {
   scroll-behavior: smooth;
   background: var(--bg);
   overflow-x: clip;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 240, 255, 0.25) rgba(10, 15, 29, 0.5);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 15, 29, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.25);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.5);
 }
 
 body {
@@ -6298,8 +6318,18 @@ html[data-theme='light'] .button-secondary {
   background: rgba(8, 14, 28, 0.7);
   color: var(--text);
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  -webkit-appearance: none;
+  appearance: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-form-card select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2300f0ff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
 }
 
 html[data-theme='light'] .contact-form-card input,
@@ -7052,6 +7082,7 @@ html[data-theme='light'] .credential-chip {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 @media (min-width: 768px) {
@@ -7223,6 +7254,7 @@ html[data-theme='light'] .credential-chip {
   border-radius: var(--radius-sm);
   padding: var(--space-md);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
