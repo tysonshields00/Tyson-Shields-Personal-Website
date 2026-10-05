@@ -1,122 +1,91 @@
-# AGENT & DEVELOPER ARCHITECTURAL GUIDELINES
+# Agent & Developer Architectural Guidelines
 
-> **Target Audience:** Future AI Agents (Antigravity, Claude, ChatGPT, Cursor) and Software Engineers contributing to `tysonshields.com`.
-> **Last Updated:** September 2026
-> **Version:** 2.0.0
-> **System Architecture:** Dual Static-Site Generator (Eleventy / esbuild) & Modular Next.js 14+ App Router (TypeScript & Tailwind CSS).
+> **Target Audience:** Future AI Agents (Antigravity, Claude, ChatGPT, Cursor) and Software Engineers contributing to `tysonshields.com`.  
+> **Last Updated:** October 2026  
+> **Version:** 2.1.0  
+> **System Architecture:** Dual-Track: Root Production Static Delivery (Eleventy / esbuild) & Modular Next.js 14+ App Router (TypeScript & Tailwind CSS).
 
 ---
 
 ## 1. Executive Codebase Overview
 
-This repository powers **tysonshields.com**, the professional portfolio of **Tyson Shields**—Business Analyst specializing in Employee Benefits, licensed Life & Health Insurance Producer (State of Nebraska #21707104), and systems technologist.
+This repository powers **tysonshields.com**, the professional portfolio of **Tyson Shields**—Business Analyst specializing in **Employee Benefits**, licensed Life & Health Insurance Producer (State of Nebraska #21707104), and systems engineer.
 
 The codebase is engineered with a **dual architectural structure**:
-1. **Production Static Delivery (Root):** High-speed, zero-JS-dependent static pages (`index.html`, `career.html`, `about.html`, `skills.html`, `contact.html`) served with minified CSS (`styles.min.css`) and vanilla progressive enhancement (`scripts/core.js`).
-2. **Modular Next.js / TypeScript App Engine (`src/`):** Strongly typed, component-driven architecture using React, Next.js App Router (`src/app/`), atomic design tokens, centralized data layers (`src/data/`), domain models (`src/types/`), and path aliases (`@/*`).
+1. **Production Static Delivery (Root):** High-speed, zero-JS-dependent static pages (`index.html`, `career.html`, `about.html`, `skills.html`, `contact.html`, `Tyson-Shields-Resume.html`, `Tyson-Shields-Resume.pdf`) served with minified CSS (`styles.min.css`), local Outfit typography, and vanilla progressive enhancement (`scripts/core.js`). Deployed via Cloudflare Pages.
+2. **Modular Next.js / TypeScript App Engine (`src/`):** Strongly typed, component-driven architecture using React, Next.js 14+ App Router (`src/app/`), atomic design tokens, centralized single-source-of-truth datasets (`src/data/`), domain models (`src/types/`), and path aliases (`@/*`).
 
 ---
 
-## 2. Directory Reorganization Blueprint
+## 2. Directory Hierarchy Blueprint
 
-### Before (Accumulated Legacy State)
 ```text
 Tyson-Shields-Personal-Website/
-├── .eleventy.js
-├── package.json
-├── styles.css
-├── styles.min.css
-├── script.js                         <-- Monolithic, scattered logic
-├── index.html, career.html, ...      <-- Hardcoded content, outdated links
-├── src/
-│   ├── components/
-│   │   ├── Certifications.tsx        <-- Scattered in root of components/
-│   │   ├── ArticlesSection.tsx       <-- Relative imports: '../data/articles'
-│   │   ├── ExperienceTimeline.tsx    <-- Loose types
-│   │   ├── SocialLinks.tsx           <-- Relative imports: '../data/socials'
-│   │   └── ui/
-│   │       └── Badge.tsx
-│   ├── data/
-│   │   ├── credentials.ts
-│   │   ├── articles.ts
-│   │   ├── experience.ts
-│   │   └── socials.ts
-│   └── (Missing centralized types, lib helpers, app routes, layout modules)
-```
-
-### After (Clean Root & Modular Hierarchy)
-```text
-Tyson-Shields-Personal-Website/
-├── docs/                             <-- Architecture guides & AI agent instructions
-│   ├── AGENT_GUIDELINES.md           <-- Comprehensive manual for AI models & developers
-│   └── ARCHITECTURE.md               <-- High-level system architecture overview
-├── legacy/                           <-- Preserved self-contained static HTML site
-│   ├── _includes/                    <-- Reusable partials (header, footer, drawer)
-│   ├── _layouts/                     <-- Base HTML layouts
-│   ├── .eleventy.js                  <-- Eleventy SSG configuration
-│   ├── 404.html, about.html...       <-- Static HTML pages
-│   ├── fonts/ & scripts/             <-- Local static assets
-│   └── styles.css & styles.min.css   <-- Legacy stylesheets
-├── public/                           <-- Static assets, favicons, OG images, PDFs
-│   ├── css/                          <-- Compiled production styles (styles.min.css)
-│   ├── fonts/                        <-- Modern WOFF2 typography (Outfit)
-│   ├── scripts/                      <-- Modular browser scripts (core, home, contact)
-│   ├── android-chrome-*.png
-│   ├── apple-touch-icon.png
-│   ├── favicon.ico
-│   ├── headshot.jpg
-│   ├── og-image.png
-│   ├── site.webmanifest
-│   └── Tyson-Shields-Resume.pdf
-├── src/
-│   ├── app/                          <-- Next.js 14+ App Router
-│   │   ├── globals.css               <-- Tailwind directives & design tokens
-│   │   ├── layout.tsx                <-- Root layout, metadata, JSON-LD injection
-│   │   ├── page.tsx                  <-- Modular Home page
-│   │   ├── about/page.tsx            <-- Dedicated About route
-│   │   ├── career/page.tsx           <-- Dedicated Career route
-│   │   ├── skills/page.tsx           <-- Technical Competencies route
-│   │   └── contact/page.tsx          <-- Direct Comms & Relays route
-│   ├── components/
-│   │   ├── index.ts                  <-- Root barrel export
-│   │   ├── ui/                       <-- Atomic, reusable UI primitives
-│   │   │   ├── Badge.tsx
-│   │   │   ├── Button.tsx
-│   │   │   ├── Card.tsx
-│   │   │   ├── SearchInput.tsx
-│   │   │   └── index.ts
-│   │   ├── sections/                 <-- Composable domain sections
-│   │   │   ├── HeroSection.tsx
-│   │   │   ├── TelemetrySection.tsx
-│   │   │   ├── CertificationsSection.tsx
-│   │   │   ├── ArticlesSection.tsx
-│   │   │   ├── ExperienceSection.tsx
-│   │   │   └── index.ts
-│   │   └── layout/                   <-- Global navigation and structure
-│   │       ├── Header.tsx
-│   │       ├── Footer.tsx
-│   │       ├── Navigation.tsx
-│   │       └── index.ts
-│   ├── data/                         <-- Single source of truth for all records
-│   │   ├── articles.ts               <-- Published opinion columns & news
-│   │   ├── credentials.ts            <-- Licenses & professional certifications
-│   │   ├── experience.ts             <-- Career timeline & operational highlights
-│   │   └── socials.ts                <-- Canonical profiles & contact relays
-│   ├── lib/                          <-- Utilities & schema generators
-│   │   ├── metadata.ts               <-- Structured JSON-LD metadata builders
-│   │   └── utils.ts                  <-- Tailwind merge (cn), formatting, clipboard
-│   ├── styles/                       <-- Source stylesheet (styles.css, styles.min.css)
-│   └── types/                        <-- Shared TypeScript domain contracts
+├── docs/                             # Architecture blueprints & guidelines
+│   ├── AGENT_GUIDELINES.md           # This comprehensive manual for AI models & developers
+│   └── ARCHITECTURE.md               # High-level system architecture overview
+├── _includes/                        # Reusable HTML partials (header, footer, drawer)
+├── _layouts/                         # Base HTML layouts for Eleventy compilation
+├── fonts/                            # Modern WOFF2 typography (Outfit)
+├── scripts/                          # Client-side scripts and Cloudflare CLI tooling
+│   ├── core.js                       # Shared UI preferences, theme engine, navigation
+│   ├── home.js                       # Interactive homepage particle effects & timeline
+│   ├── contact.js                    # Direct contact modal and clipboard interactions
+│   ├── 404.js                        # Dynamic route recovery & suggestion engine
+│   ├── cf-status.js                  # Cloudflare zone, DNS, and Pages health verifier
+│   └── cf-purge.js                   # Instant worldwide edge cache invalidator
+├── src/                              # Next.js App Router & Component Engine
+│   ├── app/                          # Next.js App Router routes, layouts, globals.css
+│   │   ├── globals.css               # Tailwind directives & design tokens
+│   │   ├── layout.tsx                # Root layout, metadata, JSON-LD injection
+│   │   ├── page.tsx                  # Modular Home page
+│   │   ├── about/page.tsx            # Dedicated About route
+│   │   ├── career/page.tsx           # Dedicated Career route
+│   │   ├── skills/page.tsx           # Technical Competencies route
+│   │   └── contact/page.tsx          # Direct Comms & Relays route
+│   ├── components/                   # Component library
+│   │   ├── index.ts                  # Root barrel export
+│   │   ├── ui/                       # Atomic, reusable UI primitives (Badge, Button, Card)
+│   │   ├── sections/                 # Composable domain sections (Hero, Certs, Articles)
+│   │   └── layout/                   # Global navigation, header, footer
+│   ├── data/                         # Centralized Single Source of Truth datasets
+│   │   ├── articles.ts               # Published opinion columns & news
+│   │   ├── credentials.ts            # Licenses & professional certifications
+│   │   ├── experience.ts             # Career timeline & operational highlights
+│   │   └── socials.ts                # Canonical profiles & contact relays
+│   ├── lib/                          # Utilities & schema generators
+│   │   ├── metadata.ts               # Structured JSON-LD metadata builders
+│   │   └── utils.ts                  # Tailwind merge (cn), formatting, clipboard
+│   ├── styles/                       # Source styling
+│   └── types/                        # Shared TypeScript domain contracts
 │       ├── articles.ts
 │       ├── credentials.ts
 │       ├── experience.ts
 │       ├── socials.ts
 │       └── index.ts
-├── .gitignore                        <-- Git ignore rules
-├── package.json                      <-- Build and development scripts
-├── tailwind.config.ts                <-- Shared styling tokens & color palettes
-├── tsconfig.json                     <-- Strict TS compiler with @/* path aliases
-└── vercel.json                       <-- Vercel deployment rules
+├── .eleventy.js                      # Eleventy SSG configuration and passthrough rules
+├── .eleventyignore                   # Exclusions for Eleventy static build
+├── .gitignore                        # Git exclusion rules
+├── _headers                          # Cloudflare Pages edge HTTP security and caching headers
+├── _redirects                        # Cloudflare Pages edge 302/301 routing rules
+├── 404.html                          # Not Found page
+├── about.html                        # About / Executive Dossier
+├── career.html                       # Career Chronology & Published Columns
+├── contact.html                      # Comms Relay & Direct Contact
+├── index.html                        # Production Homepage (tysonshields.com)
+├── skills.html                       # Technical Competencies Matrix & Certifications
+├── Tyson-Shields-Resume.html         # Web-viewable interactive resume
+├── Tyson-Shields-Resume.pdf          # Downloadable PDF resume artifact
+├── styles.css                        # Source cybernetic CSS stylesheet
+├── styles.min.css                    # Minified production stylesheet (compiled by esbuild)
+├── favicon.ico & favicon-*.png       # Multi-resolution favicons
+├── headshot.jpg & og-image.png       # Headshot & social preview cards
+├── site.webmanifest                  # Progressive Web App manifest
+├── sitemap.xml & robots.txt          # SEO crawlers and index directives
+├── package.json                      # Build scripts and project dependencies
+├── tailwind.config.ts                # Shared styling tokens & color palettes
+├── tsconfig.json                     # Strict TS compiler with @/* path aliases
+└── vercel.json                       # Deployment routing, clean URLs & security headers
 ```
 
 ---
@@ -136,7 +105,7 @@ The project enforces TypeScript path aliases configured in `tsconfig.json`:
 ```
 
 ### Import Rules:
-* **ALWAYS** use `@/components/ui`, `@/components/sections`, or `@/components/layout` instead of relative traversal (`../../components/...`).
+* **ALWAYS** use `@/components/ui`, `@/components/sections`, or `@/components/layout` instead of deep relative traversal (`../../components/...`).
 * **ALWAYS** import shared types from `@/types` or `@/types/<domain>`.
 * **ALWAYS** import centralized datasets from `@/data/<domain>`.
 * **ALWAYS** import utility functions (`cn`, formatting) from `@/lib/utils`.
@@ -144,7 +113,7 @@ The project enforces TypeScript path aliases configured in `tsconfig.json`:
 
 ---
 
-## 4. How to Add New Content Without Modifying Component Templates
+## 4. Content Update Workflows
 
 Content is strictly separated from presentation logic. Whenever new career milestones, credentials, or articles are published, update only the corresponding data file in `src/data/`.
 
@@ -167,7 +136,7 @@ import { Credential } from '@/types/credentials';
 }
 ```
 
-### 4.2 Adding a New Published Article
+### 4.2 Adding a New Published Column or Article
 Edit `src/data/articles.ts`:
 ```typescript
 import { Article } from '@/types/articles';
@@ -185,7 +154,7 @@ import { Article } from '@/types/articles';
 }
 ```
 
-### 4.3 Adding an Experience Entry
+### 4.3 Adding a Career Experience Entry
 Edit `src/data/experience.ts`:
 ```typescript
 import { ExperienceItem } from '@/types/experience';
@@ -231,7 +200,7 @@ Edit `src/data/socials.ts`:
   - Secondary accents: `text-sky-300`, `text-emerald-400`
 - Typography:
   - Sans-serif: `Inter`
-  - Monospace (telemetry, badges, flight logs): `JetBrains Mono` or `font-mono`
+  - Monospace (telemetry, badges, logs): `JetBrains Mono` or `font-mono`
   - Editorial headings / italics: `Newsreader` or `font-serif`
 - Transitions:
   - Interactive elements must include smooth transitions: `transition-all duration-200`
@@ -246,15 +215,19 @@ Before committing or pushing any code to production:
 1. **Verify Static CSS Generation:**
    ```bash
    npm run build
-   # Expected output: public/css/styles.min.css compiled via esbuild with zero errors
+   # Compiles styles.css into styles.min.css via esbuild with zero errors
    ```
-2. **Verify Eleventy SSG:**
+2. **Verify Eleventy SSG Build:**
    ```bash
    npm run build:ssg
-   # Confirms that all legacy static pages compile cleanly from legacy/.eleventy.js
+   # Confirms that all static pages and passthroughs compile cleanly into _site/
    ```
-3. **Verify Static File Synchronization:**
-   - When modifying assets, ensure both root and `public/` stay synchronized.
-   - Any external links must use `@tysonshields00` for GitHub and `@tshields2000` for Instagram.
-4. **Browser Console Verification:**
-   - Load pages on local dev server and ensure zero JavaScript console errors or warnings.
+3. **Verify Cloudflare Edge Health:**
+   ```bash
+   npm run cf:status
+   # Confirms zone status, DNS proxying, and Pages deployment
+   ```
+4. **Browser Console & Accessibility Verification:**
+   - Confirm zero JavaScript console errors or warnings.
+   - Verify WCAG 2.1 AA color contrast across both dark and light surfaces.
+   - Verify keyboard navigability and focus rings.
