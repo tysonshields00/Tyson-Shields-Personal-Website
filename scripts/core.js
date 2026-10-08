@@ -188,22 +188,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadPreferences = () => {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey));
-      let theme = saved?.theme;
+      let theme = saved?.theme || defaults.theme;
       if (theme === 'navy') theme = 'dark';
-      if (theme !== 'dark' && theme !== 'light') {
-        theme = defaults.theme;
-      }
-      return { ...defaults, ...saved, theme };
+      if (!valid.theme.includes(theme)) theme = defaults.theme;
+
+      let accent = saved?.accent || defaults.accent;
+      if (!valid.accent.includes(accent)) accent = defaults.accent;
+
+      let density = saved?.density || defaults.density;
+      if (!valid.density.includes(density)) density = defaults.density;
+
+      const reducedMotion = Boolean(saved?.reducedMotion);
+      return { theme, accent, density, reducedMotion };
     } catch (error) {
       return { ...defaults };
     }
   };
 
   let preferences = loadPreferences();
-  if (preferences.theme !== 'dark' && preferences.theme !== 'light') {
-    preferences.theme = 'dark';
-  }
-  preferences.reducedMotion = Boolean(preferences.reducedMotion);
 
   const savePreferences = () => {
     try {
@@ -215,8 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updatePreferenceDom = () => {
     root.dataset.theme = preferences.theme;
-    root.dataset.accent = 'blue';
-    root.dataset.density = 'spacious';
+    root.dataset.accent = preferences.accent;
+    root.dataset.density = preferences.density;
     root.dataset.reducedMotion = preferences.reducedMotion;
 
     if (themeColorMeta) {
@@ -225,6 +227,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('[data-setting="theme"]').forEach((control) => {
       const selected = preferences.theme === control.dataset.value;
+      control.classList.toggle('is-selected', selected);
+      control.setAttribute('aria-pressed', String(selected));
+    });
+
+    document.querySelectorAll('[data-setting="accent"]').forEach((control) => {
+      const selected = preferences.accent === control.dataset.value;
+      control.classList.toggle('is-selected', selected);
+      control.setAttribute('aria-pressed', String(selected));
+    });
+
+    document.querySelectorAll('[data-setting="density"]').forEach((control) => {
+      const selected = preferences.density === control.dataset.value;
       control.classList.toggle('is-selected', selected);
       control.setAttribute('aria-pressed', String(selected));
     });
@@ -284,8 +298,30 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-setting="theme"]').forEach((control) => {
       control.addEventListener('click', () => {
         const val = control.dataset.value;
-        if (val === 'dark' || val === 'light') {
+        if (valid.theme.includes(val)) {
           preferences.theme = val;
+          applyPreferences();
+          savePreferences();
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-setting="accent"]').forEach((control) => {
+      control.addEventListener('click', () => {
+        const val = control.dataset.value;
+        if (valid.accent.includes(val)) {
+          preferences.accent = val;
+          applyPreferences();
+          savePreferences();
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-setting="density"]').forEach((control) => {
+      control.addEventListener('click', () => {
+        const val = control.dataset.value;
+        if (valid.density.includes(val)) {
+          preferences.density = val;
           applyPreferences();
           savePreferences();
         }
@@ -532,10 +568,187 @@ document.addEventListener('DOMContentLoaded', () => {
     render();
   };
 
+  const initCommandPalette = () => {
+    const palette = document.getElementById('command-palette');
+    const backdrop = document.getElementById('palette-backdrop');
+    const input = document.getElementById('palette-input');
+    const list = document.getElementById('palette-list');
+    const emptyState = document.getElementById('palette-empty');
+
+    if (!palette || !input || !list) return;
+
+    const COMMANDS = [
+      { id: 'home', title: 'Home Overview', desc: 'Back to main landing page', group: 'Navigation', icon: '🏠', url: 'index.html' },
+      { id: 'about', title: 'About Tyson Shields', desc: 'Background, mathematics & education', group: 'Navigation', icon: '👤', url: 'about.html' },
+      { id: 'career', title: 'Career & Case Studies', desc: 'Professional experience & system architecture', group: 'Navigation', icon: '💼', url: 'career.html' },
+      { id: 'skills', title: 'Technical Skills & Licensure', desc: 'Python, SQL, actuarial modeling & DOI license', group: 'Navigation', icon: '⚡', url: 'skills.html' },
+      { id: 'contact', title: 'Contact & Dispatch', desc: 'Direct communications & professional inquiries', group: 'Navigation', icon: '✉️', url: 'contact.html' },
+      { id: 'resume', title: 'Executive Resume', desc: 'Interactive web-formatted credentials', group: 'Navigation', icon: '📄', url: 'Tyson-Shields-Resume.html' },
+      { id: 'workspace', title: 'Launch AI Intelligence Dashboard', desc: 'Open private streaming assistant & actuarial tools', group: 'Edge Workspace', icon: '🚀', action: () => window.open('https://dashboard.tysonshields.com', '_blank') },
+      { id: 'download-pdf', title: 'Download Resume (PDF)', desc: 'Official Benefits Business Analyst Resume', group: 'Actions', icon: '📥', action: () => { const a = document.createElement('a'); a.href = 'Tyson-Shields-Resume.pdf'; a.download = 'Tyson-Shields-Benefits-Business-Analyst-Resume.pdf'; a.click(); } },
+      { id: 'copy-email', title: 'Copy Direct Email', desc: 'tysonshields00@gmail.com', group: 'Actions', icon: '📋', action: async () => { await navigator.clipboard.writeText('tysonshields00@gmail.com'); const t = input.placeholder; input.placeholder = '✓ Copied email to clipboard!'; setTimeout(() => input.placeholder = t, 1500); } },
+      { id: 'copy-doi', title: 'Copy Nebraska DOI License #', desc: 'Life & Health Producer #21707104', group: 'Actions', icon: '🛡️', action: async () => { await navigator.clipboard.writeText('21707104'); const t = input.placeholder; input.placeholder = '✓ Copied License #21707104 to clipboard!'; setTimeout(() => input.placeholder = t, 1500); } },
+      { id: 'theme-dark', title: 'Theme: Dark (Navy Glow)', desc: 'Switch to deep cyber navy mode', group: 'Appearance', icon: '🌙', action: () => { preferences.theme = 'dark'; applyPreferences(); savePreferences(); } },
+      { id: 'theme-slate', title: 'Theme: Slate (Tech)', desc: 'Switch to obsidian slate mode', group: 'Appearance', icon: '🖥️', action: () => { preferences.theme = 'slate'; applyPreferences(); savePreferences(); } },
+      { id: 'theme-reading', title: 'Theme: Editorial Reading', desc: 'Switch to warm sepia paper mode', group: 'Appearance', icon: '📖', action: () => { preferences.theme = 'reading'; applyPreferences(); savePreferences(); } },
+      { id: 'theme-light', title: 'Theme: Light Mode', desc: 'Switch to clean high-contrast light mode', group: 'Appearance', icon: '☀️', action: () => { preferences.theme = 'light'; applyPreferences(); savePreferences(); } },
+      { id: 'accent-blue', title: 'Accent: Electric Sky', desc: 'Sky cyan highlights', group: 'Appearance', icon: '🔷', action: () => { preferences.accent = 'blue'; applyPreferences(); savePreferences(); } },
+      { id: 'accent-teal', title: 'Accent: Mint Emerald', desc: 'Mint teal highlights', group: 'Appearance', icon: '🟢', action: () => { preferences.accent = 'teal'; applyPreferences(); savePreferences(); } },
+      { id: 'accent-amber', title: 'Accent: Warm Amber', desc: 'Warm amber gold highlights', group: 'Appearance', icon: '🟡', action: () => { preferences.accent = 'amber'; applyPreferences(); savePreferences(); } },
+      { id: 'accent-purple', title: 'Accent: Neon Violet', desc: 'Neon violet highlights', group: 'Appearance', icon: '🟣', action: () => { preferences.accent = 'purple'; applyPreferences(); savePreferences(); } }
+    ];
+
+    let selectedIndex = 0;
+    let filteredCommands = [...COMMANDS];
+
+    const renderList = () => {
+      list.innerHTML = '';
+      if (!filteredCommands.length) {
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+      }
+      if (emptyState) emptyState.style.display = 'none';
+
+      let currentGroup = '';
+      filteredCommands.forEach((cmd, idx) => {
+        if (cmd.group !== currentGroup) {
+          currentGroup = cmd.group;
+          const grpHeader = document.createElement('div');
+          grpHeader.className = 'palette-group-title';
+          grpHeader.textContent = currentGroup;
+          list.appendChild(grpHeader);
+        }
+
+        const item = document.createElement('div');
+        item.className = `palette-item ${idx === selectedIndex ? 'is-selected' : ''}`;
+        item.setAttribute('role', 'option');
+        item.setAttribute('aria-selected', String(idx === selectedIndex));
+        item.innerHTML = `
+          <div class="palette-item-icon">${cmd.icon}</div>
+          <div class="palette-item-info">
+            <span class="palette-item-title">${cmd.title}</span>
+            <span class="palette-item-desc">${cmd.desc}</span>
+          </div>
+          <span class="palette-item-enter">↵</span>
+        `;
+
+        item.addEventListener('mouseenter', () => {
+          selectedIndex = idx;
+          updateSelection();
+        });
+
+        item.addEventListener('click', () => executeCommand(cmd));
+
+        list.appendChild(item);
+      });
+
+      scrollSelectedIntoView();
+    };
+
+    const updateSelection = () => {
+      const items = list.querySelectorAll('.palette-item');
+      items.forEach((item, idx) => {
+        const isSel = idx === selectedIndex;
+        item.classList.toggle('is-selected', isSel);
+        item.setAttribute('aria-selected', String(isSel));
+      });
+      scrollSelectedIntoView();
+    };
+
+    const scrollSelectedIntoView = () => {
+      const items = list.querySelectorAll('.palette-item');
+      if (items[selectedIndex]) {
+        items[selectedIndex].scrollIntoView({ block: 'nearest' });
+      }
+    };
+
+    const executeCommand = (cmd) => {
+      closePalette();
+      if (cmd.url) {
+        window.location.href = cmd.url;
+      } else if (cmd.action) {
+        cmd.action();
+      }
+    };
+
+    const filter = (query) => {
+      const q = query.toLowerCase().trim();
+      if (!q) {
+        filteredCommands = [...COMMANDS];
+      } else {
+        filteredCommands = COMMANDS.filter((cmd) =>
+          cmd.title.toLowerCase().includes(q) ||
+          cmd.desc.toLowerCase().includes(q) ||
+          cmd.group.toLowerCase().includes(q)
+        );
+      }
+      selectedIndex = 0;
+      renderList();
+    };
+
+    const openPalette = () => {
+      palette.classList.add('is-open');
+      backdrop?.classList.add('is-visible');
+      palette.setAttribute('aria-hidden', 'false');
+      input.value = '';
+      filter('');
+      input.focus();
+    };
+
+    const closePalette = () => {
+      palette.classList.remove('is-open');
+      backdrop?.classList.remove('is-visible');
+      palette.setAttribute('aria-hidden', 'true');
+    };
+
+    document.querySelectorAll('.palette-trigger').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPalette();
+      });
+    });
+
+    backdrop?.addEventListener('click', closePalette);
+
+    input.addEventListener('input', (e) => filter(e.target.value));
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex + 1) % filteredCommands.length;
+        updateSelection();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex - 1 + filteredCommands.length) % filteredCommands.length;
+        updateSelection();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (filteredCommands[selectedIndex]) {
+          executeCommand(filteredCommands[selectedIndex]);
+        }
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closePalette();
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (palette.classList.contains('is-open')) closePalette();
+        else openPalette();
+      }
+      if (e.key === 'Escape' && palette.classList.contains('is-open')) {
+        closePalette();
+      }
+    });
+  };
+
   initScrollReveals();
   initSpotlights();
   initMagneticButtons();
   initAmbientCanvas();
+  initCommandPalette();
 
   applyPreferences();
 });
