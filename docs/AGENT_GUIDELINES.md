@@ -9,7 +9,7 @@
 
 ## 1. Executive Codebase Overview
 
-This repository powers **tysonshields.com**, the professional portfolio of **Tyson Shields**—Business Analyst specializing in **Employee Benefits**, licensed Life & Health Insurance Producer (State of Nebraska #21707104), and systems engineer.
+This repository powers **tysonshields.com**, the professional portfolio of **Tyson Shields**—Business Analyst & Data Operations Specialist specializing in **Data Analytics**, automated Python/SQL data pipelines, and systems engineering.
 
 The site is built with a **zero-dependency static delivery architecture**:
 1. **Production Static Delivery (Root):** High-speed, zero-JS-dependent static pages (`index.html`, `career.html`, `about.html`, `skills.html`, `contact.html`, `Tyson-Shields-Resume.html`, `Tyson-Shields-Resume.pdf`) served with minified CSS (`styles.min.css`), local Outfit typography, and vanilla progressive enhancement (`scripts/core.js`). Deployed via Cloudflare Pages.
@@ -72,7 +72,7 @@ Edit `career.html`:
 ### 3.2 Updating Technical Skills & Certifications
 Edit `skills.html`:
 - Certifications are organized by category: *Licenses*, *Business & Management*, *IT, Cloud & Systems*, *Data & Technical Tools*.
-- Tyson Shields' license: **Licensed Life & Health Insurance Producer** (State of Nebraska License #21707104). Never alter or fabricate license numbers.
+- Tyson Shields' specialization: **Data Analytics & Business Operations Specialist**.
 - Maintain verified issuer URLs and issue dates.
 
 ### 3.3 Adding a Published Article or Column
