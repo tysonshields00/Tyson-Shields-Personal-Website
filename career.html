@@ -163,7 +163,7 @@
 <body class="inner-page">
   <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main-content">Skip to content</a>
-        <header class="site-header">
+          <header class="site-header">
     <nav class="nav-shell" aria-label="Main navigation">
       <a class="brand" href="index.html">
         <span class="brand-mark">TS</span>
@@ -455,17 +455,17 @@
     </section>
 
     <!-- Published Work & Editorial Archive -->
-    <section class="section-shell" id="published-work" style="padding-top: 1rem; padding-bottom: 3.5rem;">
-      <div style="padding: 1.75rem 2rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-raised); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.25rem;">
+    <section class="section-shell" id="published-work" class="career-lead-section">
+      <div class="career-lead-callout">
         <div>
-          <div class="hud-kicker" style="margin-bottom:0.35rem;"><span class="kicker-pulse"></span>EDITORIAL ARCHIVE · THE DAILY NEBRASKAN</div>
-          <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text); margin: 0 0 0.35rem 0;">Published Commentary &amp; Policy Analysis</h3>
-          <p style="font-size: 0.88rem; color: var(--muted); margin: 0; max-width: 650px; line-height: 1.5;">
+          <div class="hud-kicker" ><span class="kicker-pulse"></span>EDITORIAL ARCHIVE · THE DAILY NEBRASKAN</div>
+          <h3 class="career-lead-title">Published Commentary &amp; Policy Analysis</h3>
+          <p class="career-lead-desc">
             Authored regular editorial columns analyzing higher education policy, labor equity, campus governance, and emerging learning technologies during the Fall 2023 semester.
           </p>
         </div>
         <div>
-          <a class="button button-secondary" href="https://www.dailynebraskan.com/users/profile/tyson%20shields/" target="_blank" rel="noopener noreferrer" style="white-space: nowrap;">
+          <a class="button button-secondary" href="https://www.dailynebraskan.com/users/profile/tyson%20shields/" target="_blank" rel="noopener noreferrer" class="button-nowrap">
             View Author Archive <span>↗</span>
           </a>
         </div>
@@ -473,7 +473,7 @@
     </section>
   </main>
 
-        <footer class="site-footer">
+          <footer class="site-footer">
     <a class="footer-skip" href="contact.html">Skip to contact information</a>
     <div class="section-shell footer-inner">
       <div>
@@ -509,19 +509,19 @@
     <span class="setting-label">Theme Mode</span>
     <div class="choice-grid two-choice theme-grid">
       <button type="button" data-setting="theme" data-value="dark" aria-pressed="true">
-        <span class="theme-dot" style="background:#0ea5e9;"></span>
+        <span class="theme-dot theme-dot--dark"></span>
         <span>Dark (Navy)</span>
       </button>
       <button type="button" data-setting="theme" data-value="slate" aria-pressed="false">
-        <span class="theme-dot" style="background:#38bdf8;"></span>
+        <span class="theme-dot theme-dot--slate"></span>
         <span>Slate (Tech)</span>
       </button>
       <button type="button" data-setting="theme" data-value="reading" aria-pressed="false">
-        <span class="theme-dot" style="background:#d97706;"></span>
+        <span class="theme-dot theme-dot--reading"></span>
         <span>Editorial</span>
       </button>
       <button type="button" data-setting="theme" data-value="light" aria-pressed="false">
-        <span class="theme-dot" style="background:#f8fafc; border: 1px solid rgba(0, 0, 0, 0.25);"></span>
+        <span class="theme-dot theme-dot--light"></span>
         <span>Light Mode</span>
       </button>
     </div>
@@ -531,19 +531,19 @@
     <span class="setting-label">Accent Color</span>
     <div class="choice-grid two-choice accent-grid">
       <button type="button" data-setting="accent" data-value="blue" aria-pressed="true">
-        <span class="theme-dot" style="background:#0ea5e9;"></span>
+        <span class="theme-dot theme-dot--blue"></span>
         <span>Electric Sky</span>
       </button>
       <button type="button" data-setting="accent" data-value="teal" aria-pressed="false">
-        <span class="theme-dot" style="background:#10b981;"></span>
+        <span class="theme-dot theme-dot--teal"></span>
         <span>Mint Emerald</span>
       </button>
       <button type="button" data-setting="accent" data-value="amber" aria-pressed="false">
-        <span class="theme-dot" style="background:#f59e0b;"></span>
+        <span class="theme-dot theme-dot--amber"></span>
         <span>Warm Amber</span>
       </button>
       <button type="button" data-setting="accent" data-value="purple" aria-pressed="false">
-        <span class="theme-dot" style="background:#a855f7;"></span>
+        <span class="theme-dot theme-dot--purple"></span>
         <span>Neon Violet</span>
       </button>
     </div>
@@ -563,8 +563,8 @@
 
   <div class="setting-group">
     <span class="setting-label">Quick Search &amp; Actions</span>
-    <button type="button" class="button button-secondary palette-trigger" style="width: 100%; justify-content: center; font-size: 0.82rem; padding: 0.6rem 1rem;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <button type="button" class="button button-secondary palette-trigger drawer-palette-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="drawer-palette-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
       <span>Open Command Palette (Ctrl+K)</span>
     </button>
   </div>
@@ -600,6 +600,7 @@
   });
   </script>
 <!-- Global Command Palette Modal (Ctrl+K) -->
+  <!-- Global Command Palette Modal (Ctrl+K) -->
   <!-- Global Command Palette Modal (Ctrl+K) -->
   <div class="palette-backdrop" id="palette-backdrop" aria-hidden="true"></div>
   <div class="command-palette-modal" id="command-palette" role="dialog" aria-modal="true" aria-label="Command Palette" aria-hidden="true">

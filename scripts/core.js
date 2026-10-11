@@ -16,18 +16,20 @@ window.addEventListener('error', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
   const storageKey = 'tyson-shields-preferences-v2';
-  const defaults = { theme: 'dark', accent: 'blue', density: 'spacious', reducedMotion: false };
+  const defaults = { theme: 'navy', accent: 'blue', density: 'spacious', reducedMotion: false };
   const valid = {
-    theme: ['dark', 'navy', 'light', 'reading'],
+    theme: ['dark', 'navy', 'slate', 'light', 'reading'],
     accent: ['blue', 'teal', 'emerald', 'amber', 'purple', 'white'],
     density: ['spacious', 'compact'],
   };
   const themeColors = {
     dark: '#0a0f1d',
     navy: '#0a0f1d',
-    light: '#f5f7fa',
+    slate: '#0e1217',
+    light: '#f8fafc',
     reading: '#f5edd6'
   };
+  let updateCanvasPalette = null;
 
   // Detect data saver
   if (navigator.connection?.saveData) {
@@ -226,7 +228,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.querySelectorAll('[data-setting="theme"]').forEach((control) => {
-      const selected = preferences.theme === control.dataset.value;
+      const val = control.dataset.value;
+      const isNavyOrDark = (preferences.theme === 'navy' || preferences.theme === 'dark') && (val === 'dark' || val === 'navy');
+      const selected = preferences.theme === val || isNavyOrDark;
       control.classList.toggle('is-selected', selected);
       control.setAttribute('aria-pressed', String(selected));
     });
@@ -242,6 +246,10 @@ document.addEventListener('DOMContentLoaded', () => {
       control.classList.toggle('is-selected', selected);
       control.setAttribute('aria-pressed', String(selected));
     });
+
+    if (typeof updateCanvasPalette === 'function') {
+      updateCanvasPalette();
+    }
   };
 
   const applyPreferences = () => {
@@ -516,14 +524,24 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    const lightAccentPalettes = {
+      blue: ['rgba(2, 132, 199, ', 'rgba(3, 105, 161, ', 'rgba(14, 165, 233, '],
+      teal: ['rgba(5, 150, 105, ', 'rgba(4, 120, 87, ', 'rgba(16, 185, 129, '],
+      emerald: ['rgba(5, 150, 105, ', 'rgba(4, 120, 87, ', 'rgba(16, 185, 129, '],
+      amber: ['rgba(217, 119, 6, ', 'rgba(180, 83, 9, ', 'rgba(245, 158, 11, '],
+      purple: ['rgba(124, 58, 237, ', 'rgba(109, 40, 217, ', 'rgba(168, 85, 247, '],
+      white: ['rgba(71, 85, 105, ', 'rgba(100, 116, 139, ', 'rgba(148, 163, 184, '],
+    };
+
     let activePalette = accentPalettes.blue;
     const updatePalette = () => {
       const activeAccent = root.dataset.accent || 'blue';
-      const isLight = root.dataset.theme === 'light';
-      activePalette = isLight
-        ? ['rgba(2, 132, 199, ', 'rgba(14, 165, 233, ', 'rgba(56, 189, 248, ']
+      const isLightOrReading = root.dataset.theme === 'light' || root.dataset.theme === 'reading';
+      activePalette = isLightOrReading
+        ? (lightAccentPalettes[activeAccent] || lightAccentPalettes.blue)
         : (accentPalettes[activeAccent] || accentPalettes.blue);
     };
+    updateCanvasPalette = updatePalette;
     updatePalette();
 
     let isTabVisible = !document.hidden;
