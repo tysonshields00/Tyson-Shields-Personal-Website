@@ -1,6 +1,6 @@
 // Developer console greetings
 console.log(
-  '%cTyson Shields — Employee Benefits Business Analyst · Lincoln, NE',
+  '%cTyson Shields — Client Service Specialist & Operations Analyst · Lincoln, NE',
   'color: #0ea5e9; font-weight: 600; font-family: system-ui, sans-serif; font-size: 12px;'
 );
 
@@ -703,7 +703,8 @@ document.addEventListener('DOMContentLoaded', () => {
       { id: 'contact', title: 'Contact & Dispatch', desc: 'Direct communications & professional inquiries', group: 'Navigation', icon: '✉️', url: 'contact.html' },
       { id: 'resume', title: 'Executive Resume', desc: 'Interactive web-formatted credentials', group: 'Navigation', icon: '📄', url: 'Tyson-Shields-Resume.html' },
       { id: 'workspace', title: 'Launch AI Intelligence Dashboard', desc: 'Open private streaming assistant & analytics tools', group: 'Edge Workspace', icon: '🚀', action: () => window.open('https://dashboard.tysonshields.com', '_blank') },
-      { id: 'download-pdf', title: 'Download Resume (PDF)', desc: 'Official Business Analyst Resume', group: 'Actions', icon: '📥', action: () => { const a = document.createElement('a'); a.href = 'Tyson-Shields-Resume.pdf'; a.download = 'Tyson-Shields-Business-Analyst-Resume.pdf'; a.click(); } },
+      { id: 'calculator', title: 'Scientific Calculator', desc: 'Interactive browser calculator with trigonometry & memory', group: 'Navigation', icon: '🧮', url: 'calculator.html' },
+      { id: 'download-pdf', title: 'Download Resume (PDF)', desc: 'Official Professional Resume', group: 'Actions', icon: '📥', action: () => { const a = document.createElement('a'); a.href = 'Tyson-Shields-Resume.pdf'; a.download = 'Tyson-Shields-Resume.pdf'; a.click(); } },
       { id: 'copy-email', title: 'Copy Direct Email', desc: 'tysonshields00@gmail.com', group: 'Actions', icon: '📋', action: async () => { await navigator.clipboard.writeText('tysonshields00@gmail.com'); const t = input.placeholder; input.placeholder = '✓ Copied email to clipboard!'; setTimeout(() => input.placeholder = t, 1500); } },
       { id: 'copy-github', title: 'Open GitHub Repositories', desc: 'github.com/tysonshields00', group: 'Actions', icon: '💻', action: () => { window.open('https://github.com/tysonshields00', '_blank'); } },
       { id: 'theme-dark', title: 'Theme: Dark (Navy Glow)', desc: 'Switch to deep cyber navy mode', group: 'Appearance', icon: '🌙', action: () => { preferences.theme = 'dark'; applyPreferences(); savePreferences(); } },

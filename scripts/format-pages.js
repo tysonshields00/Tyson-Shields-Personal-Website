@@ -6,7 +6,8 @@ const standardPages = [
   'about.html',
   'career.html',
   'skills.html',
-  'contact.html'
+  'contact.html',
+  'calculator.html'
 ];
 
 const drawerContent = fs.readFileSync(path.join(__dirname, '..', '_includes', 'settings-drawer.html'), 'utf8');

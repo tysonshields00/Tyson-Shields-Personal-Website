@@ -9,7 +9,7 @@
 
 ## 1. Executive Codebase Overview
 
-This repository powers **tysonshields.com**, the professional portfolio of **Tyson Shields**—Business Analyst & Data Operations Specialist specializing in **Data Analytics**, automated Python/SQL data pipelines, and systems engineering.
+This repository powers **tysonshields.com**, the professional portfolio of **Tyson Shields**—Client Service Specialist & Operations Analyst specializing in employee benefits administration, automated workflows (Python/Power Query), and data integrity.
 
 The site is built with a **zero-dependency static delivery architecture**:
 1. **Production Static Delivery (Root):** High-speed, zero-JS-dependent static pages (`index.html`, `career.html`, `about.html`, `skills.html`, `contact.html`, `Tyson-Shields-Resume.html`, `Tyson-Shields-Resume.pdf`) served with minified CSS (`styles.min.css`), local Outfit typography, and vanilla progressive enhancement (`scripts/core.js`). Deployed via Cloudflare Pages.

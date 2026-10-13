@@ -7,7 +7,7 @@
 [![esbuild](https://img.shields.io/badge/esbuild-0.25-FFCF00.svg?logo=esbuild&logoColor=black)](package.json)
 [![HTML5](https://img.shields.io/badge/HTML5-Semantic_Zero--JS-E34F26.svg?logo=html5&logoColor=white)](index.html)
 
-The professional portfolio and technical platform of **Tyson Shields**—Business Analyst & Data Operations Specialist specializing in **Data Analytics**, automated Python/SQL data pipelines, and systems engineering.
+The professional portfolio and technical platform of **Tyson Shields**—Client Service Specialist & Operations Analyst specializing in employee benefits administration, automated workflows (Python/Power Query), and data integrity.
 
 Production target: **[tysonshields.com](https://tysonshields.com)**.
 
