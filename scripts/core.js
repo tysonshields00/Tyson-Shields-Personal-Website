@@ -16,11 +16,22 @@ window.addEventListener('error', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
   const storageKey = 'tyson-shields-preferences-v2';
-  const defaults = { theme: 'navy', accent: 'blue', density: 'spacious', reducedMotion: false };
+  const defaults = {
+    theme: 'navy',
+    accent: 'blue',
+    density: 'spacious',
+    reducedMotion: false,
+    contrast: 'normal',
+    underlineLinks: false,
+    readableFont: false,
+    fontSize: 'normal'
+  };
   const valid = {
     theme: ['dark', 'navy', 'slate', 'light', 'reading'],
     accent: ['blue', 'teal', 'emerald', 'amber', 'purple', 'white'],
     density: ['spacious', 'compact'],
+    contrast: ['normal', 'high'],
+    fontSize: ['normal', 'large', 'xlarge'],
   };
   const themeColors = {
     dark: '#0a0f1d',
@@ -189,7 +200,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const loadPreferences = () => {
     try {
-      const saved = JSON.parse(localStorage.getItem(storageKey));
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return { ...defaults };
+      const saved = JSON.parse(raw);
+
       let theme = saved?.theme || defaults.theme;
       if (theme === 'navy') theme = 'dark';
       if (!valid.theme.includes(theme)) theme = defaults.theme;
@@ -201,7 +215,26 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!valid.density.includes(density)) density = defaults.density;
 
       const reducedMotion = Boolean(saved?.reducedMotion);
-      return { theme, accent, density, reducedMotion };
+
+      let contrast = saved?.contrast || defaults.contrast;
+      if (!valid.contrast.includes(contrast)) contrast = defaults.contrast;
+
+      const underlineLinks = Boolean(saved?.underlineLinks);
+      const readableFont = Boolean(saved?.readableFont);
+
+      let fontSize = saved?.fontSize || defaults.fontSize;
+      if (!valid.fontSize.includes(fontSize)) fontSize = defaults.fontSize;
+
+      return {
+        theme,
+        accent,
+        density,
+        reducedMotion,
+        contrast,
+        underlineLinks,
+        readableFont,
+        fontSize
+      };
     } catch (error) {
       return { ...defaults };
     }
@@ -221,12 +254,17 @@ document.addEventListener('DOMContentLoaded', () => {
     root.dataset.theme = preferences.theme;
     root.dataset.accent = preferences.accent;
     root.dataset.density = preferences.density;
-    root.dataset.reducedMotion = preferences.reducedMotion;
+    root.dataset.reducedMotion = String(preferences.reducedMotion);
+    root.dataset.contrast = preferences.contrast;
+    root.dataset.underlineLinks = String(preferences.underlineLinks);
+    root.dataset.readableFont = String(preferences.readableFont);
+    root.dataset.fontSize = preferences.fontSize;
 
     if (themeColorMeta) {
       themeColorMeta.setAttribute('content', themeColors[preferences.theme] || '#0a0f1d');
     }
 
+    // Theme Mode
     document.querySelectorAll('[data-setting="theme"]').forEach((control) => {
       const val = control.dataset.value;
       const isNavyOrDark = (preferences.theme === 'navy' || preferences.theme === 'dark') && (val === 'dark' || val === 'navy');
@@ -235,14 +273,54 @@ document.addEventListener('DOMContentLoaded', () => {
       control.setAttribute('aria-pressed', String(selected));
     });
 
+    // Accent Color
     document.querySelectorAll('[data-setting="accent"]').forEach((control) => {
       const selected = preferences.accent === control.dataset.value;
       control.classList.toggle('is-selected', selected);
       control.setAttribute('aria-pressed', String(selected));
     });
 
+    // Display Density
     document.querySelectorAll('[data-setting="density"]').forEach((control) => {
       const selected = preferences.density === control.dataset.value;
+      control.classList.toggle('is-selected', selected);
+      control.setAttribute('aria-pressed', String(selected));
+    });
+
+    // Reduced Motion
+    document.querySelectorAll('[data-setting="reducedMotion"]').forEach((control) => {
+      const isTrue = control.dataset.value === 'true';
+      const selected = preferences.reducedMotion === isTrue;
+      control.classList.toggle('is-selected', selected);
+      control.setAttribute('aria-pressed', String(selected));
+    });
+
+    // High Contrast
+    document.querySelectorAll('[data-setting="contrast"]').forEach((control) => {
+      const selected = preferences.contrast === control.dataset.value;
+      control.classList.toggle('is-selected', selected);
+      control.setAttribute('aria-pressed', String(selected));
+    });
+
+    // Underline Links
+    document.querySelectorAll('[data-setting="underlineLinks"]').forEach((control) => {
+      const isTrue = control.dataset.value === 'true';
+      const selected = preferences.underlineLinks === isTrue;
+      control.classList.toggle('is-selected', selected);
+      control.setAttribute('aria-pressed', String(selected));
+    });
+
+    // Readable Typography
+    document.querySelectorAll('[data-setting="readableFont"]').forEach((control) => {
+      const isTrue = control.dataset.value === 'true';
+      const selected = preferences.readableFont === isTrue;
+      control.classList.toggle('is-selected', selected);
+      control.setAttribute('aria-pressed', String(selected));
+    });
+
+    // Text Sizing
+    document.querySelectorAll('[data-setting="fontSize"]').forEach((control) => {
+      const selected = preferences.fontSize === control.dataset.value;
       control.classList.toggle('is-selected', selected);
       control.setAttribute('aria-pressed', String(selected));
     });
@@ -267,6 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newState = isOpen !== undefined ? isOpen : !isCurrentlyOpen;
     drawer?.classList.toggle('is-open', newState);
     backdrop?.classList.toggle('is-visible', newState);
+    root.classList.toggle('drawer-open', newState);
     drawer?.setAttribute('aria-hidden', String(!newState));
     document.querySelectorAll('.settings-trigger').forEach((trigger) => {
       trigger.setAttribute('aria-expanded', String(newState));
@@ -303,38 +382,44 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    document.querySelectorAll('[data-setting="theme"]').forEach((control) => {
-      control.addEventListener('click', () => {
-        const val = control.dataset.value;
-        if (valid.theme.includes(val)) {
-          preferences.theme = val;
-          applyPreferences();
-          savePreferences();
-        }
-      });
+    drawer.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-setting]');
+      if (!btn) return;
+      const setting = btn.dataset.setting;
+      const val = btn.dataset.value;
+
+      if (setting === 'theme' && valid.theme.includes(val)) {
+        preferences.theme = val;
+      } else if (setting === 'accent' && valid.accent.includes(val)) {
+        preferences.accent = val;
+      } else if (setting === 'density' && valid.density.includes(val)) {
+        preferences.density = val;
+      } else if (setting === 'reducedMotion') {
+        preferences.reducedMotion = val === 'true';
+      } else if (setting === 'contrast' && valid.contrast.includes(val)) {
+        preferences.contrast = val;
+      } else if (setting === 'underlineLinks') {
+        preferences.underlineLinks = val === 'true';
+      } else if (setting === 'readableFont') {
+        preferences.readableFont = val === 'true';
+      } else if (setting === 'fontSize' && valid.fontSize.includes(val)) {
+        preferences.fontSize = val;
+      } else {
+        return;
+      }
+
+      applyPreferences();
+      savePreferences();
     });
 
-    document.querySelectorAll('[data-setting="accent"]').forEach((control) => {
-      control.addEventListener('click', () => {
-        const val = control.dataset.value;
-        if (valid.accent.includes(val)) {
-          preferences.accent = val;
-          applyPreferences();
-          savePreferences();
-        }
+    const resetDefaultsBtn = document.getElementById('drawer-reset-defaults');
+    if (resetDefaultsBtn) {
+      resetDefaultsBtn.addEventListener('click', () => {
+        preferences = { ...defaults };
+        applyPreferences();
+        savePreferences();
       });
-    });
-
-    document.querySelectorAll('[data-setting="density"]').forEach((control) => {
-      control.addEventListener('click', () => {
-        const val = control.dataset.value;
-        if (valid.density.includes(val)) {
-          preferences.density = val;
-          applyPreferences();
-          savePreferences();
-        }
-      });
-    });
+    }
   }
 
   menu?.addEventListener('click', () => {

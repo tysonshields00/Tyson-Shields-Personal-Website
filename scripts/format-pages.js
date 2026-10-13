@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const pages = [
+const standardPages = [
   'index.html',
   'about.html',
   'career.html',
@@ -33,7 +33,7 @@ const paletteModal = `  <!-- Global Command Palette Modal (Ctrl+K) -->
     </div>
   </div>`;
 
-pages.forEach(file => {
+standardPages.forEach(file => {
   const filePath = path.join(__dirname, '..', file);
   if (!fs.existsSync(filePath)) return;
 
@@ -124,3 +124,62 @@ ${getNavLink('contact', 'Contact')}
   fs.writeFileSync(filePath, content, 'utf8');
   console.log(`Formatted ${file}`);
 });
+
+// Also format Tyson-Shields-Resume.html drawer
+const resumePath = path.join(__dirname, '..', 'Tyson-Shields-Resume.html');
+if (fs.existsSync(resumePath)) {
+  let resumeContent = fs.readFileSync(resumePath, 'utf8');
+  if (resumeContent.includes('<aside class="settings-drawer"')) {
+    resumeContent = resumeContent.replace(/<div class="drawer-backdrop"[\s\S]*?<\/aside>/, drawerContent.trim());
+    fs.writeFileSync(resumePath, resumeContent, 'utf8');
+    console.log('Formatted Tyson-Shields-Resume.html');
+  }
+}
+
+// Also format 404.html to include header, drawer, and command palette
+const errorPagePath = path.join(__dirname, '..', '404.html');
+if (fs.existsSync(errorPagePath)) {
+  let errorContent = fs.readFileSync(errorPagePath, 'utf8');
+  
+  const errorHeader = `  <header class="site-header">
+    <nav class="nav-shell" aria-label="Main navigation">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">TS</span>
+        <span>Tyson Shields</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-links">
+        <span class="sr-only">Toggle navigation</span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-links" id="primary-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="career.html">Career</a>
+        <a href="skills.html">Skills</a>
+        <a href="contact.html">Contact</a>
+        <button class="icon-button palette-trigger" type="button" aria-label="Search site &amp; commands (Ctrl+K)" title="Quick Search &amp; Command Palette (Ctrl+K)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+        <button class="icon-button settings-trigger" type="button" aria-label="Open display settings" aria-controls="settings-drawer" aria-expanded="false" title="Customize Appearance &amp; Themes">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        </button>
+      </div>
+    </nav>
+  </header>`;
+
+  if (!errorContent.includes('<header class="site-header">')) {
+    errorContent = errorContent.replace('<main id="main-content"', `${errorHeader}\n  <main id="main-content"`);
+  }
+  if (!errorContent.includes('<aside class="settings-drawer"')) {
+    errorContent = errorContent.replace('</body>', `${drawerContent.trim()}\n</body>`);
+  } else {
+    errorContent = errorContent.replace(/<div class="drawer-backdrop"[\s\S]*?<\/aside>/, drawerContent.trim());
+  }
+  if (!errorContent.includes('id="command-palette"')) {
+    errorContent = errorContent.replace('</body>', `${paletteModal.trim()}\n</body>`);
+  }
+
+  fs.writeFileSync(errorPagePath, errorContent, 'utf8');
+  console.log('Formatted 404.html');
+}
