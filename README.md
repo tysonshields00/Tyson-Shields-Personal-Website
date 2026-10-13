@@ -155,7 +155,22 @@ All engineers and automated AI coding assistants **must adhere** to the architec
 
 ---
 
+## 🔄 Autonomous Self-Improvement & Continuous Code Quality
+
+This platform operates on an autonomous self-improving code hygiene model. On every contribution or task, AI models and software engineers must proactively:
+
+- **Continuously Clean & Refactor**: Audit for dead styles, obsolete selectors, orphaned event handlers, and messy formatting across HTML, CSS, and JS.
+- **Enforce Blocker & Privacy Immunity**: Audit class names and IDs against ad/content-blocker filter rules (EasyList) to prevent silent cosmetic filtering of legitimate stats, callouts, and docks.
+- **Diagnose & Repair Multi-Browser Discrepancies**: Maintain layout parity and visual consistency across Blink (Chrome/Edge/Brave), Gecko (Firefox), and WebKit (Safari), verifying responsive breakpoints and dark/light/reading theme contrast.
+- **Fault-Tolerant Runtime Hardening**: Ensure APIs (`localStorage`, clipboard, canvas) have robust fallback handling that gracefully recovers if blocked in private browsing or isolated security sandboxes.
+- **Verification Guarantee**: Every change must be validated with `npm run build:ssg` before submission.
+
+For full implementation details, see **[`docs/AGENT_GUIDELINES.md`](docs/AGENT_GUIDELINES.md)**.
+
+---
+
 ## 📄 License & Attribution
 
 - Designed and engineered by **Tyson Shields**.
 - Code licensed under the [MIT License](LICENSE).
+
