@@ -132,3 +132,32 @@ Before committing or pushing any code to production:
    - Confirm zero JavaScript console errors or warnings.
    - Verify WCAG 2.1 AA color contrast across both dark and light surfaces.
    - Verify keyboard navigability and focus rings.
+
+---
+
+## 6. Continuous Self-Improvement & Autonomous Code Hygiene Protocol
+
+Every contributing AI agent (Antigravity, Claude, ChatGPT, Cursor) and human engineer is expected to leave the repository cleaner, better organized, and more resilient than they found it. Do not simply perform the requested edit in isolation—actively diagnose, organize, and harden the codebase on every pass.
+
+### 6.1 Proactive Code Cleanup & Organization
+- **Dead Code & Artifact Elimination**: Remove unused styles, obsolete classes, orphaned script handlers, and temporary test files upon completing a task.
+- **Architectural Organization**: Maintain clean grouping in [`styles.css`](file:///c:/Users/tyson/Documents/GitHub/Tyson-Shields-Personal-Website/styles.css) (tokens, layout, page-specific modules, responsive breakpoints, print rules). Prevent duplicate selector declarations and consolidate scattered rules into canonical blocks.
+- **Script Modularity**: Keep script files focused and cleanly scoped (`core.js` for universal UI, theme engine, navigation; `home.js` for homepage-specific interactives; `contact.js` for contact forms). Avoid bloated inline scripts in HTML.
+
+### 6.2 Cross-Browser & Content-Blocker Diagnostic Loop
+- **Blocker Immunity**: Continuously audit HTML classes and IDs against common content/ad-blocker filter lists (EasyList, Fanboy's, Peter Lowe's). Never introduce class or ID names containing vulnerable patterns like `*-banner`, `metric-*`, `*-stats-*`, or `telemetry-*` without safe aliases.
+- **Multi-Engine Parity**:
+  - **Gecko (Firefox)**: Ensure all CSS Grid children include `min-width: 0` to prevent horizontal blowout; maintain `text-rendering: optimizeLegibility` and `-moz-osx-font-smoothing`; avoid `overflow-x: clip` breaking sticky positioning.
+  - **Blink (Chrome, Edge, Brave)**: Confirm smooth rendering, hardware-accelerated transforms, and clean backdrop filters.
+  - **WebKit (Safari / iOS)**: Verify `env(safe-area-inset-*)` support, viewport-fit behavior, and `-webkit-backdrop-filter`.
+- **Fault-Tolerant APIs**:
+  - Always guard `localStorage`, `sessionStorage`, and `navigator.clipboard` with safe try/catch wrappers or fallbacks so private browsing modes and tracking protection policies never throw unhandled `SecurityError` exceptions.
+  - Wrap HTML5 canvas rendering in try/catch to gracefully handle fingerprinting protection blocks.
+
+### 6.3 Autonomous Bug Detection & Self-Healing Workflow
+When inspecting or updating any page:
+1. **Audit**: Check the page markup, console output, responsive layouts, and structured data schemas.
+2. **Diagnose**: Identify styling regressions, contrast failures, missing dimensions on media/SVGs, or fragile dependencies.
+3. **Refactor & Heal**: Surgically repair issues while preserving existing functionality and backward compatibility.
+4. **Validate**: Always run `npm run build:ssg` to ensure that esbuild minification and Eleventy compilation pass with 0 errors.
+

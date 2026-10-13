@@ -55,9 +55,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!screen || !layer) return;
 
+    const getSafeItem = (key, fallback = '') => {
+      try { return localStorage.getItem(key) ?? fallback; }
+      catch { return fallback; }
+    };
+    const setSafeItem = (key, val) => {
+      try { localStorage.setItem(key, val); }
+      catch {}
+    };
+
     let isPlaying = false;
     let score = 0;
-    let highScore = parseInt(localStorage.getItem('ts-radar-high-score') || '0', 10);
+    let highScore = parseInt(getSafeItem('ts-radar-high-score', '0') || '0', 10);
     let timeLeft = 30;
     let combo = 1;
     let maxCombo = 1;
@@ -66,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameTimer = null;
     let spawnTimer = null;
     let audioCtx = null;
-    let audioMuted = localStorage.getItem('ts-radar-audio-muted') === 'true';
+    let audioMuted = getSafeItem('ts-radar-audio-muted', 'false') === 'true';
 
     // Update initial audio button icon
     if (audioIcon) {
@@ -77,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       audioBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         audioMuted = !audioMuted;
-        localStorage.setItem('ts-radar-audio-muted', String(audioMuted));
+        setSafeItem('ts-radar-audio-muted', String(audioMuted));
         if (audioIcon) audioIcon.textContent = audioMuted ? '🔇' : '🔊';
         audioBtn.setAttribute('aria-pressed', String(!audioMuted));
       });
@@ -565,7 +574,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Update High Score
       if (score > highScore) {
         highScore = score;
-        localStorage.setItem('ts-radar-high-score', String(highScore));
+        setSafeItem('ts-radar-high-score', String(highScore));
         if (highEl) highEl.textContent = String(highScore);
       }
 

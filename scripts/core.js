@@ -469,121 +469,136 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const initAmbientCanvas = () => {
-    const canvas = document.getElementById('ambient-canvas');
-    if (!canvas || !('getContext' in canvas)) return;
-    const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) return;
-
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    let resizeRaf = 0;
-    const onResize = () => {
-      if (resizeRaf) return;
-      resizeRaf = requestAnimationFrame(() => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-        resizeRaf = 0;
-      });
-    };
-    window.addEventListener('resize', onResize, { passive: true });
-
-    const accentPalettes = {
-      blue: ['rgba(0, 240, 255, ', 'rgba(56, 189, 248, ', 'rgba(14, 165, 233, '],
-      teal: ['rgba(16, 240, 192, ', 'rgba(94, 234, 212, ', 'rgba(20, 184, 166, '],
-      emerald: ['rgba(16, 185, 129, ', 'rgba(52, 211, 153, ', 'rgba(5, 150, 105, '],
-      amber: ['rgba(245, 158, 11, ', 'rgba(251, 191, 36, ', 'rgba(217, 119, 6, '],
-      purple: ['rgba(168, 85, 247, ', 'rgba(192, 132, 252, ', 'rgba(124, 58, 237, '],
-      white: ['rgba(248, 250, 252, ', 'rgba(226, 232, 240, ', 'rgba(203, 213, 225, '],
-    };
-
-    if (!motionOK()) {
-      ctx.fillStyle = 'rgba(0, 240, 255, 0.08)';
-      for (let i = 0; i < 24; i++) {
-        const x = Math.random() * width;
-        const y = Math.random() * height;
-        ctx.beginPath();
-        ctx.arc(x, y, 1.5, 0, Math.PI * 2);
-        ctx.fill();
+    try {
+      const canvas = document.getElementById('ambient-canvas');
+      if (!canvas || !('getContext' in canvas)) return;
+      let ctx = null;
+      try {
+        ctx = canvas.getContext('2d', { alpha: true });
+      } catch (e) {
+        return;
       }
-      return;
-    }
+      if (!ctx) return;
 
-    const particleCount = Math.min(Math.floor((width * height) / 38000), 32);
-    const particles = [];
+      let width = (canvas.width = window.innerWidth);
+      let height = (canvas.height = window.innerHeight);
 
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
-        radius: Math.random() * 1.6 + 1,
-        colorIndex: i % 3,
-        baseAlpha: Math.random() * 0.35 + 0.25,
-      });
-    }
+      let resizeRaf = 0;
+      const onResize = () => {
+        if (resizeRaf) return;
+        resizeRaf = requestAnimationFrame(() => {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+          resizeRaf = 0;
+        });
+      };
+      window.addEventListener('resize', onResize, { passive: true });
 
-    const lightAccentPalettes = {
-      blue: ['rgba(2, 132, 199, ', 'rgba(3, 105, 161, ', 'rgba(14, 165, 233, '],
-      teal: ['rgba(5, 150, 105, ', 'rgba(4, 120, 87, ', 'rgba(16, 185, 129, '],
-      emerald: ['rgba(5, 150, 105, ', 'rgba(4, 120, 87, ', 'rgba(16, 185, 129, '],
-      amber: ['rgba(217, 119, 6, ', 'rgba(180, 83, 9, ', 'rgba(245, 158, 11, '],
-      purple: ['rgba(124, 58, 237, ', 'rgba(109, 40, 217, ', 'rgba(168, 85, 247, '],
-      white: ['rgba(71, 85, 105, ', 'rgba(100, 116, 139, ', 'rgba(148, 163, 184, '],
-    };
+      const accentPalettes = {
+        blue: ['rgba(0, 240, 255, ', 'rgba(56, 189, 248, ', 'rgba(14, 165, 233, '],
+        teal: ['rgba(16, 240, 192, ', 'rgba(94, 234, 212, ', 'rgba(20, 184, 166, '],
+        emerald: ['rgba(16, 185, 129, ', 'rgba(52, 211, 153, ', 'rgba(5, 150, 105, '],
+        amber: ['rgba(245, 158, 11, ', 'rgba(251, 191, 36, ', 'rgba(217, 119, 6, '],
+        purple: ['rgba(168, 85, 247, ', 'rgba(192, 132, 252, ', 'rgba(124, 58, 237, '],
+        white: ['rgba(248, 250, 252, ', 'rgba(226, 232, 240, ', 'rgba(203, 213, 225, '],
+      };
 
-    let activePalette = accentPalettes.blue;
-    const updatePalette = () => {
-      const activeAccent = root.dataset.accent || 'blue';
-      const isLightOrReading = root.dataset.theme === 'light' || root.dataset.theme === 'reading';
-      activePalette = isLightOrReading
-        ? (lightAccentPalettes[activeAccent] || lightAccentPalettes.blue)
-        : (accentPalettes[activeAccent] || accentPalettes.blue);
-    };
-    updateCanvasPalette = updatePalette;
-    updatePalette();
-
-    let isTabVisible = !document.hidden;
-    let animId = 0;
-
-    const render = () => {
-      if (!isTabVisible) return;
-      ctx.clearRect(0, 0, width, height);
-
-      for (let i = 0; i < particles.length; i++) {
-        const p1 = particles[i];
-        ctx.fillStyle = `${activePalette[p1.colorIndex]}${p1.baseAlpha * 0.4})`;
-        ctx.beginPath();
-        ctx.arc(p1.x, p1.y, p1.radius * 0.8, 0, Math.PI * 2);
-        ctx.fill();
-
-        p1.x += p1.vx;
-        p1.y += p1.vy;
-
-        if (p1.x < 0) p1.x = width;
-        else if (p1.x > width) p1.x = 0;
-        if (p1.y < 0) p1.y = height;
-        else if (p1.y > height) p1.y = 0;
+      if (!motionOK()) {
+        try {
+          ctx.fillStyle = 'rgba(0, 240, 255, 0.08)';
+          for (let i = 0; i < 24; i++) {
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+            ctx.beginPath();
+            ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } catch (e) {}
+        return;
       }
 
-      animId = requestAnimationFrame(render);
-    };
+      const particleCount = Math.min(Math.floor((width * height) / 38000), 32);
+      const particles = [];
 
-    const handleVisibility = () => {
-      if (document.hidden) {
-        isTabVisible = false;
-        if (animId) cancelAnimationFrame(animId);
-      } else {
-        if (!isTabVisible) {
-          isTabVisible = true;
-          render();
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+          radius: Math.random() * 1.6 + 1,
+          colorIndex: i % 3,
+          baseAlpha: Math.random() * 0.35 + 0.25,
+        });
+      }
+
+      const lightAccentPalettes = {
+        blue: ['rgba(2, 132, 199, ', 'rgba(3, 105, 161, ', 'rgba(14, 165, 233, '],
+        teal: ['rgba(5, 150, 105, ', 'rgba(4, 120, 87, ', 'rgba(16, 185, 129, '],
+        emerald: ['rgba(5, 150, 105, ', 'rgba(4, 120, 87, ', 'rgba(16, 185, 129, '],
+        amber: ['rgba(217, 119, 6, ', 'rgba(180, 83, 9, ', 'rgba(245, 158, 11, '],
+        purple: ['rgba(124, 58, 237, ', 'rgba(109, 40, 217, ', 'rgba(168, 85, 247, '],
+        white: ['rgba(71, 85, 105, ', 'rgba(100, 116, 139, ', 'rgba(148, 163, 184, '],
+      };
+
+      let activePalette = accentPalettes.blue;
+      const updatePalette = () => {
+        const activeAccent = root.dataset.accent || 'blue';
+        const isLightOrReading = root.dataset.theme === 'light' || root.dataset.theme === 'reading';
+        activePalette = isLightOrReading
+          ? (lightAccentPalettes[activeAccent] || lightAccentPalettes.blue)
+          : (accentPalettes[activeAccent] || accentPalettes.blue);
+      };
+      updateCanvasPalette = updatePalette;
+      updatePalette();
+
+      let isTabVisible = !document.hidden;
+      let animId = 0;
+
+      const render = () => {
+        if (!isTabVisible) return;
+        try {
+          ctx.clearRect(0, 0, width, height);
+
+          for (let i = 0; i < particles.length; i++) {
+            const p1 = particles[i];
+            ctx.fillStyle = `${activePalette[p1.colorIndex]}${p1.baseAlpha * 0.4})`;
+            ctx.beginPath();
+            ctx.arc(p1.x, p1.y, p1.radius * 0.8, 0, Math.PI * 2);
+            ctx.fill();
+
+            p1.x += p1.vx;
+            p1.y += p1.vy;
+
+            if (p1.x < 0) p1.x = width;
+            else if (p1.x > width) p1.x = 0;
+            if (p1.y < 0) p1.y = height;
+            else if (p1.y > height) p1.y = 0;
+          }
+
+          animId = requestAnimationFrame(render);
+        } catch (e) {
+          if (animId) cancelAnimationFrame(animId);
         }
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibility, { passive: true });
+      };
 
-    render();
+      const handleVisibility = () => {
+        if (document.hidden) {
+          isTabVisible = false;
+          if (animId) cancelAnimationFrame(animId);
+        } else {
+          if (!isTabVisible) {
+            isTabVisible = true;
+            render();
+          }
+        }
+      };
+      document.addEventListener('visibilitychange', handleVisibility, { passive: true });
+
+      render();
+    } catch (err) {
+      // Gracefully handle blocker or restricted canvas environments
+    }
   };
 
   const initCommandPalette = () => {
@@ -762,11 +777,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const initCareerFilters = () => {
+    const careerFilterBtns = document.querySelectorAll('.career-filter-btn');
+    const careerEntries = document.querySelectorAll('.career-entry');
+    if (!careerFilterBtns.length || !careerEntries.length) return;
+
+    careerFilterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        careerFilterBtns.forEach((b) => {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        careerEntries.forEach((entry) => {
+          if (filter === 'all') {
+            entry.classList.remove('is-filtered-out');
+          } else {
+            const categories = entry.dataset.category ? entry.dataset.category.split(' ') : [];
+            entry.classList.toggle('is-filtered-out', !categories.includes(filter));
+          }
+        });
+      });
+    });
+  };
+
   initScrollReveals();
   initSpotlights();
   initMagneticButtons();
   initAmbientCanvas();
   initCommandPalette();
+  initCareerFilters();
 
   applyPreferences();
 });
