@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
   const storageKey = 'tyson-shields-preferences-v2';
   const defaults = {
-    theme: 'navy',
+    theme: 'dark',
     accent: 'blue',
     density: 'spacious',
     reducedMotion: false,
