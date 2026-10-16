@@ -9309,8 +9309,16 @@ html.drawer-open .resume-topbar {
   pointer-events: auto;
 }
 
-html[data-theme='light'] .drawer-backdrop {
-  background: rgba(15, 23, 42, 0.45);
+html[data-theme='light'] .drawer-backdrop,
+html[data-theme='light'] .palette-backdrop,
+html[data-theme='light'] .command-palette::backdrop {
+  background: rgba(15, 23, 42, 0.28) !important;
+}
+
+html[data-theme='reading'] .drawer-backdrop,
+html[data-theme='reading'] .palette-backdrop,
+html[data-theme='reading'] .command-palette::backdrop {
+  background: rgba(70, 50, 20, 0.32) !important;
 }
 
 /* 3. Settings Drawer Slide-Over Panel */
@@ -9780,7 +9788,7 @@ html[data-font-size='xlarge'] {
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
-  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--accent-glow, var(--accent-soft));
   z-index: 1250;
   display: flex;
   flex-direction: column;
@@ -9864,7 +9872,7 @@ html[data-font-size='xlarge'] {
 }
 
 .palette-item.is-selected, .palette-item:hover {
-  background: rgba(56, 189, 248, 0.12);
+  background: var(--accent-soft);
   border-left: 3px solid var(--accent);
 }
 
@@ -11401,7 +11409,7 @@ html[data-theme='reading'] .calc-output {
   padding: 0.4rem 0.85rem !important;
   border-radius: var(--radius-sm) !important;
   background: var(--brand-cyan-soft) !important;
-  border: 1px solid rgba(56, 189, 248, 0.22) !important;
+  border: 1px solid var(--border-focus) !important;
   color: var(--text-primary) !important;
   font-size: 0.76rem !important;
   font-weight: 600 !important;
@@ -11412,9 +11420,9 @@ html[data-theme='reading'] .calc-output {
 
 .credential-chip:hover {
   border-color: var(--brand-cyan) !important;
-  background: rgba(56, 189, 248, 0.18) !important;
+  background: var(--brand-cyan-soft) !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.15) !important;
+  box-shadow: 0 4px 14px var(--brand-cyan-soft) !important;
 }
 
 .content-grid {
@@ -11428,8 +11436,8 @@ html[data-theme='reading'] .calc-output {
 .resume-sheet {
   background: var(--surface-1) !important;
   border: 1px solid var(--border-medium) !important;
-  border-top-color: rgba(56, 189, 248, 0.35) !important;
-  box-shadow: var(--shadow-card), 0 0 40px -10px rgba(56, 189, 248, 0.08) !important;
+  border-top-color: var(--brand-cyan) !important;
+  box-shadow: var(--shadow-card), 0 0 40px -10px var(--brand-cyan-soft) !important;
   border-radius: var(--radius-lg) !important;
   margin: 2.25rem auto 5rem !important;
 }
