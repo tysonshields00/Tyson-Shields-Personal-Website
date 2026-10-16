@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     root.dataset.fontSize = preferences.fontSize;
 
     if (themeColorMeta) {
-      themeColorMeta.setAttribute('content', themeColors[preferences.theme] || '#0a0f1d');
+      themeColorMeta.setAttribute('content', themeColors[preferences.theme === 'navy' ? 'dark' : preferences.theme] || '#0a0f1d');
     }
 
     // Theme Mode

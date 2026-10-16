@@ -4807,15 +4807,15 @@ html[data-theme='light'] body::before {
 }
 
 .brand-mark {
-  background: linear-gradient(135deg, #0284c7, #00f0ff) !important;
+  background: linear-gradient(135deg, var(--accent-deep, var(--accent)), var(--accent-hover, var(--accent))) !important;
   color: #050811 !important;
   font-weight: 800 !important;
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.5) !important;
+  box-shadow: 0 0 16px var(--accent-glow, var(--accent-soft)) !important;
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
 
 .brand:hover .brand-mark {
-  box-shadow: 0 0 24px rgba(0, 240, 255, 0.8) !important;
+  box-shadow: 0 0 24px var(--accent-glow, var(--accent-soft)) !important;
 }
 
 /* 3. Futuristic HUD Kickers & Eyebrows */
@@ -4881,7 +4881,7 @@ h2 em {
   font-style: normal;
   font-weight: 800;
   letter-spacing: -0.015em;
-  background: linear-gradient(135deg, #00f0ff 0%, #38bdf8 50%, #0a84ff 100%);
+  background: linear-gradient(135deg, var(--accent-hover, var(--accent)) 0%, var(--accent) 50%, var(--accent-deep, var(--accent)) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
