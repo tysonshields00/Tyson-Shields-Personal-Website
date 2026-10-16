@@ -43,6 +43,17 @@ const paletteModal = `  <!-- Global Command Palette Modal (Ctrl+K) -->
     </div>
   </div>`;
 
+const themeInitScript = `  <script>
+    (function(){try{var raw=localStorage.getItem('tyson-shields-preferences-v2');if(raw){var p=JSON.parse(raw);var r=document.documentElement;if(p.theme){r.dataset.theme=(p.theme==='navy')?'dark':p.theme;var c={dark:'#0a0f1d',navy:'#0a0f1d',slate:'#0e1217',light:'#f8fafc',reading:'#f5edd6'};var m=document.querySelector('meta[name="theme-color"]');if(m&&c[r.dataset.theme])m.setAttribute('content',c[r.dataset.theme]);}if(p.accent)r.dataset.accent=p.accent;if(p.density)r.dataset.density=p.density;if(p.contrast)r.dataset.contrast=p.contrast;if(p.fontSize)r.dataset.fontSize=p.fontSize;if(p.reducedMotion!==undefined)r.dataset.reducedMotion=String(p.reducedMotion);if(p.underlineLinks!==undefined)r.dataset.underlineLinks=String(p.underlineLinks);if(p.readableFont!==undefined)r.dataset.readableFont=String(p.readableFont);}}catch(e){}})();
+  </script>`;
+
+function syncThemeScript(html) {
+  html = html.replace(/<html\b[^>]*>/i, '<html lang="en-US" data-theme="navy" data-accent="blue" data-density="spacious">');
+  html = html.replace(/<script>\s*\(function\(\)\s*\{[\s\S]*?localStorage\.getItem\('tyson-shields-preferences-v2'\)[\s\S]*?<\/script>\s*/i, '');
+  html = html.replace(/(\s*)(<link\s+rel="stylesheet"\s+href="styles\.min\.css">)/i, `\n${themeInitScript}\n$1$2`);
+  return html;
+}
+
 standardPages.forEach(file => {
   const filePath = path.join(__dirname, '..', file);
   if (!fs.existsSync(filePath)) return;
@@ -117,6 +128,12 @@ ${getNavLink('contact', 'Contact')}
   // Replace footer
   content = content.replace(/<footer class="site-footer">[\s\S]*?<\/footer>/, formattedFooter);
 
+  // Sync theme script and attributes
+  content = syncThemeScript(content);
+  if (file === 'calculator.html') {
+    content = content.replace(/<style>[\s\S]*?<\/style>\s*/, '');
+  }
+
   // Replace or inject drawer
   if (content.includes('<aside class="settings-drawer"')) {
     content = content.replace(/<div class="drawer-backdrop"[\s\S]*?<\/aside>/, drawerContent.trim());
@@ -135,21 +152,28 @@ ${getNavLink('contact', 'Contact')}
   console.log(`Formatted ${file}`);
 });
 
-// Also format Tyson-Shields-Resume.html drawer
+// Also format Tyson-Shields-Resume.html
 const resumePath = path.join(__dirname, '..', 'Tyson-Shields-Resume.html');
 if (fs.existsSync(resumePath)) {
   let resumeContent = fs.readFileSync(resumePath, 'utf8');
+  resumeContent = syncThemeScript(resumeContent);
   if (resumeContent.includes('<aside class="settings-drawer"')) {
     resumeContent = resumeContent.replace(/<div class="drawer-backdrop"[\s\S]*?<\/aside>/, drawerContent.trim());
-    fs.writeFileSync(resumePath, resumeContent, 'utf8');
-    console.log('Formatted Tyson-Shields-Resume.html');
+  } else {
+    resumeContent = resumeContent.replace('</body>', `${drawerContent.trim()}\n</body>`);
   }
+  if (!resumeContent.includes('id="command-palette"')) {
+    resumeContent = resumeContent.replace('</body>', `${paletteModal.trim()}\n</body>`);
+  }
+  fs.writeFileSync(resumePath, resumeContent, 'utf8');
+  console.log('Formatted Tyson-Shields-Resume.html');
 }
 
 // Also format 404.html to include header, drawer, and command palette
 const errorPagePath = path.join(__dirname, '..', '404.html');
 if (fs.existsSync(errorPagePath)) {
   let errorContent = fs.readFileSync(errorPagePath, 'utf8');
+  errorContent = syncThemeScript(errorContent);
   
   const errorHeader = `  <header class="site-header">
     <nav class="nav-shell" aria-label="Main navigation">

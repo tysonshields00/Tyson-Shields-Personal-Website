@@ -351,6 +351,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   applyPreferences();
 
+  // Synchronize preferences across open browser tabs/windows in real-time
+  window.addEventListener('storage', (e) => {
+    if (e.key === storageKey && e.newValue) {
+      try {
+        preferences = loadPreferences();
+        applyPreferences();
+      } catch (err) {}
+    }
+  });
+
   const setDrawer = (isOpen) => {
     const isCurrentlyOpen = drawer?.classList.contains('is-open');
     const newState = isOpen !== undefined ? isOpen : !isCurrentlyOpen;
