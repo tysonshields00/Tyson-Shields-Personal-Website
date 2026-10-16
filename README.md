@@ -91,8 +91,8 @@ Tyson-Shields-Personal-Website/
 ## ⚡ Core Domain Specializations
 
 - **Employee Benefits Operations:** Portfolio administration across 20+ corporate employer groups, commercial carrier partner liaison (Cigna, Ameritas, Unum, Guardian, Auxiant, Principal, Mutual of Omaha, Assurity, Pacific Life), enrollment discrepancy resolution, and open enrollment management.
-- **Census Reconciliation & Data Parity:** Cross-system audits between carrier premium statements, payroll deduction ledgers, and HRIS census files (Employee Navigator, iSolved, Paylocity, ThreeFlow) to guarantee 100% audit integrity.
-- **Workflow & Process Automation:** Custom Python (`pandas`) and Power Query scripts that reduce monthly census scrubbing from 30 minutes to 30 seconds and compress reporting turnaround by 30%.
+- **Census Reconciliation & Data Parity:** Cross-system audits between carrier premium statements, payroll deduction ledgers, and HRIS census files (Employee Navigator, iSolved, Paylocity, ThreeFlow) to ensure audit integrity and roster accuracy.
+- **Workflow & Process Automation:** Custom Python (`pandas`) and Power Query scripts that automate multi-carrier census auditing and accelerate reporting cycles.
 - **Regulatory Compliance:** Active Nebraska Resident Insurance Producer License in Life and Health (NE DOI License #21707104), enforcing ERISA, HIPAA, COBRA, and ACA statutory standards.
 - **Technical Media & Broadcast Operations:** Split-second newsroom pacing across live broadcasts using AP ENPS, robotic camera pedestal programming, teleprompter feed management, and studio audio DSP routing.
 

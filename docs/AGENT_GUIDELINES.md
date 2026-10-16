@@ -81,7 +81,7 @@ When modifying any copy across HTML files, JSON-LD schemas, or documentation, al
    - Company: **UNICO Group** (Lincoln, NE)
    - Official Title: **Data Analytics & IT Intern**
    - Tenure: May 2024 – June 2025
-   - Focus: Python (pandas) & Power Query census reconciliation, reducing reporting lead times by 30%.
+   - Focus: Python (pandas) & Power Query census reconciliation and reporting turnaround acceleration.
 3. **Media Production**:
    - Company: **10/11 News / Gray Television** (Lincoln, NE)
    - Official Title: **Technical Media Producer** (Nov 2023 – June 2025) & **Production Intern** (Nov 2023)
