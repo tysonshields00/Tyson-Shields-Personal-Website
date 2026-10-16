@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const updatePreferenceDom = () => {
-    root.dataset.theme = preferences.theme;
+    root.dataset.theme = preferences.theme === 'navy' ? 'dark' : preferences.theme;
     root.dataset.accent = preferences.accent;
     root.dataset.density = preferences.density;
     root.dataset.reducedMotion = String(preferences.reducedMotion);
