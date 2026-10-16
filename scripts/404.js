@@ -1,4 +1,9 @@
-// Tyson Shields Portfolio — 404 Recovery Scripts
+/**
+ * @file scripts/404.js
+ * @description 404 Route Recovery handler. Provides an accessible countdown
+ * timer to return to the homepage, cancellable upon any user interaction.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
   const countdown = document.querySelector('[data-countdown]');
   if (countdown) {

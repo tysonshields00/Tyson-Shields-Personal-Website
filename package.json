@@ -8,6 +8,7 @@
     "minify:css": "npx esbuild styles.css --minify --outfile=styles.min.css",
     "dev": "npx @11ty/eleventy --serve",
     "preview": "node preview.js",
+    "format:pages": "node scripts/format-pages.js",
     "cf:status": "node scripts/cf-status.js",
     "cf:purge": "node scripts/cf-purge.js"
   },

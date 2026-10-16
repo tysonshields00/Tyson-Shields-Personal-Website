@@ -1,3 +1,12 @@
+/**
+ * @file scripts/format-pages.js
+ * @description Page formatter and synchronization utility for tysonshields.com.
+ * Synchronizes the accessible header navigation, command palette modal markup,
+ * and settings drawer partial across all static pages.
+ * 
+ * Usage: npm run format:pages
+ */
+
 const fs = require('fs');
 const path = require('path');
 

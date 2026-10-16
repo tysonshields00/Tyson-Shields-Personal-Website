@@ -1,6 +1,6 @@
 # Tyson Shields Portfolio & Professional Systems
 
-[![Version](https://img.shields.io/badge/version-2.0.0-cyan.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-2.2.0-cyan.svg)](package.json)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages_Deployed-F38020.svg?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com)
 [![Eleventy](https://img.shields.io/badge/Eleventy-3.x-222.svg?logo=eleventy&logoColor=white)](.eleventy.js)
@@ -22,7 +22,7 @@ graph TD
     User([Visitor / Recruiter / Client]) -->|HTTPS / HTTP3| CF[Cloudflare Global Anycast Edge Network<br/>Zone: tysonshields.com]
     
     subgraph Cloudflare Pages: tyson-shields-personal-website
-        CF -->|tysonshields.com| RootStatic[Root Static Engine & SSG Output<br/>index.html, career.html, about.html, skills.html, contact.html]
+        CF -->|tysonshields.com| RootStatic[Root Static Engine & SSG Output<br/>index.html, career.html, about.html, skills.html, contact.html, calculator.html]
         CF -->|/dashboard or /chat| Redir[Cloudflare Pages Edge 302 Redirect]
         CF -->|Static Assets| EdgeAssets[fonts/, scripts/, styles.min.css, images]
     end
@@ -32,8 +32,9 @@ graph TD
     EdgeAssets -->|Immutable CDN Cache| User
 ```
 
-- **Production Static Delivery (Root):** High-speed, zero-dependency static pages (`index.html`, `about.html`, `career.html`, `skills.html`, `contact.html`, `Tyson-Shields-Resume.html`, `Tyson-Shields-Resume.pdf`) compiled with esbuild (`styles.min.css`), local Outfit typography, and vanilla progressive enhancement (`scripts/core.js`). Deployed globally via Cloudflare Pages.
-- **Eleventy SSG Integration (`.eleventy.js`):** Built-in Eleventy 3.x templating engine supporting modular partials (`_includes/`) and base layouts (`_layouts/`) for compile-time generation.
+- **Production Static Delivery (Root):** High-speed, zero-dependency static pages (`index.html`, `about.html`, `career.html`, `skills.html`, `contact.html`, `calculator.html`, `Tyson-Shields-Resume.html`, `Tyson-Shields-Resume.pdf`) compiled with esbuild (`styles.min.css`), local Outfit typography, and vanilla progressive enhancement (`scripts/core.js`). Deployed globally via Cloudflare Pages.
+- **Eleventy SSG Integration (`.eleventy.js`):** Built-in Eleventy 3.x templating engine supporting modular partials (`_includes/`) and base layouts (`_layouts/`) for compile-time generation into `_site/`.
+- **Master Design System & Elevation Engine:** Cybernetic dark-mode elevation scale, WCAG AAA/AA compliant contrast ratios, balanced typography line-heights without character collisions, and elimination of blurry text-shadow halos.
 
 ---
 
@@ -45,13 +46,18 @@ Tyson-Shields-Personal-Website/
 │   ├── AGENT_GUIDELINES.md           # Engineering guidelines for developers & AI agents
 │   └── ARCHITECTURE.md               # High-level system architecture overview
 ├── _includes/                        # Eleventy reusable partials (header, footer, drawer)
+│   ├── header.html                   # Global accessible navigation bar
+│   ├── footer.html                   # Global footer and copyright metadata
+│   └── settings-drawer.html          # Appearance & accessibility drawer partial
 ├── _layouts/                         # Base HTML layouts for static generation
+│   └── base.html                     # Base Eleventy layout template
 ├── fonts/                            # Modern WOFF2 typography (Outfit Latin 400 & 700)
 ├── scripts/                          # Client-side scripts and Cloudflare CLI tooling
-│   ├── core.js                       # Shared UI preferences, theme engine, navigation
-│   ├── home.js                       # Interactive homepage particle effects & timeline
+│   ├── core.js                       # Shared UI preferences, theme engine, command palette
+│   ├── home.js                       # Interactive homepage canvas, radar simulation & clock
 │   ├── contact.js                    # Direct contact modal and clipboard interactions
-│   ├── 404.js                        # Dynamic route recovery & suggestion engine
+│   ├── 404.js                        # Dynamic route recovery & countdown engine
+│   ├── format-pages.js               # Cross-page header, drawer, and palette synchronizer
 │   ├── cf-status.js                  # Cloudflare zone, DNS, and Pages health verifier
 │   └── cf-purge.js                   # Instant worldwide edge cache invalidator
 ├── .eleventy.js                      # Eleventy SSG configuration and passthrough rules
@@ -61,6 +67,7 @@ Tyson-Shields-Personal-Website/
 ├── _redirects                        # Cloudflare Pages edge 302/301 routing rules
 ├── 404.html                          # Not Found page
 ├── about.html                        # About / Executive Dossier
+├── calculator.html                   # Interactive Scientific Calculator
 ├── career.html                       # Career Chronology & Published Columns
 ├── contact.html                      # Comms Relay & Direct Contact
 ├── index.html                        # Production Homepage (tysonshields.com)
@@ -69,6 +76,8 @@ Tyson-Shields-Personal-Website/
 ├── Tyson-Shields-Resume.pdf          # Downloadable PDF resume artifact
 ├── styles.css                        # Source cybernetic CSS stylesheet
 ├── styles.min.css                    # Minified production stylesheet (compiled by esbuild)
+├── preview.js                        # Local zero-dependency HTTP preview server
+├── CLOUDFLARE.md                     # Cloudflare edge routing and CDN configuration
 ├── favicon.ico & favicon-*.png       # Multi-resolution favicons
 ├── tyson-shields-headshot.jpg        # High-resolution executive headshot
 ├── og-image.png                      # Social preview OpenGraph card
@@ -81,10 +90,11 @@ Tyson-Shields-Personal-Website/
 
 ## ⚡ Core Domain Specializations
 
-- **Employee Benefits & Plan Modeling:** Self-funded stop-loss corridors, specific and aggregate attachment points, level-funded risk tiers, fully insured rate renewals, deductible modeling, and contribution strategies.
-- **Census Data Engineering & Systems:** EDI 834 benefit enrollment feeds, high-volume census normalization, carrier billing reconciliation, and data parity audits.
-- **Process Automation:** Transforming carrier RFP intake matrices into board-ready executive renewal presentations, compressing cycle times by 40%.
-- **Broadcast & Live Media Systems:** Video routing, Dante audio networking, SMPTE 2110 IP video infrastructure, and live multi-camera broadcast switching.
+- **Employee Benefits Operations:** Portfolio administration across 20+ corporate employer groups, commercial carrier partner liaison (Cigna, Ameritas, Unum, Guardian, Auxiant, Principal, Mutual of Omaha, Assurity, Pacific Life), enrollment discrepancy resolution, and open enrollment management.
+- **Census Reconciliation & Data Parity:** Cross-system audits between carrier premium statements, payroll deduction ledgers, and HRIS census files (Employee Navigator, iSolved, Paylocity, ThreeFlow) to guarantee 100% audit integrity.
+- **Workflow & Process Automation:** Custom Python (`pandas`) and Power Query scripts that reduce monthly census scrubbing from 30 minutes to 30 seconds and compress reporting turnaround by 30%.
+- **Regulatory Compliance:** Active Nebraska Resident Insurance Producer License in Life and Health (NE DOI License #21707104), enforcing ERISA, HIPAA, COBRA, and ACA statutory standards.
+- **Technical Media & Broadcast Operations:** Split-second newsroom pacing across live broadcasts using AP ENPS, robotic camera pedestal programming, teleprompter feed management, and studio audio DSP routing.
 
 ---
 
@@ -95,7 +105,7 @@ All development tasks are automated through npm scripts in [`package.json`](file
 ### 1. Minify Production CSS
 ```bash
 npm run build
-# Compiles styles.css -> styles.min.css via esbuild in ~15ms
+# Compiles styles.css -> styles.min.css via esbuild in ~25ms
 ```
 
 ### 2. Full Static Site Generator Build (Eleventy)
@@ -116,19 +126,36 @@ npm run preview
 # Serves root files directly at http://localhost:8000
 ```
 
-### 5. Cloudflare Edge Status & Diagnostics
+### 5. Synchronize Page Partials & Modals
+```bash
+npm run format:pages
+# Synchronizes the global header, command palette, and settings drawer across all pages
+```
+
+### 6. Cloudflare Edge Status & Diagnostics
 ```bash
 npm run cf:status
 # Inspects real-time Cloudflare zone, DNS routing, and Pages deployment health
 ```
 
-### 6. Cloudflare Global Edge Cache Purge
+### 7. Cloudflare Global Edge Cache Purge
 ```bash
 npm run cf:purge
 # Triggers instant global cache invalidation across all 300+ Cloudflare PoPs
 ```
 
 For full details on edge caching, security headers, and DNS topology, see **[`CLOUDFLARE.md`](CLOUDFLARE.md)**.
+
+---
+
+## 🎨 Interactive Features & Accessibility Suite
+
+- **Quick Search & Command Palette (`Ctrl+K`):** Universal search and keyboard-driven shortcut modal with fuzzy matching across pages, career history, skills, and downloads.
+- **Interactive Scientific Calculator ([calculator.html](calculator.html)):** Lightweight, client-side mathematical evaluation engine supporting trigonometric functions (`sin`, `cos`, `tan`), powers (`x²`), square roots (`√`), logarithms (`log`), and responsive keypads.
+- **Display Settings & Appearance Drawer:**
+  - **Themes:** Navy (Cyberpunk Blue), Dark (Deep Space), Slate (Graphite), Light (Alabaster), and Reading (Warm Sepia).
+  - **Accessibility Overrides:** High-Contrast Mode, OpenDyslexic-inspired legible typography, Text Scaling (Normal, Large, Extra Large), Underline Links, and Reduced Motion toggles.
+  - Safe, privacy-hardened `localStorage` fallback protecting private browsing sessions from runtime exceptions.
 
 ---
 
@@ -148,7 +175,7 @@ For full details on edge caching, security headers, and DNS topology, see **[`CL
 All engineers and automated AI coding assistants **must adhere** to the architectural specifications and content workflows detailed in **[`docs/AGENT_GUIDELINES.md`](docs/AGENT_GUIDELINES.md)**.
 
 ### Content Update Rules:
-1. **Maintain Semantic Markup**: Keep narrative copy and layout in semantic HTML5 elements.
+1. **Maintain Semantic Markup**: Keep narrative copy and layout in semantic HTML5 elements (`<main>`, `<header>`, `<article>`, `<section>`).
 2. **Recompile CSS**: Always run `npm run build` after editing `styles.css` to regenerate `styles.min.css`.
 3. **Preserve SEO JSON-LD schema**: Ensure structured schema data in page headers remains valid and synchronized.
 4. **Test Before Commit**: Run `npm run build:ssg` to ensure zero compilation or templating regressions.
@@ -173,4 +200,3 @@ For full implementation details, see **[`docs/AGENT_GUIDELINES.md`](docs/AGENT_G
 
 - Designed and engineered by **Tyson Shields**.
 - Code licensed under the [MIT License](LICENSE).
-

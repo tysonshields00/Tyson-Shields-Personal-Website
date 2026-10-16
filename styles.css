@@ -1,3 +1,34 @@
+/* ==========================================================================
+   TYSON SHIELDS PORTFOLIO — MASTER STYLESHEET
+   Target: tysonshields.com
+   Architecture: Pure CSS3, Cybernetic Tokens, Zero Runtime Preprocessor
+   Compiled to: styles.min.css (via esbuild)
+
+   TABLE OF CONTENTS:
+   01. Typography Fonts & Declarations (@font-face)
+   02. System Tokens, Custom Properties & Surface Elevation Scale (:root)
+   03. Modern Reset & Base HTML Elements
+   04. Global Layout Shell & Responsive Containers (.section-shell)
+   05. Site Header, Navigation & Brand Shell (.site-header, .nav-shell)
+   06. Hero Sections & Dossier Headers (.home-hero, .about-hero-grid)
+   07. Core Components (Buttons, Chips, Badges, Portrait Visuals)
+   08. Card System (Pillars, Metrics, Insights, Channels)
+   09. Page Modules:
+       - Home (.home-hero, .dashboard-screen, .radar-game-layer)
+       - Career (.career-entry, .career-stats-strip, .timeline-filter)
+       - About (.about-badges, .academic-grid, .content-grid)
+       - Skills (.skills-grid, .skill-group-card, .skill-pill)
+       - Contact (.contact-layout, .contact-channel, .contact-form-card)
+       - Calculator (.calculator-container, .calc-screen, .calc-grid)
+       - Resume (.resume-sheet, .resume-experience-item, .resume-matrix)
+       - 404 Error (.error-shell, .error-card)
+   10. Interactive Drawers & Modals (Settings Drawer, Command Palette Ctrl+K)
+   11. Appearance & Theme Engine (Navy, Dark, Slate, Light, Reading)
+   12. Accessibility Overrides (High Contrast, Reduced Motion, Dyslexic Font)
+   13. Master Design System Overrides (Precision Kerning & Spacing Harmony)
+   14. Responsive Breakpoints (Desktop, Tablet, Mobile) & Print Media
+   ========================================================================== */
+
 @font-face {
   font-family: 'Outfit';
   font-style: normal;
@@ -511,14 +542,15 @@ h1, h2, h3, p {
 }
 
 h1, h2 {
-  font-weight: 400;
-  letter-spacing: -.05em;
-  line-height: .98;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
   text-wrap: balance;
 }
 
 h2 {
-  letter-spacing: -.042em;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
 }
 
 h1 {
@@ -2293,12 +2325,12 @@ html[data-reduced-motion='true'] .reveal {
 }
 
 /* Evidence pages */ .home-hero {
-  min-height: min(720px, calc(100vh - 120px));
-  padding-block: clamp(2rem, 5vw, 4.5rem);
+  min-height: auto;
+  padding-block: clamp(2rem, 4vw, 3.5rem);
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.85fr);
   align-items: center;
-  gap: clamp(2.5rem, 5vw, 4.5rem);
+  gap: clamp(2rem, 4vw, 3.5rem);
 }
 
 .hero-copy {
@@ -4267,18 +4299,10 @@ kbd,
 [data-theme="slate"] .dashboard-screen em,
 [data-theme="dark"] .card-index,
 [data-theme="navy"] .card-index,
-[data-theme="slate"] .card-index,
-[data-theme="dark"] h1 span,
-[data-theme="navy"] h1 span,
-[data-theme="slate"] h1 span,
-[data-theme="dark"] h2 em,
-[data-theme="navy"] h2 em,
-[data-theme="slate"] h2 em,
-[data-theme="dark"] .brand-mark,
-[data-theme="navy"] .brand-mark,
-[data-theme="slate"] .brand-mark {
-  text-shadow: 0 0 10px rgba(14, 165, 233, 0.45);
+[data-theme="slate"] .card-index {
+  color: var(--accent);
 }
+
 
 /* 11. Micro-interaction on GitHub footer icon */
 .social-links a[aria-label*="GitHub"],
@@ -5386,10 +5410,10 @@ h2 em {
   transition: transform 0.2s ease;
 }
 
-.text-cyan { color: var(--cyan-neon) !important; text-shadow: 0 0 8px var(--cyan-glow); }
-.text-emerald { color: var(--emerald-neon) !important; text-shadow: 0 0 8px var(--emerald-glow); }
-.text-amber { color: #f59e0b !important; }
-.text-teal { color: var(--teal-neon) !important; }
+.text-cyan { color: var(--accent, #38bdf8) !important; text-shadow: none !important; }
+.text-emerald { color: #10b981 !important; text-shadow: none !important; }
+.text-amber { color: #f59e0b !important; text-shadow: none !important; }
+.text-teal { color: #14b8a6 !important; text-shadow: none !important; }
 
 /* Audio / Signal Spectrum Visualizer */
 .screen-spectrum-wrap {
@@ -5536,7 +5560,7 @@ h2 em {
   font-weight: 800;
   color: #ffffff;
   margin: 0.2rem 0;
-  text-shadow: 0 0 16px var(--cyan-glow);
+  text-shadow: none;
 }
 
 .debrief-stat {
@@ -5938,10 +5962,10 @@ html[data-theme='light'] .impact-metrics-section {
   font-weight: 800 !important;
   letter-spacing: -0.03em !important;
   line-height: 1;
-  color: var(--text);
+  color: var(--accent, #38bdf8);
   display: block;
   margin-bottom: 0.5rem;
-  text-shadow: 0 0 24px rgba(0, 240, 255, 0.35);
+  text-shadow: none;
 }
 
 .metric-card h3,
@@ -10188,5 +10212,1109 @@ html[data-theme='light'] .social-links a {
   html[data-theme='light'] h1 em,
   html[data-theme='light'] h2 em {
     color: var(--accent) !important;
+  }
+}
+
+
+/* ==========================================================================
+   MASTER DESIGN SYSTEM: PRECISION COLOR COMPOSITION & SPACING HARMONY
+   Applied uniformly across all pages (Home, About, Career, Skills, Contact, Calculator, Resume)
+   ========================================================================== */
+
+/* 1. Global Color Tokens & Dark-Mode Elevation Surface Scale */
+:root {
+  --bg-core: #080c16;
+  --surface-1: #0f172a;
+  --surface-2: #162238;
+  --surface-3: #1e2e4a;
+  --surface-glass: rgba(15, 23, 42, 0.82);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-focus: rgba(56, 189, 248, 0.45);
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-dimmed: #64748b;
+  
+  --brand-cyan: #38bdf8;
+  --brand-cyan-deep: #0284c7;
+  --brand-cyan-soft: rgba(56, 189, 248, 0.12);
+  --brand-cyan-glow: rgba(56, 189, 248, 0.25);
+  
+  --state-emerald: #10b981;
+  --state-emerald-soft: rgba(16, 185, 129, 0.14);
+  --state-amber: #f59e0b;
+  --state-amber-soft: rgba(245, 158, 11, 0.14);
+  --state-purple: #a855f7;
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 9999px;
+  
+  --shadow-card: 0 16px 36px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border-subtle);
+  --shadow-hover: 0 20px 48px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--border-focus);
+}
+
+/* Light Theme Harmony Override */
+html[data-theme='light'] {
+  --bg-core: #f8fafc;
+  --surface-1: #ffffff;
+  --surface-2: #f1f5f9;
+  --surface-3: #e2e8f0;
+  --surface-glass: rgba(255, 255, 255, 0.9);
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-medium: rgba(15, 23, 42, 0.15);
+  --border-focus: rgba(14, 165, 233, 0.6);
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-dimmed: #94a3b8;
+  --brand-cyan: #0284c7;
+  --brand-cyan-soft: rgba(2, 132, 199, 0.1);
+  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 16px 32px -6px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--border-focus);
+}
+
+/* Ensure background is consistently rich and smooth */
+body {
+  background-color: var(--bg-core) !important;
+  color: var(--text-secondary) !important;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 2. Global Typography & Kerning Collision Fixes */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary) !important;
+  letter-spacing: -0.015em !important;
+  text-wrap: balance;
+  margin-top: 0 !important;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 4.4vw, 3.8rem) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.02em !important;
+  margin-bottom: 1.25rem !important;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem) !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.018em !important;
+  margin-bottom: 1rem !important;
+}
+
+h3 {
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem) !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.01em !important;
+  margin-bottom: 0.65rem !important;
+}
+
+/* Clean, crisp highlight typography: zero fuzzy halos */
+h1 span,
+h1 em,
+h2 em,
+h2 span,
+.heading-accent {
+  font-family: inherit !important;
+  font-style: normal !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.018em !important;
+  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+  filter: none !important;
+  display: inline !important;
+}
+
+html[data-theme='light'] h1 span,
+html[data-theme='light'] h1 em,
+html[data-theme='light'] h2 em,
+html[data-theme='light'] h2 span,
+html[data-theme='light'] .heading-accent {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Paragraphs & Text Flow */
+p {
+  font-size: 1rem;
+  line-height: 1.68 !important;
+  color: var(--text-secondary) !important;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+.hero-intro,
+.hero-lead,
+.lede {
+  font-size: clamp(1.05rem, 1.25vw, 1.18rem) !important;
+  line-height: 1.7 !important;
+  color: #e2e8f0 !important;
+  max-width: 620px !important;
+  margin-bottom: 1.25rem !important;
+}
+
+html[data-theme='light'] .hero-intro,
+html[data-theme='light'] .hero-lead,
+html[data-theme='light'] .lede {
+  color: #1e293b !important;
+}
+
+.hero-bio {
+  font-size: 0.96rem !important;
+  line-height: 1.68 !important;
+  color: var(--text-muted) !important;
+  max-width: 600px !important;
+  margin-bottom: 1.75rem !important;
+}
+
+/* 3. Global Header, Rhythm, and Layout Spacing */
+.site-header {
+  margin: 0 auto 1.5rem !important;
+  background: var(--surface-glass) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-top-color: var(--border-medium) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Section Rhythm: Eliminated arbitrary huge empty gaps */
+.section-shell {
+  width: min(1200px, calc(100% - 2.5rem)) !important;
+  max-width: 100% !important;
+  margin-inline: auto !important;
+}
+
+.home-section,
+.content-section,
+.certifications-section,
+.published-work-section {
+  padding-block: clamp(3rem, 5vw, 4.5rem) !important;
+}
+
+/* Split Headings: Balanced distance between title and note */
+.section-heading {
+  margin-bottom: 2.25rem !important;
+}
+
+.section-heading--split {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-end !important;
+  gap: 2rem !important;
+  flex-wrap: wrap !important;
+}
+
+.section-heading--split > div:first-child {
+  max-width: 38ch !important;
+}
+
+.section-note {
+  max-width: 36ch !important;
+  font-size: 0.95rem !important;
+  line-height: 1.62 !important;
+  color: var(--text-muted) !important;
+  margin-bottom: 0.35rem !important;
+}
+
+/* 4. Hero Section Proportions (Homepage) */
+.home-hero {
+  min-height: auto !important;
+  padding-block: clamp(1.75rem, 3.5vw, 3rem) clamp(2.25rem, 4vw, 3.5rem) !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.85fr) !important;
+  gap: clamp(2rem, 4vw, 3.5rem) !important;
+  align-items: center !important;
+}
+
+.hero-copy {
+  max-width: 640px !important;
+}
+
+.hero-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  margin-top: 1.5rem !important;
+}
+
+/* Clean Button System */
+.button {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.65rem !important;
+  padding: 0.82rem 1.5rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  border-radius: var(--radius-md) !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+}
+
+.button-primary {
+  background: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%) !important;
+  color: #040914 !important;
+  border: none !important;
+  box-shadow: 0 4px 18px rgba(14, 165, 233, 0.3) !important;
+}
+
+.button-primary:hover {
+  background: linear-gradient(135deg, #0ea5e9 0%, #7dd3fc 100%) !important;
+  box-shadow: 0 6px 24px rgba(14, 165, 233, 0.48) !important;
+  transform: translateY(-2px) !important;
+}
+
+.button-secondary {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--border-medium) !important;
+  color: var(--text-primary) !important;
+}
+
+.button-secondary:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: var(--border-focus) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Social links row */
+.social-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.65rem !important;
+  margin-top: 1.35rem !important;
+}
+
+.social-links a {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.48rem 0.9rem !important;
+  border-radius: var(--radius-sm) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-secondary) !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.social-links a:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: var(--brand-cyan) !important;
+  border-color: var(--border-focus) !important;
+  transform: translateY(-2px) !important;
+}
+
+.social-links a svg {
+  width: 16px !important;
+  height: 16px !important;
+  fill: currentColor !important;
+}
+
+/* 5. Portrait Card Refinements (Zero Crowding) */
+.portrait-card {
+  max-width: 420px !important;
+  border-radius: var(--radius-xl) !important;
+  padding: 1.25rem !important;
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-top-color: var(--border-medium) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.portrait-header {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.35rem !important;
+  padding-bottom: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  font-size: 0.74rem !important;
+  font-family: var(--font-hud, monospace) !important;
+}
+
+.portrait-status {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  color: var(--brand-cyan) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+}
+
+.portrait-loc {
+  color: var(--text-dimmed) !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.04em !important;
+}
+
+.portrait-image-wrap {
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+.portrait-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.portrait-footer {
+  margin-top: 0.85rem !important;
+  padding-top: 0.75rem !important;
+  border-top: 1px solid var(--border-subtle) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.55rem !important;
+}
+
+.portrait-tags {
+  display: flex !important;
+  gap: 0.45rem !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+}
+
+.status-chip {
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  padding: 0.25rem 0.55rem !important;
+  border-radius: 6px !important;
+  background: rgba(56, 189, 248, 0.1) !important;
+  color: var(--brand-cyan) !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+}
+
+.portrait-id {
+  font-size: 0.7rem !important;
+  font-family: var(--font-hud, monospace) !important;
+  color: var(--text-dimmed) !important;
+}
+
+/* 6. Credential Strip Harmonization */
+.credential-strip {
+  margin-top: 1.5rem !important;
+  padding: 1.25rem 0 !important;
+  background: rgba(15, 23, 42, 0.65) !important;
+  border-block: 1px solid var(--border-subtle) !important;
+}
+
+.credential-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+  gap: 1rem !important;
+}
+
+.credential-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.85rem !important;
+  padding: 0.85rem 1.15rem !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-subtle) !important;
+  transition: all 0.22s ease !important;
+}
+
+.credential-item:hover {
+  border-color: var(--border-focus) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6) !important;
+}
+
+.credential-badge {
+  font-family: var(--font-hud, monospace) !important;
+  font-size: 0.64rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  padding: 0.25rem 0.55rem !important;
+  border-radius: 6px !important;
+  background: var(--brand-cyan-soft) !important;
+  color: var(--brand-cyan) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.credential-text {
+  font-size: 0.86rem !important;
+  color: var(--text-secondary) !important;
+  line-height: 1.45 !important;
+}
+
+.credential-text strong {
+  color: var(--text-primary) !important;
+}
+
+/* 7. Pillar / Domain Competencies Grid */
+.pillar-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+  gap: 1.5rem !important;
+}
+
+.pillar-card {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 1.75rem !important;
+  border-radius: var(--radius-lg) !important;
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: var(--shadow-card) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.pillar-card:hover {
+  border-color: var(--border-focus) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: var(--shadow-hover) !important;
+}
+
+.pillar-card .card-hud-top {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 1.15rem !important;
+  font-size: 0.78rem !important;
+  font-family: var(--font-hud, monospace) !important;
+}
+
+.pillar-card .card-index {
+  color: var(--text-dimmed) !important;
+  font-weight: 600 !important;
+}
+
+.pillar-card .card-status {
+  padding: 0.2rem 0.55rem !important;
+  border-radius: 4px !important;
+  background: var(--brand-cyan-soft) !important;
+  color: var(--brand-cyan) !important;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  font-weight: 700 !important;
+  font-size: 0.7rem !important;
+  white-space: nowrap !important;
+}
+
+.pillar-card h3 {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  line-height: 1.35 !important;
+  margin-bottom: 0.85rem !important;
+}
+
+.pillar-card p {
+  font-size: 0.92rem !important;
+  line-height: 1.65 !important;
+  color: var(--text-muted) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.pillar-card .card-tools {
+  margin-top: auto !important;
+  padding-top: 1.25rem !important;
+  border-top: 1px solid var(--border-subtle) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+}
+
+.tool-tag {
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  padding: 0.25rem 0.65rem !important;
+  border-radius: 6px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border-subtle) !important;
+}
+
+/* 8. Quantitative Metric & Result Cards (Crisp Numerals) */
+.metrics-grid,
+.impact-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  gap: 1.25rem !important;
+}
+
+.metric-card,
+.impact-card {
+  padding: 1.75rem !important;
+  border-radius: var(--radius-lg) !important;
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: var(--shadow-card) !important;
+  transition: all 0.22s ease !important;
+}
+
+.metric-card:hover,
+.impact-card:hover {
+  border-color: var(--border-focus) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: var(--shadow-hover) !important;
+}
+
+.metric-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 1rem !important;
+  font-family: var(--font-hud, monospace) !important;
+  font-size: 0.75rem !important;
+  color: var(--text-dimmed) !important;
+}
+
+.metric-value,
+.glow-num {
+  font-size: clamp(2.4rem, 3.8vw, 3.2rem) !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  margin-bottom: 0.65rem !important;
+  color: var(--brand-cyan) !important;
+  text-shadow: none !important;
+  filter: none !important;
+  display: block !important;
+}
+
+.metric-card h3,
+.impact-card h3 {
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  margin: 0.35rem 0 0.5rem !important;
+  line-height: 1.35 !important;
+}
+
+.metric-card p,
+.impact-card p {
+  font-size: 0.88rem !important;
+  line-height: 1.62 !important;
+  color: var(--text-muted) !important;
+  margin: 0 !important;
+}
+
+/* 9. Career Chronology & Stat Strip (career.html) */
+.career-stats-strip,
+.skills-stats-strip {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)) !important;
+  gap: 1rem !important;
+  margin: 1.75rem 0 2.25rem !important;
+}
+
+.stat-card,
+.career-stat-card {
+  padding: 1.25rem 1.4rem !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-subtle) !important;
+  transition: all 0.2s ease !important;
+}
+
+.stat-card:hover,
+.career-stat-card:hover {
+  border-color: var(--border-focus) !important;
+  transform: translateY(-2px) !important;
+}
+
+.stat-number {
+  font-size: 2.25rem !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  margin-bottom: 0.35rem !important;
+  color: var(--brand-cyan) !important;
+  text-shadow: none !important;
+}
+
+.stat-label {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--text-muted) !important;
+  line-height: 1.4 !important;
+}
+
+/* Timeline filter bar */
+.timeline-filter {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+  margin: 1.5rem 0 2.25rem !important;
+}
+
+.filter-btn {
+  padding: 0.45rem 0.95rem !important;
+  border-radius: var(--radius-pill) !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-muted) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-medium) !important;
+}
+
+.filter-btn.is-active,
+.filter-btn[aria-pressed="true"] {
+  background: var(--brand-cyan-soft) !important;
+  color: var(--brand-cyan) !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.15) !important;
+}
+
+/* Career Timeline Entries */
+.career-entry {
+  display: grid !important;
+  grid-template-columns: 240px 1fr !important;
+  gap: 2.5rem !important;
+  padding: 2.25rem 2.5rem !important;
+  border-radius: var(--radius-lg) !important;
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-subtle) !important;
+  margin-bottom: 2rem !important;
+  box-shadow: var(--shadow-card) !important;
+  transition: all 0.22s ease !important;
+}
+
+.career-entry:hover {
+  border-color: var(--border-focus) !important;
+  box-shadow: var(--shadow-hover) !important;
+}
+
+.career-date {
+  padding-right: 1.5rem !important;
+  border-right: 1px solid var(--border-subtle) !important;
+  font-size: 0.88rem !important;
+  line-height: 1.6 !important;
+  color: var(--text-muted) !important;
+}
+
+.career-location {
+  display: block !important;
+  font-size: 0.78rem !important;
+  color: var(--text-dimmed) !important;
+  margin-top: 0.35rem !important;
+}
+
+.career-entry h2,
+.career-entry h3 {
+  font-size: 1.55rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  margin-bottom: 0.75rem !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.65rem !important;
+}
+
+/* Role alias pill tag (clean styling for previous title) */
+.career-entry h2 span,
+.career-entry h3 span {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  padding: 0.22rem 0.65rem !important;
+  border-radius: var(--radius-pill) !important;
+  background: var(--brand-cyan-soft) !important;
+  color: var(--brand-cyan) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  -webkit-text-fill-color: var(--brand-cyan) !important;
+  vertical-align: middle !important;
+}
+
+.career-role-overview {
+  font-size: 0.96rem !important;
+  line-height: 1.68 !important;
+  color: var(--text-secondary) !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.career-role-achievements {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.career-role-achievements li {
+  position: relative !important;
+  padding-left: 1.4rem !important;
+  margin-bottom: 0.75rem !important;
+  font-size: 0.92rem !important;
+  line-height: 1.65 !important;
+  color: var(--text-muted) !important;
+}
+
+.career-role-achievements li::before {
+  content: '›' !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  color: var(--brand-cyan) !important;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+}
+
+.career-tech-stack {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.45rem !important;
+  padding-top: 1.25rem !important;
+  border-top: 1px solid var(--border-subtle) !important;
+}
+
+/* 10. Skills Page (skills.html) */
+.skills-primary-tabs {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.65rem !important;
+  margin: 1.75rem 0 2.25rem !important;
+}
+
+.tab-btn {
+  padding: 0.55rem 1.15rem !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-muted) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.tab-btn:hover {
+  background: var(--surface-2) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-medium) !important;
+}
+
+.tab-btn.is-active,
+.tab-btn[aria-selected="true"] {
+  background: var(--brand-cyan-soft) !important;
+  color: var(--brand-cyan) !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
+}
+
+.skills-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+  gap: 1.5rem !important;
+}
+
+.skill-group-card {
+  padding: 1.75rem !important;
+  border-radius: var(--radius-lg) !important;
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.skill-pills-wrap {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+  margin-top: 1rem !important;
+}
+
+.skill-pill {
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  padding: 0.35rem 0.75rem !important;
+  border-radius: var(--radius-sm) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  transition: all 0.2s ease !important;
+}
+
+.skill-pill:hover {
+  background: var(--brand-cyan-soft) !important;
+  color: var(--brand-cyan) !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
+}
+
+/* 11. Scientific Calculator (calculator.html) */
+.calculator-app-shell {
+  padding-block: 2rem 4rem !important;
+}
+
+.calculator-container {
+  max-width: 480px !important;
+  margin: 1.5rem auto 3.5rem !important;
+  padding: 1.75rem !important;
+  border-radius: var(--radius-xl) !important;
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.75), 0 0 30px rgba(56, 189, 248, 0.1) !important;
+}
+
+.calc-screen {
+  background: rgba(4, 9, 20, 0.9) !important;
+  border: 1px solid var(--border-medium) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 1rem 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  text-align: right !important;
+  min-height: 85px !important;
+}
+
+.calc-output {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-hud, monospace) !important;
+  letter-spacing: 0.02em !important;
+}
+
+.calc-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 10px !important;
+}
+
+.calc-btn {
+  padding: 14px 10px !important;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  border: 1px solid var(--border-subtle) !important;
+  background: var(--surface-2) !important;
+  color: var(--text-primary) !important;
+  cursor: pointer !important;
+  transition: all 0.18s ease !important;
+}
+
+.calc-btn:hover {
+  background: var(--surface-3) !important;
+  border-color: var(--brand-cyan) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.2) !important;
+}
+
+.calc-btn--op {
+  color: var(--brand-cyan) !important;
+  font-weight: 700 !important;
+  background: var(--brand-cyan-soft) !important;
+  border-color: rgba(56, 189, 248, 0.25) !important;
+}
+
+.calc-btn--func {
+  color: #7dd3fc !important;
+  font-size: 0.88rem !important;
+}
+
+.calc-btn--clear {
+  color: #f87171 !important;
+  background: rgba(239, 68, 68, 0.12) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+/* 12. Contact Page (contact.html) */
+.contact-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr) !important;
+  gap: 3rem !important;
+  padding-block: 2rem 4rem !important;
+}
+
+.contact-channels-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+  gap: 1.25rem !important;
+}
+
+.contact-channel-card {
+  padding: 1.6rem !important;
+  border-radius: var(--radius-lg) !important;
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: var(--shadow-card) !important;
+  transition: all 0.22s ease !important;
+}
+
+.contact-channel-card:hover {
+  border-color: var(--border-focus) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 13. About Page Dossier & Foundations (about.html) */
+.about-hero-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.85fr) !important;
+  gap: clamp(2rem, 4vw, 3.5rem) !important;
+  align-items: start !important;
+  padding-block: clamp(2rem, 4vw, 3.5rem) !important;
+}
+
+.about-badges {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.6rem !important;
+  margin-top: 1.5rem !important;
+}
+
+.credential-chip {
+  padding: 0.4rem 0.85rem !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--brand-cyan-soft) !important;
+  border: 1px solid rgba(56, 189, 248, 0.22) !important;
+  color: var(--text-primary) !important;
+  font-size: 0.76rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.03em !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.credential-chip:hover {
+  border-color: var(--brand-cyan) !important;
+  background: rgba(56, 189, 248, 0.18) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.15) !important;
+}
+
+.content-grid {
+  display: grid !important;
+  grid-template-columns: 280px 1fr !important;
+  gap: clamp(2rem, 4vw, 4rem) !important;
+  align-items: start !important;
+}
+
+/* 14. Resume Sheet Elegance (Tyson-Shields-Resume.html) */
+.resume-sheet {
+  background: var(--surface-1) !important;
+  border: 1px solid var(--border-medium) !important;
+  border-top-color: rgba(56, 189, 248, 0.35) !important;
+  box-shadow: var(--shadow-card), 0 0 40px -10px rgba(56, 189, 248, 0.08) !important;
+  border-radius: var(--radius-lg) !important;
+  margin: 2.25rem auto 5rem !important;
+}
+
+.resume-section-title {
+  color: var(--brand-cyan) !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  padding-bottom: 0.5rem !important;
+  margin: 2rem 0 1.25rem !important;
+}
+
+.resume-item-title {
+  color: var(--text-primary) !important;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.35rem !important;
+}
+
+.resume-role-title {
+  color: var(--brand-cyan) !important;
+  font-weight: 600 !important;
+}
+
+.resume-item-meta {
+  color: var(--text-dimmed) !important;
+  font-size: 0.82rem !important;
+}
+
+.resume-item-bullets li {
+  color: var(--text-secondary) !important;
+  line-height: 1.65 !important;
+  margin-bottom: 0.6rem !important;
+}
+
+/* 15. Responsive Breakpoints & Mobile Polish */
+@media (max-width: 960px) {
+  .home-hero,
+  .about-hero-grid,
+  .contact-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+    padding-block: 2rem 3rem !important;
+  }
+  
+  .content-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  
+  .career-entry {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+    padding: 1.75rem 1.5rem !important;
+  }
+  
+  .career-date {
+    padding-right: 0 !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+    padding-bottom: 0.75rem !important;
+  }
+  
+  .section-heading--split {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .section-shell {
+    width: calc(100% - 1.5rem) !important;
+  }
+  
+  .home-hero h1 {
+    font-size: 2.2rem !important;
+  }
+  
+  .hero-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  
+  .button {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+  
+  .social-links {
+    flex-wrap: wrap !important;
+  }
+  
+  .credential-list,
+  .metrics-grid,
+  .career-stats-strip,
+  .skills-stats-strip {
+    grid-template-columns: 1fr !important;
   }
 }

@@ -1,3 +1,14 @@
+/**
+ * @file scripts/core.js
+ * @description Core client-side runtime for tysonshields.com:
+ * - Appearance & theme engine (navy, dark, slate, light, reading)
+ * - Accessibility controls (high contrast, dyslexic font, text size, reduced motion)
+ * - Global Command Palette (Ctrl+K) search and navigation modal
+ * - Settings drawer dialog and keyboard trap
+ * - Header navigation, mobile hamburger drawer, and smooth routing
+ * - Status dot telemetry and safe localStorage fallback
+ */
+
 // Developer console greetings
 console.log(
   '%cTyson Shields — Client Service Specialist & Operations Analyst · Lincoln, NE',

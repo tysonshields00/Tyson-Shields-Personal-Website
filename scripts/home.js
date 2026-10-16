@@ -1,4 +1,11 @@
-// Tyson Shields Portfolio — Home Page Scripts (Radar Mini-game & Filters)
+/**
+ * @file scripts/home.js
+ * @description Homepage interactive scripts:
+ * - Real-time Central Standard Time dashboard clock
+ * - Project & domain competency portfolio filtering
+ * - Interactive radar simulation canvas and telemetry matrix
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
   // Live clock formatting with Intl.DateTimeFormat
   const clockEl = document.getElementById('dashboard-clock');

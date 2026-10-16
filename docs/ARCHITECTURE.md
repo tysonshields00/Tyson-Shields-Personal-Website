@@ -1,64 +1,74 @@
 # Project Architecture & Systems Blueprint
 
-## Overview
-This repository hosts the professional portfolio of **Tyson Shields**, engineered with a high-performance **static delivery architecture**:
-1. **Production Static Delivery (Root):** Zero-JS-dependent, high-speed semantic HTML5 pages (`index.html`, `career.html`, `about.html`, `skills.html`, `contact.html`, `Tyson-Shields-Resume.html`, `Tyson-Shields-Resume.pdf`), compiled minified CSS (`styles.min.css`), local Outfit typography, and Eleventy static site generation (`.eleventy.js`).
+## 1. Executive Summary
+This repository hosts the professional portfolio and operational systems of **Tyson Shields**, engineered with a high-performance **zero-dependency static delivery architecture**:
+1. **Production Static Delivery (Root):** Zero-JS-dependent, high-speed semantic HTML5 pages (`index.html`, `career.html`, `about.html`, `skills.html`, `contact.html`, `calculator.html`, `Tyson-Shields-Resume.html`, `Tyson-Shields-Resume.pdf`), compiled minified CSS (`styles.min.css`), local Outfit typography, and Eleventy static site generation (`.eleventy.js`).
 2. **Global Edge Delivery (Cloudflare Pages):** Full Anycast distribution, edge redirects forwarding `/dashboard` and `/chat` to `https://dashboard.tysonshields.com`, and immutable CDN caching headers.
+3. **Master Design System & Surface Elevation Scale:** Cybernetic elevation scale (`--surface-1` through `--surface-3`), WCAG AAA/AA compliant contrast, zero blurry neon halos, and typography kerning that prevents character collisions.
 
 ---
 
-## Directory Hierarchy
+## 2. Exhaustive Directory Hierarchy
 
 ```text
 Tyson-Shields-Personal-Website/
-├── docs/                           # Architecture guides & engineering manuals
-│   ├── AGENT_GUIDELINES.md         # Guidelines for AI models & software engineers
-│   └── ARCHITECTURE.md             # This high-level systems architecture overview
-├── _includes/                      # Reusable Eleventy partials (header, footer, drawer)
-├── _layouts/                       # Eleventy base HTML layouts
-├── fonts/                          # Modern WOFF2 typography (Outfit Latin 400 & 700)
-├── scripts/                        # Progressive enhancement scripts & Cloudflare tooling
-│   ├── core.js                     # Shared preferences, theme engine, navigation
-│   ├── home.js                     # Homepage particle canvas & timeline
-│   ├── contact.js                  # Contact relay & clipboard utilities
-│   ├── 404.js                      # Route recovery helper
-│   ├── cf-status.js                # Cloudflare zone & DNS verifier
-│   └── cf-purge.js                 # Global CDN cache purger
-├── .eleventy.js                    # Eleventy SSG configuration
-├── .eleventyignore                 # Eleventy build exclusions
-├── _headers                        # Cloudflare Pages edge HTTP security and caching headers
-├── _redirects                      # Cloudflare Pages edge 302/301 routing rules
-├── 404.html                        # Not Found error page
-├── about.html                      # Executive Dossier & Biography
-├── career.html                     # Career Chronology & Published Columns
-├── contact.html                    # Direct Communication Relay
-├── index.html                      # Production Homepage (tysonshields.com)
-├── skills.html                     # Technical Competencies Matrix & Certifications
-├── Tyson-Shields-Resume.html       # Web-viewable interactive resume
-├── Tyson-Shields-Resume.pdf        # Downloadable PDF resume artifact
-├── styles.css                      # Source cybernetic CSS stylesheet
-├── styles.min.css                  # Production minified stylesheet (esbuild)
-├── tyson-shields-headshot.jpg      # High-resolution executive headshot
-├── og-image.png                    # Social preview OpenGraph card
-├── favicon.ico & favicon-*.png     # Multi-resolution favicons
-├── site.webmanifest                # Progressive Web App manifest
-├── sitemap.xml & robots.txt        # SEO crawlers and index directives
-└── package.json                    # Build scripts & dependency declarations
+├── docs/                             # Architecture blueprints & operational guidelines
+│   ├── AGENT_GUIDELINES.md           # Engineering guidelines for developers & AI agents
+│   └── ARCHITECTURE.md               # This high-level systems architecture blueprint
+├── _includes/                        # Reusable Eleventy partials (compile-time SSG)
+│   ├── header.html                   # Global accessible navigation bar
+│   ├── footer.html                   # Global footer, copyright, and telemetry status
+│   └── settings-drawer.html          # Appearance & accessibility preference drawer
+├── _layouts/                         # Eleventy base HTML layouts
+│   └── base.html                     # Base Eleventy layout template
+├── fonts/                            # Locally hosted WOFF2 typography (Outfit Latin 400 & 700)
+├── scripts/                          # Progressive enhancement scripts & Cloudflare tooling
+│   ├── core.js                       # Shared preferences, theme engine, command palette, navigation
+│   ├── home.js                       # Homepage canvas, radar interactive simulation & CST clock
+│   ├── contact.js                    # Direct contact modal and clipboard interactions
+│   ├── 404.js                        # Dynamic route recovery & auto-redirect engine
+│   ├── format-pages.js               # Cross-page partial and modal synchronizer
+│   ├── cf-status.js                  # Cloudflare zone, DNS, and Pages health verifier
+│   └── cf-purge.js                   # Instant worldwide edge cache invalidator
+├── .eleventy.js                      # Eleventy SSG configuration and passthrough rules
+├── .eleventyignore                   # Exclusions for Eleventy static build
+├── .gitignore                        # Git exclusion rules
+├── _headers                          # Cloudflare Pages edge HTTP security and caching headers
+├── _redirects                        # Cloudflare Pages edge 302/301 routing rules
+├── 404.html                          # Not Found error page
+├── about.html                        # Executive Dossier & Dual-Degree Biography
+├── calculator.html                   # Interactive Scientific Calculator
+├── career.html                       # Career Chronology & Published Columns
+├── contact.html                      # Direct Communication Relay
+├── index.html                        # Production Homepage (tysonshields.com)
+├── skills.html                       # Technical Competencies Matrix & Certifications
+├── Tyson-Shields-Resume.html         # Web-viewable interactive resume
+├── Tyson-Shields-Resume.pdf          # Downloadable PDF resume artifact
+├── styles.css                        # Source cybernetic CSS stylesheet
+├── styles.min.css                    # Production minified stylesheet (esbuild)
+├── preview.js                        # Zero-dependency local HTTP preview server
+├── CLOUDFLARE.md                     # Cloudflare edge routing and CDN configuration
+├── favicon.ico & favicon-*.png       # Multi-resolution favicons
+├── tyson-shields-headshot.jpg        # High-resolution executive headshot
+├── og-image.png                      # Social preview OpenGraph card
+├── site.webmanifest                  # Progressive Web App manifest
+├── sitemap.xml & robots.txt          # SEO crawlers and index directives
+└── package.json                      # Build scripts & dependency declarations
 ```
 
 ---
 
-## Separation of Concerns
+## 3. Separation of Concerns & System Layers
 
-1. **Semantic Content Layer (`*.html`):** Pre-rendered semantic HTML containing structured text, Schema.org JSON-LD metadata, and accessibility landmarks.
-2. **Templating Engine (`_includes/` & `_layouts/`):** Reusable partials for header, footer, and navigation managed via Eleventy 3.x.
-3. **Styling Pipeline (`styles.css` $\rightarrow$ `styles.min.css`):** Source CSS custom properties compiled and minified in ~15ms via `esbuild`.
+1. **Semantic Content Layer (`*.html`):** Pre-rendered semantic HTML containing structured text, Schema.org JSON-LD metadata, and accessibility landmarks (`<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<footer>`).
+2. **Templating Engine (`_includes/` & `_layouts/`):** Reusable partials for header, footer, and navigation managed via Eleventy 3.x with zero runtime overhead.
+3. **Styling Pipeline (`styles.css` $\rightarrow$ `styles.min.css`):** Pure CSS custom properties compiled and minified in ~25ms via `esbuild`. Employs CSS custom properties for color tokens, surface elevation, and typography kerning.
 4. **Progressive Enhancement (`scripts/`):** Lightweight client scripts for theme toggling, particle effects, and copy interactions with zero framework dependencies.
 5. **Edge Delivery Layer (`_headers` & `_redirects`):** Native Cloudflare Pages rules governing HTTP/3 transport, immutable font/image caching, security policies, and 302 forwarding of `/dashboard` and `/chat` to `https://dashboard.tysonshields.com`.
 
 ---
 
-## Data Flow & Build Pipeline
+## 4. Data Flow & Build Pipeline
 
 ```mermaid
 graph LR
@@ -76,3 +86,12 @@ graph LR
         SiteDir --> CFPages[Cloudflare Pages CDN: tysonshields.com]
     end
 ```
+
+---
+
+## 5. Client Runtime & Accessibility Engine (`core.js`)
+
+- **Theme Switching:** Five discrete themes (`navy`, `dark`, `slate`, `light`, `reading`) with CSS variables that adapt contrast, background luminosity, and accent color.
+- **Accessibility Suite:** High Contrast mode, OpenDyslexic-inspired legible font toggle, font size scaling (`normal`, `large`, `xlarge`), link underlines, and reduced motion overrides.
+- **Command Palette (`Ctrl+K`):** Global modal offering instant keyboard search across site pages, career roles, certifications, and direct contact actions.
+- **Privacy Hardening:** Safe wrappers around `localStorage` and `navigator.clipboard` to prevent `SecurityError` exceptions in privacy sandboxes or incognito modes.

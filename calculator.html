@@ -145,12 +145,14 @@
   </header>
 
   <main id="main-content" class="section-shell">
+    <!-- 01: Mathematics & Computation Overview -->
     <div style="text-align: center; margin-top: 2rem;">
       <div class="hud-kicker"><span class="kicker-pulse"></span>MATHEMATICS &amp; COMPUTATION TOOL</div>
       <h1 style="font-size: 2.25rem; font-weight: 800; margin-top: 0.5rem;">Interactive Scientific Calculator</h1>
       <p style="color: var(--muted); max-width: 600px; margin: 0.5rem auto 1.5rem;">A lightweight, accessible mathematical computation tool pairing scientific evaluation functions with clean web architecture.</p>
     </div>
 
+    <!-- 02: Interactive Calculator Keypad & Screen -->
     <div class="glass-card calculator-container" role="region" aria-label="Scientific Calculator">
       <div class="calc-screen" aria-live="polite">
         <div class="calc-history" id="calc-history"></div>
@@ -190,7 +192,8 @@
     </div>
   </main>
 
-    <footer class="site-footer">
+    <!-- Global Site Footer -->
+  <footer class="site-footer">
     <a class="footer-skip" href="contact.html">Skip to contact information</a>
     <div class="section-shell footer-inner">
       <div>
@@ -212,6 +215,7 @@
     </div>
   </footer>
 
+  <!-- 03: Client-Side Mathematical Evaluation Engine -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const historyEl = document.getElementById('calc-history');

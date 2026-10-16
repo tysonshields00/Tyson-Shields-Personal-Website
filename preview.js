@@ -1,3 +1,11 @@
+/**
+ * @file preview.js
+ * @description Zero-dependency HTTP static preview server for local portfolio verification.
+ * Supports clean URLs, accurate MIME type streaming, and cache-busting headers.
+ * 
+ * Usage: npm run preview (accessible at http://localhost:8000)
+ */
+
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
