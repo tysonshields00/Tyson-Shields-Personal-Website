@@ -101,14 +101,10 @@ ${getNavLink('contact', 'Contact')}
   </header>`;
 
   const formattedFooter = `  <footer class="site-footer">
-    <a class="footer-skip" href="contact.html">Skip to contact information</a>
     <div class="section-shell footer-inner">
-      <div>
-        <a class="brand" href="index.html">
-          <span class="brand-mark">TS</span>
-          <span>Tyson Shields</span>
-        </a>
-        <address class="footer-location">Lincoln, Nebraska / Hybrid &amp; Remote</address>
+      <div class="footer-identity">
+        <a class="footer-brand" href="index.html">Tyson Shields</a>
+        <p class="footer-location">Lincoln, Nebraska / Hybrid &amp; Remote</p>
       </div>
       <div class="footer-links">
         <a href="about.html">About</a>
@@ -118,7 +114,7 @@ ${getNavLink('contact', 'Contact')}
         <a href="Tyson-Shields-Resume.pdf" download="Tyson-Shields-Resume.pdf">Resume (PDF)</a>
         <a href="mailto:tysonshields00@gmail.com?subject=Portfolio%20inquiry" class="copy-email" data-email="tysonshields00@gmail.com">Email</a>
       </div>
-      <p>© 2026 / Built with intention.</p>
+      <p class="footer-copy">© 2026 / Built with intention.</p>
     </div>
   </footer>`;
 
@@ -143,7 +139,7 @@ ${getNavLink('contact', 'Contact')}
 
   // Replace or inject palette modal
   if (content.includes('id="command-palette"')) {
-    content = content.replace(/<div class="palette-backdrop" id="palette-backdrop"[\s\S]*?<\/div>\s*<\/div>/, paletteModal.trim());
+    content = content.replace(/(?:\s*<!-- Global Command Palette Modal \(Ctrl\+K\) -->)*\s*<div class="palette-backdrop" id="palette-backdrop"[\s\S]*?<\/div>\s*<\/div>/, `\n${paletteModal.trim()}`);
   } else {
     content = content.replace('</body>', `${paletteModal.trim()}\n</body>`);
   }
