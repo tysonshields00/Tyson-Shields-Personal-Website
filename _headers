@@ -8,43 +8,41 @@
   CDN-Cache-Control: max-age=31536000
   Access-Control-Allow-Origin: *
 
-# Minified Stylesheets & Scripts - Edge & Browser Cache
-/styles.min.css
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-  Cloudflare-CDN-Cache-Control: max-age=604800
-  X-Content-Type-Options: nosniff
-
-/scripts/*
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-  Cloudflare-CDN-Cache-Control: max-age=604800
-  X-Content-Type-Options: nosniff
-
-# Static Assets (Images, Icons, Media) - 30-Day Immutable Edge Cache
-/assets/*
+# Static Images & Icons - 30-Day Immutable Edge Cache
+/assets/images/*
   Cache-Control: public, max-age=2592000, immutable
   Cloudflare-CDN-Cache-Control: max-age=2592000
 
+/assets/icons/*
+  Cache-Control: public, max-age=2592000, immutable
+  Cloudflare-CDN-Cache-Control: max-age=2592000
+
+# Documents - 1-Day Edge & Browser Cache with Stale-While-Revalidate
 /assets/docs/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
   Cloudflare-CDN-Cache-Control: max-age=604800
 
-# Legacy root files & favicon cache
-/*.png
-  Cache-Control: public, max-age=2592000, immutable
-  Cloudflare-CDN-Cache-Control: max-age=2592000
+# Stylesheets & Scripts - Edge & Browser Cache
+/styles.min.css
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cloudflare-CDN-Cache-Control: max-age=604800
 
-/*.jpg
-  Cache-Control: public, max-age=2592000, immutable
-  Cloudflare-CDN-Cache-Control: max-age=2592000
+/styles.css
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cloudflare-CDN-Cache-Control: max-age=604800
 
-/*.svg
-  Cache-Control: public, max-age=2592000, immutable
-  Cloudflare-CDN-Cache-Control: max-age=2592000
+/scripts/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cloudflare-CDN-Cache-Control: max-age=604800
 
+# Root Favicon & Web Manifest
 /favicon.ico
   Cache-Control: public, max-age=2592000, immutable
   Cloudflare-CDN-Cache-Control: max-age=2592000
 
+/site.webmanifest
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cloudflare-CDN-Cache-Control: max-age=604800
 
 # Global Security Headers across all routes
 /*
