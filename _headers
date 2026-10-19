@@ -19,7 +19,16 @@
   Cloudflare-CDN-Cache-Control: max-age=604800
   X-Content-Type-Options: nosniff
 
-# Images & Media - 30-Day Immutable Edge Cache
+# Static Assets (Images, Icons, Media) - 30-Day Immutable Edge Cache
+/assets/*
+  Cache-Control: public, max-age=2592000, immutable
+  Cloudflare-CDN-Cache-Control: max-age=2592000
+
+/assets/docs/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cloudflare-CDN-Cache-Control: max-age=604800
+
+# Legacy root files & favicon cache
 /*.png
   Cache-Control: public, max-age=2592000, immutable
   Cloudflare-CDN-Cache-Control: max-age=2592000
@@ -32,13 +41,10 @@
   Cache-Control: public, max-age=2592000, immutable
   Cloudflare-CDN-Cache-Control: max-age=2592000
 
-/*.ico
+/favicon.ico
   Cache-Control: public, max-age=2592000, immutable
   Cloudflare-CDN-Cache-Control: max-age=2592000
 
-/Tyson-Shields-Resume.pdf
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-  Cloudflare-CDN-Cache-Control: max-age=604800
 
 # Global Security Headers across all routes
 /*

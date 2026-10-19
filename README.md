@@ -42,6 +42,20 @@ graph TD
 
 ```text
 Tyson-Shields-Personal-Website/
+├── assets/                           # Static media, icons, and document artifacts
+│   ├── docs/                         # Document artifacts
+│   │   └── Tyson-Shields-Resume.pdf  # Downloadable PDF resume artifact
+│   ├── icons/                        # Multi-resolution favicons and PWA icons
+│   │   ├── android-chrome-192x192.png
+│   │   ├── android-chrome-512x512.png
+│   │   ├── apple-touch-icon.png
+│   │   ├── favicon-16x16.png
+│   │   ├── favicon-32x32.png
+│   │   ├── favicon.ico
+│   │   └── icon.svg
+│   └── images/                       # High-resolution media and OpenGraph cards
+│       ├── og-image.png              # Social preview OpenGraph card
+│       └── tyson-shields-headshot.jpg# High-resolution executive headshot
 ├── docs/                             # Architecture blueprints & operational guidelines
 │   ├── AGENT_GUIDELINES.md           # Engineering guidelines for developers & AI agents
 │   └── ARCHITECTURE.md               # High-level system architecture overview
@@ -59,7 +73,8 @@ Tyson-Shields-Personal-Website/
 │   ├── 404.js                        # Dynamic route recovery & countdown engine
 │   ├── format-pages.js               # Cross-page header, drawer, and palette synchronizer
 │   ├── cf-status.js                  # Cloudflare zone, DNS, and Pages health verifier
-│   └── cf-purge.js                   # Instant worldwide edge cache invalidator
+│   ├── cf-purge.js                   # Instant worldwide edge cache invalidator
+│   └── preview.js                    # Local zero-dependency HTTP preview server
 ├── .eleventy.js                      # Eleventy SSG configuration and passthrough rules
 ├── .eleventyignore                   # Exclusions for Eleventy static build
 ├── .gitignore                        # Git exclusion rules
@@ -70,17 +85,13 @@ Tyson-Shields-Personal-Website/
 ├── calculator.html                   # Interactive Scientific Calculator
 ├── career.html                       # Career Chronology & Published Columns
 ├── contact.html                      # Comms Relay & Direct Contact
+├── favicon.ico                       # Root fallback favicon for legacy browsers/crawlers
 ├── index.html                        # Production Homepage (tysonshields.com)
 ├── skills.html                       # Technical Competencies Matrix & Certifications
 ├── Tyson-Shields-Resume.html         # Web-viewable interactive resume
-├── Tyson-Shields-Resume.pdf          # Downloadable PDF resume artifact
 ├── styles.css                        # Source cybernetic CSS stylesheet
 ├── styles.min.css                    # Minified production stylesheet (compiled by esbuild)
-├── preview.js                        # Local zero-dependency HTTP preview server
 ├── CLOUDFLARE.md                     # Cloudflare edge routing and CDN configuration
-├── favicon.ico & favicon-*.png       # Multi-resolution favicons
-├── tyson-shields-headshot.jpg        # High-resolution executive headshot
-├── og-image.png                      # Social preview OpenGraph card
 ├── site.webmanifest                  # Progressive Web App manifest
 ├── sitemap.xml & robots.txt          # SEO crawlers and index directives
 └── package.json                      # Build scripts and project dependencies

@@ -111,7 +111,7 @@ ${getNavLink('contact', 'Contact')}
         <a href="career.html">Career</a>
         <a href="skills.html">Skills</a>
         <a href="contact.html">Contact</a>
-        <a href="Tyson-Shields-Resume.pdf" download="Tyson-Shields-Resume.pdf">Resume (PDF)</a>
+        <a href="assets/docs/Tyson-Shields-Resume.pdf" download="Tyson-Shields-Resume.pdf">Resume (PDF)</a>
         <a href="mailto:tysonshields00@gmail.com?subject=Portfolio%20inquiry" class="copy-email" data-email="tysonshields00@gmail.com">Email</a>
       </div>
       <p class="footer-copy">© 2026 / Built with intention.</p>

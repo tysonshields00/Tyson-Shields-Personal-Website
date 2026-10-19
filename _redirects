@@ -3,5 +3,15 @@
 /dashboard.html https://dashboard.tysonshields.com  302
 /chat           https://dashboard.tysonshields.com  302
 /chat.html      https://dashboard.tysonshields.com  302
-/legacy/*       /:splat                             301
-/legacy         /                                   301
+# Legacy Asset 301 Redirects (Backward Compatibility)
+/og-image.png                /assets/images/og-image.png                301
+/tyson-shields-headshot.jpg  /assets/images/tyson-shields-headshot.jpg  301
+/headshot.jpg                /assets/images/tyson-shields-headshot.jpg  301
+/tyson-shields-portrait.jpg  /assets/images/tyson-shields-headshot.jpg  301
+/Tyson-Shields-Resume.pdf    /assets/docs/Tyson-Shields-Resume.pdf      301
+/apple-touch-icon.png        /assets/icons/apple-touch-icon.png        301
+/android-chrome-192x192.png  /assets/icons/android-chrome-192x192.png  301
+/android-chrome-512x512.png  /assets/icons/android-chrome-512x512.png  301
+/favicon-16x16.png           /assets/icons/favicon-16x16.png           301
+/favicon-32x32.png           /assets/icons/favicon-32x32.png           301
+/icon.svg                    /assets/icons/icon.svg                    301
