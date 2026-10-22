@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file scripts/404.js
  * @description 404 Route Recovery handler. Provides an accessible countdown
  * timer to return to the homepage, cancellable upon any user interaction.

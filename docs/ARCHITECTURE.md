@@ -38,7 +38,6 @@ Tyson-Shields-Personal-Website/
 ├── fonts/                            # Locally hosted WOFF2 typography (Outfit Latin 400 & 700)
 ├── scripts/                          # Progressive enhancement scripts & Cloudflare tooling
 │   ├── core.js                       # Shared preferences, theme engine, command palette, navigation
-│   ├── home.js                       # Homepage canvas, radar interactive simulation & CST clock
 │   ├── contact.js                    # Direct contact modal and clipboard interactions
 │   ├── 404.js                        # Dynamic route recovery & auto-redirect engine
 │   ├── format-pages.js               # Cross-page partial and modal synchronizer
@@ -61,6 +60,8 @@ Tyson-Shields-Personal-Website/
 ├── Tyson-Shields-Resume.html         # Web-viewable interactive resume
 ├── styles.css                        # Source cybernetic CSS stylesheet
 ├── styles.min.css                    # Production minified stylesheet (esbuild)
+├── PROJECT_GUIDE.md                  # Comprehensive engineering blueprint and verified fact base
+├── CHANGELOG_AUDIT.md                # Audit changelog, deletions report, and performance records
 ├── CLOUDFLARE.md                     # Cloudflare edge routing and CDN configuration
 ├── site.webmanifest                  # Progressive Web App manifest
 ├── sitemap.xml & robots.txt          # SEO crawlers and index directives

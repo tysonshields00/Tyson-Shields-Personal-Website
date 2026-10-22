@@ -1,13 +1,13 @@
 # Tyson Shields Portfolio & Professional Systems
 
-[![Version](https://img.shields.io/badge/version-2.2.0-cyan.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-3.0.0-cyan.svg)](package.json)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages_Deployed-F38020.svg?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com)
 [![Eleventy](https://img.shields.io/badge/Eleventy-3.x-222.svg?logo=eleventy&logoColor=white)](.eleventy.js)
 [![esbuild](https://img.shields.io/badge/esbuild-0.25-FFCF00.svg?logo=esbuild&logoColor=black)](package.json)
 [![HTML5](https://img.shields.io/badge/HTML5-Semantic_Zero--JS-E34F26.svg?logo=html5&logoColor=white)](index.html)
 
-The professional portfolio and technical platform of **Tyson Shields**—Client Service Specialist & Operations Analyst specializing in employee benefits administration, automated workflows (Python/Power Query), and data integrity.
+The professional portfolio and technical platform of **Tyson Shields**—Client Service Specialist (previously Benefits Account Administrator) specializing in employee benefits administration, automated workflows (Python/Power Query), and data integrity.
 
 Production target: **[tysonshields.com](https://tysonshields.com)**.
 
@@ -68,7 +68,6 @@ Tyson-Shields-Personal-Website/
 ├── fonts/                            # Modern WOFF2 typography (Outfit Latin 400 & 700)
 ├── scripts/                          # Client-side scripts and Cloudflare CLI tooling
 │   ├── core.js                       # Shared UI preferences, theme engine, command palette
-│   ├── home.js                       # Interactive homepage canvas, radar simulation & clock
 │   ├── contact.js                    # Direct contact modal and clipboard interactions
 │   ├── 404.js                        # Dynamic route recovery & countdown engine
 │   ├── format-pages.js               # Cross-page header, drawer, and palette synchronizer
@@ -91,6 +90,8 @@ Tyson-Shields-Personal-Website/
 ├── Tyson-Shields-Resume.html         # Web-viewable interactive resume
 ├── styles.css                        # Source cybernetic CSS stylesheet
 ├── styles.min.css                    # Minified production stylesheet (compiled by esbuild)
+├── PROJECT_GUIDE.md                  # Comprehensive engineering blueprint and verified fact base
+├── CHANGELOG_AUDIT.md                # Audit changelog, deletions report, and performance records
 ├── CLOUDFLARE.md                     # Cloudflare edge routing and CDN configuration
 ├── site.webmanifest                  # Progressive Web App manifest
 ├── sitemap.xml & robots.txt          # SEO crawlers and index directives

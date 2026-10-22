@@ -2,14 +2,14 @@
 
 > **Target Audience:** Future AI Agents (Antigravity, Claude, ChatGPT, Cursor) and Software Engineers contributing to `tysonshields.com`.  
 > **Last Updated:** October 2026  
-> **Version:** 2.2.0  
+> **Version:** 3.0.0  
 > **System Architecture:** High-Performance Static Delivery (HTML5 / Vanilla CSS3 / esbuild) with Eleventy SSG Engine (`@11ty/eleventy`).
 
 ---
 
 ## 1. Executive Codebase Overview
 
-This repository powers **tysonshields.com**, the professional portfolio of **Tyson Shields**—Client Service Specialist & Operations Analyst specializing in employee benefits administration, automated workflows (Python/Power Query), and data integrity.
+This repository powers **tysonshields.com**, the professional portfolio of **Tyson Shields**—Client Service Specialist (previously Benefits Account Administrator) specializing in employee benefits administration, automated workflows (Python/Power Query), and data integrity.
 
 The site is built with a **zero-dependency static delivery architecture**:
 1. **Production Static Delivery (Root):** High-speed, zero-JS-dependent static pages (`index.html`, `career.html`, `about.html`, `skills.html`, `contact.html`, `calculator.html`, `Tyson-Shields-Resume.html`, `Tyson-Shields-Resume.pdf`) served with minified CSS (`styles.min.css`), local Outfit typography, and vanilla progressive enhancement (`scripts/core.js`). Deployed via Cloudflare Pages.
@@ -48,7 +48,6 @@ Tyson-Shields-Personal-Website/
 ├── fonts/                            # Modern WOFF2 typography (Outfit Latin 400 & 700)
 ├── scripts/                          # Client-side scripts and Cloudflare CLI tooling
 │   ├── core.js                       # Shared UI preferences, theme engine, command palette
-│   ├── home.js                       # Interactive homepage particle effects & timeline
 │   ├── contact.js                    # Direct contact modal and clipboard interactions
 │   ├── 404.js                        # Dynamic route recovery & suggestion engine
 │   ├── format-pages.js               # Cross-page partial and modal synchronizer
@@ -71,6 +70,8 @@ Tyson-Shields-Personal-Website/
 ├── Tyson-Shields-Resume.html         # Web-viewable interactive resume
 ├── styles.css                        # Source cybernetic CSS stylesheet
 ├── styles.min.css                    # Minified production stylesheet (compiled by esbuild)
+├── PROJECT_GUIDE.md                  # Comprehensive engineering blueprint and verified fact base
+├── CHANGELOG_AUDIT.md                # Audit changelog, deletions report, and performance records
 ├── CLOUDFLARE.md                     # Cloudflare edge routing and CDN configuration
 ├── site.webmanifest                  # Progressive Web App manifest
 ├── sitemap.xml & robots.txt          # SEO crawlers and index directives
@@ -85,26 +86,22 @@ When modifying any copy across HTML files, JSON-LD schemas, or documentation, al
 
 1. **Current Employment**:
    - Company: **UNICO Group** (Lincoln, NE)
-   - Official Title: **Client Service Specialist I** (also described contextually as **Operations Analyst**)
-   - Tenure: June 2025 – Present
-   - Focus: Employer benefits administration (20+ accounts), carrier liaison, census audits, and Python/Power Query automation.
-2. **Previous Internship**:
-   - Company: **UNICO Group** (Lincoln, NE)
-   - Official Title: **Data Analytics & IT Intern**
-   - Tenure: May 2024 – June 2025
-   - Focus: Python (pandas) & Power Query census reconciliation and reporting turnaround acceleration.
-3. **Media Production**:
-   - Company: **10/11 News / Gray Television** (Lincoln, NE)
-   - Official Title: **Technical Media Producer** (Nov 2023 – June 2025) & **Production Intern** (Nov 2023)
-   - Focus: Live broadcast control, AP ENPS rundown directing, robotic camera pedestals, audio DSP.
-4. **Manufacturing**:
-   - Company: **Kawasaki Motors Manufacturing** (Lincoln, NE)
-   - Official Title: **Purchasing Intern** (Jan 2022 – July 2022)
-5. **Academic Degrees**:
-   - **University of Nebraska–Lincoln** (Graduating May 2025)
-   - Dual Degree: **Bachelor of Science in Mathematics** (Statistics and Data Science Option; Minor in Informatics) & **Bachelor of Journalism in Broadcasting** (Media Production Option; Minor in Music Technology).
-6. **State Licensure**:
-   - **Nebraska Department of Insurance**: Resident Insurance Producer License in Life, Accident & Health (License #21707104, expiration March 31, 2026).
+   - Official Title: **Client Service Specialist (previously Benefits Account Administrator)**
+   - Prior Internal Role: **Data Analytics & IT Intern** (May 2024 – June 2025)
+   - Rule: Do NOT append Roman numerals like "Specialist I" or invent "Operations Analyst" as a formal title.
+2. **Previous Work Experience**:
+   - **10/11 News / Gray Television** (Lincoln, NE): Technical Media Producer and Production Intern (until June 2025). Live broadcast control, AP ENPS rundown directing, robotic camera pedestals, audio DSP.
+   - **Kawasaki Motors Manufacturing Corp** (Lincoln, NE): Purchasing Department Intern (Jan 2022 – July 2022).
+   - **The Daily Nebraskan**: Opinion Columnist (Fall 2023).
+3. **Academic Degrees**:
+   - **University of Nebraska–Lincoln** (Graduated May 2025)
+   - Dual Degree: **Bachelor of Science in Mathematics** (Focus in Statistics and Data Science) & **Bachelor of Journalism in Broadcasting** (Focus in Media Production), with a **Minor in Informatics**.
+4. **Professional Licenses & Certifications**:
+   - **State of Nebraska Insurance Producer License**: Accident, Health, and Life (License ID 21707104; active through March 31, 2028).
+   - **Adult First Aid/CPR/AED Certification**: National Safety Council (active through June 2028).
+5. **Collegiate Leadership**:
+   - **Delta Sigma Phi Fraternity** (Alpha Psi chapter: Chapter President, VP of Recruitment, Secretary)
+   - **Campus NightLife** (Director of Operations & Executive Board Member)
 
 ---
 
@@ -167,7 +164,7 @@ Every contributing AI agent (Antigravity, Claude, ChatGPT, Cursor) and human eng
 ### 6.1 Proactive Code Cleanup & Organization
 - **Dead Code & Artifact Elimination**: Remove unused styles, obsolete classes, orphaned script handlers, and temporary test files upon completing a task.
 - **Architectural Organization**: Maintain clean grouping in [`styles.css`](file:///c:/Users/tyson/Documents/GitHub/Tyson-Shields-Personal-Website/styles.css) (tokens, layout, page-specific modules, responsive breakpoints, print rules). Prevent duplicate selector declarations and consolidate scattered rules into canonical blocks.
-- **Script Modularity**: Keep script files focused and cleanly scoped (`core.js` for universal UI, theme engine, navigation; `home.js` for homepage-specific interactives; `contact.js` for contact forms). Avoid bloated inline scripts in HTML.
+- **Script Modularity**: Keep script files focused and cleanly scoped (`core.js` for universal UI, theme engine, navigation; `contact.js` for contact forms; `404.js` for route recovery). Avoid bloated inline scripts in HTML.
 
 ### 6.2 Cross-Browser & Content-Blocker Diagnostic Loop
 - **Blocker Immunity**: Continuously audit HTML classes and IDs against common content/ad-blocker filter lists (EasyList, Fanboy's, Peter Lowe's). Never introduce class or ID names containing vulnerable patterns like `*-banner`, `metric-*`, `*-stats-*`, or `telemetry-*` without safe aliases.

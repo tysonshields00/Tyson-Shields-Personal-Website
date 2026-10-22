@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file scripts/contact.js
  * @description Contact form client-side handling, spam honeypot filtering,
  * input validation, and user feedback confirmation states.

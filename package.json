@@ -1,6 +1,6 @@
 {
   "name": "tyson-shields-personal-website",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Personal website for Tyson Shields: data analytics, systems engineering, and employee benefits.",
   "scripts": {
     "build": "npx esbuild styles.css --minify --outfile=styles.min.css",
